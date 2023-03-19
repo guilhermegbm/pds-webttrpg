@@ -3,6 +3,7 @@
   - João Vitor Tavares de Almeida Trindade (FrontEnd Dev)
   - Guilherme Barboza (FullStack Dev)
   - Lucas Campos (BackEnd Dev)
+  - Ábner de Marcos Neves (FrontEnd Dev)
 
 **Escopo**: Sistema Web que permite que jogadores se reúnem para jogar um jogo de RPG tabletop de forma online.
 
