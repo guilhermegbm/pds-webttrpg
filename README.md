@@ -19,44 +19,26 @@
   
 **Backlog do produto**
 
+
 1. Como usuário que ainda não tem conta, eu desejo fazer sign up no sistema e criar a minha conta.
- 
 2. Como usuário, eu desejo fazer login na minha conta.
-
 3. Como usuário, eu desejo ver um dashboard com uma listagem de todos os meus jogos, abertos ou finalizados.
-
 4. Como usuário, quero listar jogos públicos disponíveis.
-
 5. Como usuário, quero criar um jogo novo com nome, número máximo de  jogadores, descrição e me tornar GM desse jogo.
-
 6. Como usuário, quero entrar em um jogo já criado e me tornar um jogador desse Jogo.
-
 7. Como GM, quero criar fichas de personagem/inimigos.
-
 8. Como jogador, eu quero configurar a ficha que foi atribuída a mim.
-
 9. Como GM, durante o jogo, quero criar tokens dos personagens/inimigos e colocá-los em um mapa.
-
 10.  Como Jogador ou GM, eu quero mover meus tokens pelo mapa.
-
 11.  Como Jogador ou GM, eu quero mandar mensagens públicas no chat.
-
 12.  Como jogador ou GM, eu quero rolar dados.
-
 13. Como GM quero adicionar mapa em alguma cena.
-
 14. Como jogador ou GM, eu quero mandar mensagens privadas (whisper) para um jogador ou GM pelo Chat.
-
 15. Como GM quero poder criar cenas novas.
-
 16. Como GM quero configurar as cenas em algum jogo.
-
 17. Como sistema, desejo alertar os usuários de um jogo que está prestes a começar, enviando-lhes um email de aviso.
-
 18. Como sistema, desejo alertar os usuários via email quando seu pedido de acesso a algum jogo é aceito.
-
 19. Como sistema, desejo alertar ao GM via email quando um usuário envia um pedido de acesso a um jogo.
-  
 
 **Sprint #2**
 1. Como usuário que ainda não tem conta, eu desejo fazer sign up no sistema e criar a minha conta.
