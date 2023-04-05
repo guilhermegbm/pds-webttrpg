@@ -1,4 +1,4 @@
-# pds-webttrpg
+# Dragon's Den (VTT)
 **Equipe**:
   - João Vitor Tavares de Almeida Trindade (FrontEnd Dev)
   - Guilherme Barboza (FullStack Dev)
