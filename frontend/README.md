@@ -2,30 +2,26 @@
 
 A virtual tabletop RPG
 
-## Install the dependencies
+## Pré-requisitos
+- NodeJS v16.20.0
+- npm
+
+## 1. Instale o framework [Quasar CLI](https://v1.quasar.dev/quasar-cli/installation):
 ```bash
-yarn
-# or
+npm -g install @quasar/cli
+```
+
+## 2. Instale as dependências do projeto:
+```bash
 npm install
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+## 3. Execute o projeto:
 ```bash
 quasar dev
 ```
 
-
-### Lint the files
-```bash
-yarn lint
-# or
-npm run lint
-```
-
-### Build the app for production
+### Compilar para produção:
 ```bash
 quasar build
 ```
-
-### Customize the configuration
-See [Configuring quasar.conf.js](https://v1.quasar.dev/quasar-cli/quasar-conf-js).
