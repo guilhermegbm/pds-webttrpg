@@ -42,88 +42,88 @@
 
 **Sprint #2**
 1. Como usuário que ainda não tem conta, eu desejo fazer sign up no sistema e criar a minha conta.
-- Implementar tela com formulário de cadastro (Ábner)
-- Integrar tela com API do backend (Ábner)
-- Implementar caso de uso e api rest para o cadastro (Lucas)
-- Modelar tabela/entidade e salvar dados no banco (Guilherme)
+- [ ] Implementar tela com formulário de cadastro (Ábner)
+- [ ] Integrar tela com API do backend (Ábner)
+- [ ] Implementar caso de uso e api rest para o cadastro (Lucas)
+- [ ] Modelar tabela/entidade e salvar dados no banco (Guilherme)
  
 2. Como usuário, eu desejo fazer login na minha conta.
-- Implementar tela com formulário de login (Ábner)
-- Integrar tela com api do backend (Ábner)
-- Implementar caso de uso e api rest de autenticação no back (Lucas)
-- Implementar geração de token de autenticação (Guilherme e Lucas)
-- Implementar middleware para verificação de token de autenticação (Lucas)
+- [ ] Implementar tela com formulário de login (Ábner)
+- [ ] Integrar tela com api do backend (Ábner)
+- [ ] Implementar caso de uso e api rest de autenticação no back (Lucas)
+- [ ] Implementar geração de token de autenticação (Guilherme e Lucas)
+- [ ] Implementar middleware para verificação de token de autenticação (Lucas)
 
 
 3. Como usuário, eu desejo ver um dashboard com uma listagem de todos os meus jogos, abertos ou finalizados.
-- Implementar caso de uso que retorna todos os jogos de um usuário (Lucas e Guilherme)
-- Disponibilizar api rest para retornar lista de jogos (Lucas)
-- Implementar tela de dashboard (Guilherme)
-- Integrar tela com API do backend (Guilherme)
+- [ ] Implementar caso de uso que retorna todos os jogos de um usuário (Lucas e Guilherme)
+- [ ] Disponibilizar api rest para retornar lista de jogos (Lucas)
+- [ ] Implementar tela de dashboard (Guilherme)
+- [ ] Integrar tela com API do backend (Guilherme)
 
 
 4. Como usuário, quero listar jogos públicos disponíveis.
-- Implementar caso de uso que retorna todos os jogos públicos (Lucas e Guilherme)
-- Implementar api rest para retornar os jogos públicos. (Lucas)
-- Implementar na tela de dashboard uma aba de jogos públicos (Guilherme)
-- Integrar tela com API do backend (Guilherme)
+- [ ] Implementar caso de uso que retorna todos os jogos públicos (Lucas e Guilherme)
+- [ ] Implementar api rest para retornar os jogos públicos. (Lucas)
+- [ ] Implementar na tela de dashboard uma aba de jogos públicos (Guilherme)
+- [ ] Integrar tela com API do backend (Guilherme)
 
 
 5. Como usuário, quero criar um jogo novo com nome, número máximo de  jogadores, descrição e me tornar GM desse jogo.
-- Implementar tela com formulário de criação de jogo (João)
-- Implementar API para criar novos jogos (Lucas)
-- Integrar tela com APi do backend (João)
+- [ ] Implementar tela com formulário de criação de jogo (João)
+- [ ] Implementar API para criar novos jogos (Lucas)
+- [ ] Integrar tela com APi do backend (João)
 
 
 6. Como usuário, quero entrar em um jogo já criado e me tornar um jogador desse Jogo:
-- Implementar Modal para ver informações do jogo (João)
-- Implementar caso de uso no backend: Atualizar lista de jogadores inclusos no Jogo (Lucas)
-- Integrar tela com API do backend (Guilherme)
+- [ ] Implementar Modal para ver informações do jogo (João)
+- [ ] Implementar caso de uso no backend: Atualizar lista de jogadores inclusos no Jogo (Lucas)
+- [ ] Integrar tela com API do backend (Guilherme)
 
 
 7. Como GM, quero criar fichas de personagem/inimigos:
-- Implementar Modal para criação de fichas (Ábner)
-- Criar um layout de ficha básico (João)
-- Integrar com API para salvar fichas e pessoas atribuídas (João)
-- Implementar funcionalidade no backend para salvar fichas no banco (Lucas)
+- [ ] Implementar Modal para criação de fichas (Ábner)
+- [ ] Criar um layout de ficha básico (João)
+- [ ] Integrar com API para salvar fichas e pessoas atribuídas (João)
+- [ ] Implementar funcionalidade no backend para salvar fichas no banco (Lucas)
 
 
 8. Como jogador, eu quero configurar a ficha que foi atribuída a mim
-- Implementar caso de uso para configurar ficha do jogador (Lucas)
-- Implementar api rest que acionará o caso de uso (Lucas)
-- Implementar tela com campos da ficha (Ábner)
-- Integrar API para editar e salvar alterações na ficha (Ábner)
+- [ ] Implementar caso de uso para configurar ficha do jogador (Lucas)
+- [ ] Implementar api rest que acionará o caso de uso (Lucas)
+- [ ] Implementar tela com campos da ficha (Ábner)
+- [ ] Integrar API para editar e salvar alterações na ficha (Ábner)
 
 
 9. Como GM, durante o jogo, quero criar tokens dos personagens/inimigos e colocá-los em um mapa:
-- Criar campo que permite upload de imagem para o token (João)
-- Integrar upload com API do backend (João)
-- Implementar repositório para upload de imagens dos personagens  (Lucas)
-- Implementar api rest para receber uma imagem e salvar no repositório (Lucas)
+- [ ] Criar campo que permite upload de imagem para o token (João)
+- [ ] Integrar upload com API do backend (João)
+- [ ] Implementar repositório para upload de imagens dos personagens  (Lucas)
+- [ ] Implementar api rest para receber uma imagem e salvar no repositório (Lucas)
 
 
 10.  Como Jogador ou GM, eu quero mover meus tokens pelo mapa:
-- Implementar movimentação de tokens por setas direcionais (João)
-- Implementar busca periódica da posição dos tokens dos outros personagens, inimigos e objetos (João)
-- Implementar caso de uso no backend para atualizar e salvar a nova posição do token (Guilherme)
-- Implementar caso de uso no backend para buscar a posição dos outros personagens, inimigos e objetos (Guilherme)
+- [ ] Implementar movimentação de tokens por setas direcionais (João)
+- [ ] Implementar busca periódica da posição dos tokens dos outros personagens, inimigos e objetos (João)
+- [ ] Implementar caso de uso no backend para atualizar e salvar a nova posição do token (Guilherme)
+- [ ] Implementar caso de uso no backend para buscar a posição dos outros personagens, inimigos e objetos (Guilherme)
 
 
 11.  Como Jogador ou GM, eu quero mandar mensagens públicas no chat:
-- Criar layout do chat (Ábner)
-- Periodicamente atualizar o chat com novas mensagens (João)
-- Implementar api no backend para buscar novas mensagens (Lucas)
-- Implementar api no backend para enviar e salvar novas mensagens (Guilherme)
+- [ ] Criar layout do chat (Ábner)
+- [ ] Periodicamente atualizar o chat com novas mensagens (João)
+- [ ] Implementar api no backend para buscar novas mensagens (Lucas)
+- [ ] Implementar api no backend para enviar e salvar novas mensagens (Guilherme)
 
 
 12.  Como jogador ou GM, eu quero rolar dados.
-- Criar comandos específicos para rolar dados no chat (João)
-- Chamar api do backend de rolar dados e receber o resultado (Ábner)
-- Implementar caso de uso para ação de rolar os dados (Lucas)
-- Implementar api rest para executar a ação de rolar os dados (Guilherme)
+- [ ] Criar comandos específicos para rolar dados no chat (João)
+- [ ] Chamar api do backend de rolar dados e receber o resultado (Ábner)
+- [ ] Implementar caso de uso para ação de rolar os dados (Lucas)
+- [ ] Implementar api rest para executar a ação de rolar os dados (Guilherme)
 
 
 13. Como GM quero adicionar mapa em alguma cena.
-- Implementar layout para permitir o upload de imagens (Ábner)
-- Integrar upload com backend (Ábner)
-- Implementar repositório para upload de mapas (Lucas)
+- [ ] Implementar layout para permitir o upload de imagens (Ábner)
+- [ ] Integrar upload com backend (Ábner)
+- [ ] Implementar repositório para upload de mapas (Lucas)
