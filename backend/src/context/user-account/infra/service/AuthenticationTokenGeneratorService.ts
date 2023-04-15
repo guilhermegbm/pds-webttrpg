@@ -1,7 +1,9 @@
 import AuthenticationTokenGenerator from "../../domain/AuthenticationTokenGenerator";
+import { uuid } from "uuidv4";
 
 export default class AuthenticationTokenGeneratorService implements AuthenticationTokenGenerator {
     generate(): string {
-        return "token-example"
+        const authenticationToken = uuid();
+        return authenticationToken;
     }
 }
