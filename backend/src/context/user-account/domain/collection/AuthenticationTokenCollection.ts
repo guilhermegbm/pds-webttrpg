@@ -1,3 +1,5 @@
+import AuthenticationToken from "../entity/AuthenticationToken";
+
 export default interface AuthenticationTokenCollection {
-    registerAuthenticationTokenForUser(authenticationToken: string, userId: string): Promise<void>;
+    registerAuthenticationToken(authenticationToken: AuthenticationToken): Promise<void>;
 }

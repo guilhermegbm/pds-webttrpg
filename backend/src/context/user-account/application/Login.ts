@@ -2,10 +2,12 @@ import AuthenticateUser from "../domain/AuthenticateUser";
 import AuthenticationTokenGenerator from "../domain/AuthenticationTokenGenerator";
 import AuthenticationTokenCollection from "../domain/collection/AuthenticationTokenCollection";
 import UserCollection from "../domain/collection/UserCollection";
+import AuthenticationToken from "../domain/entity/AuthenticationToken";
 
 export default class Login {
 
     private authenticateUser: AuthenticateUser;
+    private TOKEN_EXPIRATION_TIME: number = 2;
 
     constructor (
         readonly userCollection: UserCollection,
@@ -22,13 +24,11 @@ export default class Login {
             throw new Error("user not found");
         }
         this.validatePlainPassword(plainPassword);
-
         this.authenticateUser.authenticate(user, plainPassword, this.encryptPassword);
-
-        const authenticateToken = this.authenticationTokenGenerator.generate();
-        this.authenticationTokenCollection.registerAuthenticationTokenForUser(authenticateToken, user.getId());
-
-        return authenticateToken;
+        const token = this.authenticationTokenGenerator.generate();
+        const authenticateToken = new AuthenticationToken(token, user, this.TOKEN_EXPIRATION_TIME);
+        this.authenticationTokenCollection.registerAuthenticationToken(authenticateToken);
+        return authenticateToken.getToken();
     }
 
     private validatePlainPassword(plainPassword: string) {
