@@ -39,7 +39,7 @@ docker-compose down
 <p>Basta executar da seguinte forma:</p>
 
 ```bash
-docker-compose up -f docker-compose-DEV.yml
+docker-compose -f docker-compose-DEV.yml up
 ```
 Pronto, servidor inicializado. Veja em: http:/localhost:3000
 

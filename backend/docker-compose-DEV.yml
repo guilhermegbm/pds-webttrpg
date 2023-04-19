@@ -3,9 +3,25 @@ version: "3"
 services:
   webttrpg-backend:
     build: .
+    restart: always
     container_name: webttrpg-backend
     command: yarn dev
     ports:
       - "3000:3000"
     volumes:
       - ".:/usr/webttrpg-backend"
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./src/database_script/generate_schema.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./src/database_script/script.sql:/docker-entrypoint-initdb.d/2.sql
+volumes:
+  postgres_data:
