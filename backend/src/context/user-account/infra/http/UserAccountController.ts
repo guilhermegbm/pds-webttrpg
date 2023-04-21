@@ -1,6 +1,6 @@
 import Login from "../../application/Login";
 import UserRepository from "../repository/UserRepository";
-import AuthenticationTokenGeneratorService from "../service/AuthenticationTokenGeneratorService";
+import UuidV4AuthenticationTokenGenerator from "../service/UuidV4AuthenticationTokenGenerator";
 import AuthenticationTokenRepository from "../repository/AuthenticationTokenRepository";
 import Request from "../../../../infra/http/Request";
 import Response from "../../../../infra/http/Response";
@@ -15,7 +15,7 @@ export default class UserAccountController {
             const signin = new Login(
                 new UserRepository(),
                 new BcryptEncryptPassword(),
-                new AuthenticationTokenGeneratorService(),
+                new UuidV4AuthenticationTokenGenerator(),
                 new AuthenticationTokenRepository());
             const authenticationToken = await signin.execute(username, password);
             response.status(200).send({ authenticationToken });
