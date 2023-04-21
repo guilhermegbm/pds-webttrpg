@@ -5,7 +5,6 @@ import UserCollection from "../domain/collection/UserCollection";
 import AuthenticationToken from "../domain/entity/AuthenticationToken";
 
 export default class Login {
-
     private authenticateUser: AuthenticateUser;
     private TOKEN_EXPIRATION_TIME: number = 2;
 
@@ -23,20 +22,10 @@ export default class Login {
         if (!user) {
             throw new Error("user not found");
         }
-        this.validatePlainPassword(plainPassword);
         this.authenticateUser.authenticate(user, plainPassword, this.encryptPassword);
         const token = this.authenticationTokenGenerator.generate();
         const authenticateToken = new AuthenticationToken(token, user, this.TOKEN_EXPIRATION_TIME);
         this.authenticationTokenCollection.registerAuthenticationToken(authenticateToken);
         return authenticateToken.getToken();
-    }
-
-    private validatePlainPassword(plainPassword: string) {
-        if (plainPassword == null 
-            || plainPassword == undefined
-            || plainPassword === ""
-        ) {
-            throw new Error("password is empty");
-        }
     }
 }
