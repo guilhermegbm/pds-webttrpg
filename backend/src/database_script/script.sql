@@ -1,1 +1,1 @@
-insert into webttrpg.user (id, username, password) values ('3fd91d4f-ee40-4f48-8f4d-8eb1f7231401', 'user1', 'user1');
+insert into webttrpg.user (id, username, password) values ('3fd91d4f-ee40-4f48-8f4d-8eb1f7231401', 'user', '$2b$10$MI/XSx/RH5ooO2uGfGwg.O8cAz2EZJSofxFVY3OTfSCfu.N3DcgJq');
