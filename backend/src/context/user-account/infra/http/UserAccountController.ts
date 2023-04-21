@@ -4,6 +4,7 @@ import AuthenticationTokenGeneratorService from "../service/AuthenticationTokenG
 import AuthenticationTokenRepository from "../repository/AuthenticationTokenRepository";
 import Request from "../../../../infra/http/Request";
 import Response from "../../../../infra/http/Response";
+import BcryptEncryptPassword from "../service/BcryptEncryptPassword";
 
 export default class UserAccountController {
 
@@ -13,7 +14,7 @@ export default class UserAccountController {
             const password = request.getBody().password;
             const signin = new Login(
                 new UserRepository(),
-                (password: any) => password,
+                new BcryptEncryptPassword(),
                 new AuthenticationTokenGeneratorService(),
                 new AuthenticationTokenRepository());
             const authenticationToken = await signin.execute(username, password);
