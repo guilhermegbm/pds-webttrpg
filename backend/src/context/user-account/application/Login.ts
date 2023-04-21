@@ -1,5 +1,6 @@
 import AuthenticateUser from "../domain/AuthenticateUser";
 import AuthenticationTokenGenerator from "../domain/AuthenticationTokenGenerator";
+import EncryptPassword from "../domain/EncryptPassword";
 import AuthenticationTokenCollection from "../domain/collection/AuthenticationTokenCollection";
 import UserCollection from "../domain/collection/UserCollection";
 import AuthenticationToken from "../domain/entity/AuthenticationToken";
@@ -10,7 +11,7 @@ export default class Login {
 
     constructor (
         readonly userCollection: UserCollection,
-        readonly encryptPassword: Function,
+        readonly encryptPassword: EncryptPassword,
         readonly authenticationTokenGenerator: AuthenticationTokenGenerator,
         readonly authenticationTokenCollection: AuthenticationTokenCollection
     ) {
@@ -22,7 +23,7 @@ export default class Login {
         if (!user) {
             throw new Error("user not found");
         }
-        this.authenticateUser.authenticate(user, plainPassword, this.encryptPassword);
+        await this.authenticateUser.authenticate(user, plainPassword, this.encryptPassword);
         const token = this.authenticationTokenGenerator.generate();
         const authenticateToken = new AuthenticationToken(token, user, this.TOKEN_EXPIRATION_TIME);
         this.authenticationTokenCollection.registerAuthenticationToken(authenticateToken);
