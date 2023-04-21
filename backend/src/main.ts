@@ -12,4 +12,6 @@ server.on(HttpMethod.GET, "/", (req: Request, res: Response) => {
     });
 });
 
+UserAccountRoutes.defineRoutes(server);
+
 server.listen(3000);
