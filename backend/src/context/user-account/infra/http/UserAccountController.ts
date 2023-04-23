@@ -1,4 +1,4 @@
-import Login from "../../application/Login";
+import SignIn from "../../application/Login";
 import UserRepository from "../repository/UserRepository";
 import UuidV4AuthenticationTokenGenerator from "../service/UuidV4AuthenticationTokenGenerator";
 import AuthenticationTokenRepository from "../repository/AuthenticationTokenRepository";
@@ -14,7 +14,7 @@ export default class UserAccountController {
         try {
             const username = request.getBody().username;
             const password = request.getBody().password;
-            const signin = new Login(
+            const signin = new SignIn(
                 new UserRepository(),
                 new BcryptEncryptPassword(),
                 new UuidV4AuthenticationTokenGenerator(),

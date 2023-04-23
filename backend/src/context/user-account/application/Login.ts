@@ -5,7 +5,7 @@ import AuthenticationTokenCollection from "../domain/collection/AuthenticationTo
 import UserCollection from "../domain/collection/UserCollection";
 import AuthenticationToken from "../domain/entity/AuthenticationToken";
 
-export default class Login {
+export default class SignIn {
     private authenticateUser: AuthenticateUser;
     private TOKEN_EXPIRATION_TIME: number = 2;
 
