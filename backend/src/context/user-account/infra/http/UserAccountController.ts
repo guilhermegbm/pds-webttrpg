@@ -10,7 +10,7 @@ import UuidV4IdGenerator from "../service/UuidV4IdGenerator";
 
 export default class UserAccountController {
 
-    static async signin(request: Request, response: Response) {        
+    static async signIn(request: Request, response: Response) {
         try {
             const username = request.getBody().username;
             const password = request.getBody().password;
@@ -31,7 +31,6 @@ export default class UserAccountController {
             const username = request.getBody().username;
             const password = request.getBody().password;
             const confirmationPassword = request.getBody().confirmationPassword;
-
             const signUp = new SignUp(
                 new UserRepository(),
                 new BcryptEncryptPassword(),
