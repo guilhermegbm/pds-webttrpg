@@ -1,4 +1,4 @@
-import SignIn from "../../application/Login";
+import SignIn from "../../application/SignIn";
 import UserRepository from "../repository/UserRepository";
 import UuidV4AuthenticationTokenGenerator from "../service/UuidV4AuthenticationTokenGenerator";
 import AuthenticationTokenRepository from "../repository/AuthenticationTokenRepository";
