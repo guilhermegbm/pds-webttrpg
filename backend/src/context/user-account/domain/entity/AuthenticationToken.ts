@@ -46,4 +46,17 @@ export default class AuthenticationToken {
     getExpirationTimeInHours(): number {
         return this.expirationTimeInHours;
     }
+
+    private getExpirationTimeInMilliseconds(): number {
+        return (this.expirationTimeInHours+1) * 1000 * 60 * 60;
+    }
+
+    isValid() {
+        const now = new Date();
+        const tokenValidity = new Date(this.createdAt.getTime() + this.getExpirationTimeInMilliseconds());
+        if (tokenValidity.getTime() >= now.getTime()) {
+            return true;
+        }
+        return false;
+    }
 }
