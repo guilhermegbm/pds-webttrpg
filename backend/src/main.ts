@@ -1,17 +1,20 @@
 import UserAccountRoutes from "./context/user-account/infra/http/UserAccountRoutes"
 import ExpressServer from "./infra/http/express/ExpressServer"
+import MiddlewareAuthenticationTokenValidation from "./infra/http/middleware/MiddlewareAuthenticationTokenValidation";
 import Request from "./infra/http/Request";
 import Response from "./infra/http/Response";
 import { HttpMethod } from "./infra/http/Server";
 
 const server = new ExpressServer()
 
+UserAccountRoutes.defineRoutes(server);
+
+server.addMiddleware(new MiddlewareAuthenticationTokenValidation());
+
 server.on(HttpMethod.GET, "/", (req: Request, res: Response) => { 
     res.status(200).send({
         message: "backend webttrpg running"
     });
 });
-
-UserAccountRoutes.defineRoutes(server);
 
 server.listen(3000);
