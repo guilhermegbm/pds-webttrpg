@@ -37,7 +37,7 @@ export default class UserAccountController {
                 new UuidV4IdGenerator()
             )
             await signUp.execute(username, password, confirmationPassword);
-            response.status(200).send({});
+            response.status(200).end();
         } catch (erro: any) {
             response.status(404).send({ message: erro.message });
         }
