@@ -7,13 +7,13 @@ export default class AuthenticationToken {
     private createdAt: Date;
     private expirationTimeInHours: number;
 
-    constructor(token: string, user: User, expirationTimeInHours: number) {
+    constructor(token: string, user: User, createdAt: Date, expirationTimeInHours: number) {
         this.validateExpirationTimeInHours(expirationTimeInHours);
         this.validateUser(user);
         this.validateToken(token);
         this.token = token;
         this.user = user;
-        this.createdAt = new Date();
+        this.createdAt = createdAt == null ? new Date() : createdAt;
         this.expirationTimeInHours = expirationTimeInHours;
     }
 
