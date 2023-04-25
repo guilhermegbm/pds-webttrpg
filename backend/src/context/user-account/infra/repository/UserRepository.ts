@@ -4,7 +4,16 @@ import UserFactory from "../factory/UserFactory";
 import database from "../../../../infra/database";
 
 export default class UserRepository implements UserCollection {
-    
+
+    async getById(id: string): Promise<User> {
+        const userData = await database.oneOrNone("select * from webttrpg.user where id = $1", [id]);
+        if (!userData) {
+            throw new Error("user not found");
+        }
+        const user = UserFactory.create(userData.id, userData.username, userData.password);
+        return user;
+    }
+
     async getByUsername(username: string): Promise<User> {
         const userData = await database.oneOrNone("select * from webttrpg.user where username = $1", [username]);
         if (!userData) {

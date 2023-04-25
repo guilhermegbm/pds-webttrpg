@@ -7,13 +7,13 @@ export default class AuthenticationToken {
     private createdAt: Date;
     private expirationTimeInHours: number;
 
-    constructor(token: string, user: User, expirationTimeInHours: number) {
+    constructor(token: string, user: User, createdAt: Date, expirationTimeInHours: number) {
         this.validateExpirationTimeInHours(expirationTimeInHours);
         this.validateUser(user);
         this.validateToken(token);
         this.token = token;
         this.user = user;
-        this.createdAt = new Date();
+        this.createdAt = createdAt == null ? new Date() : createdAt;
         this.expirationTimeInHours = expirationTimeInHours;
     }
 
@@ -45,5 +45,18 @@ export default class AuthenticationToken {
 
     getExpirationTimeInHours(): number {
         return this.expirationTimeInHours;
+    }
+
+    private getExpirationTimeInMilliseconds(): number {
+        return (this.expirationTimeInHours+1) * 1000 * 60 * 60;
+    }
+
+    isValid() {
+        const now = new Date();
+        const tokenValidity = new Date(this.createdAt.getTime() + this.getExpirationTimeInMilliseconds());
+        if (tokenValidity.getTime() >= now.getTime()) {
+            return true;
+        }
+        return false;
     }
 }
