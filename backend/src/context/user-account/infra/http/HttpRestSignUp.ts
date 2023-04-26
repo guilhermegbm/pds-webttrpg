@@ -1,8 +1,8 @@
-import UserRepository from "../repository/UserRepository";
 import Request from "../../../../infra/http/Request";
 import Response from "../../../../infra/http/Response";
-import BcryptEncryptPassword from "../service/BcryptEncryptPassword";
 import SignUp from "../../application/SignUp";
+import UserRepository from "../repository/UserRepository";
+import BcryptEncryptPassword from "../service/BcryptEncryptPassword";
 import UuidV4IdGenerator from "../service/UuidV4IdGenerator";
 
 export default class HttpRestSignUp {
