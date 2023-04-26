@@ -1,14 +1,14 @@
-import AuthenticationTokenCollection from "../domain/repository/AuthenticationTokenRepository";
+import AuthenticationTokenRepository from "../domain/repository/AuthenticationTokenRepository";
 import AuthenticationToken from "../domain/entity/AuthenticationToken";
 
 export default class GetIfAuthenticationTokenIsValid {
 
     constructor(
-        readonly authenticationTokenCollection: AuthenticationTokenCollection
+        readonly authenticationTokenRepository: AuthenticationTokenRepository
     ) {}
 
-    async execute(authenticationToken: string) {
-        const authToken: AuthenticationToken = await this.authenticationTokenCollection.getByToken(authenticationToken);
+    async execute(authenticationToken: string): Promise<boolean> {
+        const authToken: AuthenticationToken = await this.authenticationTokenRepository.getByToken(authenticationToken);
         return authToken.isValid();
     }
 }

@@ -2,7 +2,6 @@ import AuthenticationTokenCollection from "../../domain/repository/Authenticatio
 import database from "../../../../infra/database";
 import AuthenticationToken from "../../domain/entity/AuthenticationToken";
 import SQLUserRepository from "./SQLUserRepository";
-import User from "../../domain/entity/User";
 
 export default class SQLAuthenticationTokenRepository implements AuthenticationTokenCollection {
 
@@ -24,7 +23,7 @@ export default class SQLAuthenticationTokenRepository implements AuthenticationT
         if (!authenticationTokenData) throw new Error("authentication token not found");
 
         const userId = authenticationTokenData.user_id;
-        const user: User = await this.sqlUserRepository.getById(userId);
+        const user = await this.sqlUserRepository.getById(userId);
 
         const authenticationToken = new AuthenticationToken(
             authenticationTokenData.token,
