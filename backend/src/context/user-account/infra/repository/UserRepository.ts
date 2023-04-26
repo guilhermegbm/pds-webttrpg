@@ -1,4 +1,4 @@
-import UserCollection from "../../domain/collection/UserCollection";
+import UserCollection from "../../domain/repository/UserCollection";
 import User from "../../domain/entity/User";
 import UserFactory from "../factory/UserFactory";
 import database from "../../../../infra/database";

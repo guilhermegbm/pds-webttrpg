@@ -1,4 +1,4 @@
-import AuthenticationTokenCollection from "../../domain/collection/AuthenticationTokenCollection";
+import AuthenticationTokenCollection from "../../domain/repository/AuthenticationTokenCollection";
 import database from "../../../../infra/database";
 import AuthenticationToken from "../../domain/entity/AuthenticationToken";
 import UserRepository from "./UserRepository";

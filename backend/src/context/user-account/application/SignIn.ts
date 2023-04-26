@@ -1,8 +1,8 @@
 import AuthenticateUser from "../domain/AuthenticateUser";
 import AuthenticationTokenGenerator from "../domain/AuthenticationTokenGenerator";
 import EncryptPassword from "../domain/EncryptPassword";
-import AuthenticationTokenCollection from "../domain/collection/AuthenticationTokenCollection";
-import UserCollection from "../domain/collection/UserCollection";
+import AuthenticationTokenCollection from "../domain/repository/AuthenticationTokenCollection";
+import UserCollection from "../domain/repository/UserCollection";
 import AuthenticationToken from "../domain/entity/AuthenticationToken";
 
 export default class SignIn {

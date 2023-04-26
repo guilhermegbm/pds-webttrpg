@@ -1,6 +1,6 @@
 import EncryptPassword from "../domain/EncryptPassword";
 import IdGenerator from "../domain/IdGenerator";
-import UserCollection from "../domain/collection/UserCollection";
+import UserCollection from "../domain/repository/UserCollection";
 import User from "../domain/entity/User";
 
 export default class SignUp {
