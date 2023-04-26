@@ -1,4 +1,4 @@
-import AuthenticationTokenCollection from "../domain/repository/AuthenticationTokenCollection";
+import AuthenticationTokenCollection from "../domain/repository/AuthenticationTokenRepository";
 import AuthenticationToken from "../domain/entity/AuthenticationToken";
 
 export default class GetIfAuthenticationTokenIsValid {

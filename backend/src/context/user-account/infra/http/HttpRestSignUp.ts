@@ -1,7 +1,7 @@
 import Request from "../../../../infra/http/Request";
 import Response from "../../../../infra/http/Response";
 import SignUp from "../../application/SignUp";
-import UserRepository from "../repository/UserRepository";
+import SQLUserRepository from "../repository/SQLUserRepository";
 import BcryptEncryptPassword from "../service/BcryptEncryptPassword";
 import UuidV4IdGenerator from "../service/UuidV4IdGenerator";
 
@@ -13,7 +13,7 @@ export default class HttpRestSignUp {
             const password = request.getBody().password;
             const confirmationPassword = request.getBody().confirmationPassword;
             const signUp = new SignUp(
-                new UserRepository(),
+                new SQLUserRepository(),
                 new BcryptEncryptPassword(),
                 new UuidV4IdGenerator()
             )

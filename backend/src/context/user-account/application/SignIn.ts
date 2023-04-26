@@ -1,8 +1,8 @@
 import AuthenticateUser from "../domain/AuthenticateUser";
 import AuthenticationTokenGenerator from "../domain/AuthenticationTokenGenerator";
 import EncryptPassword from "../domain/EncryptPassword";
-import AuthenticationTokenCollection from "../domain/repository/AuthenticationTokenCollection";
-import UserCollection from "../domain/repository/UserCollection";
+import AuthenticationTokenCollection from "../domain/repository/AuthenticationTokenRepository";
+import UserRepository from "../domain/repository/UserRepository";
 import AuthenticationToken from "../domain/entity/AuthenticationToken";
 
 export default class SignIn {
@@ -10,7 +10,7 @@ export default class SignIn {
     private TOKEN_EXPIRATION_TIME: number = 2;
 
     constructor (
-        readonly userCollection: UserCollection,
+        readonly userCollection: UserRepository,
         readonly encryptPassword: EncryptPassword,
         readonly authenticationTokenGenerator: AuthenticationTokenGenerator,
         readonly authenticationTokenCollection: AuthenticationTokenCollection

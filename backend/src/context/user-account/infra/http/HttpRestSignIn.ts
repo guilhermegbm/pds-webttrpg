@@ -1,8 +1,8 @@
 import Request from "../../../../infra/http/Request";
 import Response from "../../../../infra/http/Response";
 import SignIn from "../../application/SignIn";
-import AuthenticationTokenRepository from "../repository/AuthenticationTokenRepository";
-import UserRepository from "../repository/UserRepository";
+import SQLAuthenticationTokenRepository from "../repository/SQLAuthenticationTokenRepository";
+import SQLUserRepository from "../repository/SQLUserRepository";
 import BcryptEncryptPassword from "../service/BcryptEncryptPassword";
 import UuidV4AuthenticationTokenGenerator from "../service/UuidV4AuthenticationTokenGenerator";
 
@@ -13,10 +13,10 @@ export default class HttpRestSignIn {
             const username = request.getBody().username;
             const password = request.getBody().password;
             const signin = new SignIn(
-                new UserRepository(),
+                new SQLUserRepository(),
                 new BcryptEncryptPassword(),
                 new UuidV4AuthenticationTokenGenerator(),
-                new AuthenticationTokenRepository());
+                new SQLAuthenticationTokenRepository());
             const authenticationToken = await signin.execute(username, password);
             response.status(200).send({
                 authenticationToken
