@@ -5,9 +5,9 @@ import BcryptEncryptPassword from "../service/BcryptEncryptPassword";
 import SignUp from "../../application/SignUp";
 import UuidV4IdGenerator from "../service/UuidV4IdGenerator";
 
-export default class UserAccountController {
+export default class HttpRestSignUp {
 
-    static async signUp(request: Request, response: Response) {
+    static async execute(request: Request, response: Response) {
         try {
             const username = request.getBody().username;
             const password = request.getBody().password;
@@ -20,7 +20,9 @@ export default class UserAccountController {
             await signUp.execute(username, password, confirmationPassword);
             response.status(200).end();
         } catch (erro: any) {
-            response.status(404).send({ message: erro.message });
+            response.status(404).send({
+                message: erro.message
+            });
         }
     }
 }
