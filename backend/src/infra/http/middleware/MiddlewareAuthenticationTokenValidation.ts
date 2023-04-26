@@ -1,5 +1,5 @@
 import GetIfAuthenticationTokenIsValid from "../../../context/user-account/application/GetIfAuthenticationTokenIsValid";
-import AuthenticationTokenRepository from "../../../context/user-account/infra/repository/AuthenticationTokenRepository";
+import SQLAuthenticationTokenRepository from "../../../context/user-account/infra/repository/SQLAuthenticationTokenRepository";
 import Middleware from "../Middleware";
 import Request from "../Request";
 import Response from "../Response";
@@ -8,7 +8,7 @@ export default class MiddlewareAuthenticationTokenValidation implements Middlewa
     async execute(request: Request, response: Response, next: any): Promise<void> {
         try {
             const authenticationToken = request.getBody().authenticationToken;
-            const getIfAuthenticationTokenIsValid = new GetIfAuthenticationTokenIsValid(new AuthenticationTokenRepository());
+            const getIfAuthenticationTokenIsValid = new GetIfAuthenticationTokenIsValid(new SQLAuthenticationTokenRepository());
             const authenticationTokenIsValid = await getIfAuthenticationTokenIsValid.execute(authenticationToken);
             if (authenticationTokenIsValid) {
                 next();

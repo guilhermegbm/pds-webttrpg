@@ -1,9 +1,9 @@
-import UserCollection from "../../domain/collection/UserCollection";
+import UserRepository from "../../domain/repository/UserRepository";
 import User from "../../domain/entity/User";
 import UserFactory from "../factory/UserFactory";
 import database from "../../../../infra/database";
 
-export default class UserRepository implements UserCollection {
+export default class SQLUserRepository implements UserRepository {
 
     async getById(id: string): Promise<User> {
         const userData = await database.oneOrNone("select * from webttrpg.user where id = $1", [id]);
