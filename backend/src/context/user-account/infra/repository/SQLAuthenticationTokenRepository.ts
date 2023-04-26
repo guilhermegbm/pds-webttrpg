@@ -2,7 +2,6 @@ import AuthenticationTokenCollection from "../../domain/repository/Authenticatio
 import database from "../../../../infra/database";
 import AuthenticationToken from "../../domain/entity/AuthenticationToken";
 import SQLUserRepository from "./SQLUserRepository";
-import User from "../../domain/entity/User";
 
 export default class SQLAuthenticationTokenRepository implements AuthenticationTokenCollection {
 
