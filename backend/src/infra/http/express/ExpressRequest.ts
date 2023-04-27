@@ -13,4 +13,7 @@ export default class ExpressRequest implements Request {
     getBody() {
         return this.request.body;
     }
+    getHeader(key: string) {
+        return this.request.header(key);
+    }
 }
