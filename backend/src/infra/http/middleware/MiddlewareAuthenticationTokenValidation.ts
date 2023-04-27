@@ -10,7 +10,7 @@ export default class MiddlewareAuthenticationTokenValidation implements Middlewa
 
     async execute(request: Request, response: Response, next: any): Promise<void> {
         try {
-            const authenticationToken = request.getBody().authenticationToken;
+            const authenticationToken = request.getHeader("Authorization");
 
             const getIfAuthenticationTokenIsValid = new GetIfAuthenticationTokenIsValid(new SQLAuthenticationTokenRepository());
             const authTokenIsValid = await getIfAuthenticationTokenIsValid.execute(authenticationToken);
