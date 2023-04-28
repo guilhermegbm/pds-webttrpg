@@ -3,6 +3,7 @@ import Server, { HttpMethod } from "../Server";
 import ExpressRequest from "./ExpressRequest";
 import ExpressResponse from "./ExpressResponse";
 import Middleware from "../Middleware";
+import HttpRestController from "../HttpRestController";
 
 export default class ExpressServer implements Server {
     private server;
@@ -34,7 +35,7 @@ export default class ExpressServer implements Server {
         })
     }
 
-    on(httpMethod: HttpMethod, api: string, endpoint: Function): void {
-        this.server[httpMethod](api, ExpressServer.createExecutable(endpoint));
+    on(httpMethod: HttpMethod, api: string, httpRestController: HttpRestController): void {
+        this.server[httpMethod](api, ExpressServer.createExecutable(httpRestController.execute));
     }
 }
