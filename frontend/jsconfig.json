@@ -28,6 +28,9 @@
       ]
     }
   },
+  "vueCompilerOptions": {
+    "target": 2.7,
+  },
   "exclude": [
     "dist",
     ".quasar",
