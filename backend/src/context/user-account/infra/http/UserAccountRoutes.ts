@@ -1,10 +1,11 @@
 import Server, { HttpMethod } from "../../../../infra/http/Server";
-import UserAccountController from "./UserAccountController";
+import HttpRestSignIn from "./HttpRestSignIn";
+import HttpRestSignUp from "./HttpRestSignUp";
 
 export default class UserAccountRoutes {
 
     static defineRoutes(server: Server) {
-        server.on(HttpMethod.POST, "/sign-in", UserAccountController.signIn);
-        server.on(HttpMethod.POST, "/sign-up", UserAccountController.signUp);
+        server.on(HttpMethod.POST, "/sign-in", new HttpRestSignIn());
+        server.on(HttpMethod.POST, "/sign-up", new HttpRestSignUp());
     }
 }

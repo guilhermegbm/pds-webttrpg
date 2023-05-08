@@ -3,6 +3,7 @@ import Server, { HttpMethod } from "../Server";
 import ExpressRequest from "./ExpressRequest";
 import ExpressResponse from "./ExpressResponse";
 import Middleware from "../Middleware";
+import HttpRestController from "../HttpRestController";
 
 export default class ExpressServer implements Server {
     private server;
@@ -12,11 +13,11 @@ export default class ExpressServer implements Server {
         this.server.use(express.json());
     }
 
-    private static createExecutable(endpoint: Function) {
+    private static createExecutable(httpRestController: HttpRestController) {
         return async function (request: Request, response: Response) {
             const req = new ExpressRequest(request);
             const res = new ExpressResponse(response);
-            await endpoint(req, res);
+            await httpRestController.execute(req, res);
         }
     }
 
@@ -34,7 +35,7 @@ export default class ExpressServer implements Server {
         })
     }
 
-    on(httpMethod: HttpMethod, api: string, endpoint: Function): void {
-        this.server[httpMethod](api, ExpressServer.createExecutable(endpoint));
+    on(httpMethod: HttpMethod, api: string, httpRestController: HttpRestController): void {
+        this.server[httpMethod](api, ExpressServer.createExecutable(httpRestController));
     }
 }

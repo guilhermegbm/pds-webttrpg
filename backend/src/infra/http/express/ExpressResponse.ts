@@ -14,4 +14,7 @@ export default class ExpressResponse implements Response {
     send(result: object): void {
         this.response.send({ ... result});
     }
+    end(): void {
+        this.response.end();
+    }
 }

@@ -1,12 +1,12 @@
 import EncryptPassword from "../domain/EncryptPassword";
 import IdGenerator from "../domain/IdGenerator";
-import UserCollection from "../domain/collection/UserCollection";
+import UserRepository from "../domain/repository/UserRepository";
 import User from "../domain/entity/User";
 
 export default class SignUp {
 
     constructor(
-        readonly userCollection: UserCollection,
+        readonly userCollection: UserRepository,
         readonly encryptPassword: EncryptPassword,
         readonly idGenerator: IdGenerator
     ) { }
