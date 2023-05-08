@@ -1,103 +1,101 @@
 <template>
-  <q-layout view="lhr LpR fff">
+  <div class="q-pa-md" style="max-width: 400px">
 
-    <q-header elevated class="bg-primary text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          Dragon's Den
-        </q-toolbar-title>
-        <q-avatar>
-          <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-        </q-avatar>
-      </q-toolbar>
-    </q-header>
+    <q-form
+      @submit="onSubmit"
+      @reset="onReset"
+      class="q-gutter-md"
+    >
+      <q-input
+        outlined
+        v-model="campaignName"
+        label="Nome da campanha *"
+        lazy-rules
+        :rules="[ val => val && val.length > 0 || 'Campo Obrigatório']"
+      />
 
-    <q-page-container>
-      <div class="q-pa-md" style="max-width: 400px">
+      <q-input
+        outlined
+        type="number"
+        v-model="qtdPlayers"
+        label="Número máximo de jogadores *"
+        lazy-rules
+        :rules="[
+          val => val !== null && val !== '' || 'Campo Obrigatório'
+        ]"
+      />
 
-        <q-form
-          @submit="onSubmit"
-          @reset="onReset"
-          class="q-gutter-md"
-        >
-          <q-input
-            filled
-            v-model="name"
-            label="Nome da campanha *"
-            hint="O nome da sua campanha"
-            lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Campo obrigatório']"
-          />
+      <q-input
+        outlined
+        autogrow
+        v-model="description"
+        label="Descrição da campanha *"
+        lazy-rules
+      />
 
-          <q-input
-            filled
-            type="number"
-            v-model="age"
-            label="Número de jogadores *"
-            lazy-rules
-            :rules="[
-              val => val !== null && val !== '' || 'Digita a quantidade de jogares',
-              val => val > 0 && val < 100 || 'Campo obrigatório'
-            ]"
-          />
+      <q-input outlined v-model="date">
+        <template v-slot:prepend>
+          <q-icon name="event" class="cursor-pointer">
+            <q-popup-proxy transition-show="scale" transition-hide="scale">
+              <q-date v-model="date" mask="DD/MM/YYYY HH:mm">
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup label="Close" color="primary" flat />
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
 
-          <q-toggle v-model="accept" label="I accept the license and terms" />
+        <template v-slot:append>
+          <q-icon name="access_time" class="cursor-pointer">
+            <q-popup-proxy transition-show="scale" transition-hide="scale">
+              <q-time v-model="date" mask="DD/MM/YYYY, HH:mm" format24h>
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup label="Close" color="primary" flat />
+                </div>
+              </q-time>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
 
-          <div>
-            <q-btn label="Submit" type="submit" color="primary"/>
-            <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-          </div>
-        </q-form>
+      <div>
+        <q-btn label="Submit" type="submit" color="primary"/>
+        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+      </div>
+    </q-form>
 
-        </div>
-      <router-view />
-    </q-page-container>
-
-  </q-layout>
+  </div>
 </template>
 
-<!-- <script>
-import useQuasar from 'quasar/src/composables/use-quasar.js';
-import { ref } from 'vue'
-
+<script>
+const options = { day: 'numeric', year: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }
 export default {
-  setup () {
-    const $q = useQuasar()
-
-    const name = ref(null)
-    const age = ref(null)
-    const accept = ref(false)
-
+  data () {
     return {
-      name,
-      age,
-      accept,
+      campaignName: null,
+      qtdPlayers: null,
+      description: null,
+      date: new Date().toLocaleString('pt-br', options)
+    }
+  },
 
-      onSubmit () {
-        if (accept.value !== true) {
-          $q.notify({
-            color: 'red-5',
-            textColor: 'white',
-            icon: 'warning',
-            message: 'You need to accept the license and terms first'
-          })
-        }
-        else {
-          $q.notify({
-            color: 'green-4',
-            textColor: 'white',
-            icon: 'cloud_done',
-            message: 'Submitted'
-          })
-        }
-      },
+  methods: {
+    onSubmit () {
+      this.$q.notify({
+        color: 'green-4',
+        textColor: 'white',
+        icon: 'cloud_done',
+        message: 'Submitted'
+      })
+    },
 
-      onReset () {
-        name.value = null
-        age.value = null
-        accept.value = false
-      }
+    onReset () {
+      this.campaignName = null
+      this.qtdPlayers = null
+      this.description = null
+      this.date = new Date().toLocaleString('en-GB')
     }
   }
 }
-</script> -->
+</script>
