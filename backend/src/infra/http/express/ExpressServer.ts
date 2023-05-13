@@ -4,6 +4,7 @@ import ExpressRequest from "./ExpressRequest";
 import ExpressResponse from "./ExpressResponse";
 import Middleware from "../Middleware";
 import HttpRestController from "../HttpRestController";
+import cors from 'cors';
 
 export default class ExpressServer implements Server {
     private server;
@@ -11,6 +12,7 @@ export default class ExpressServer implements Server {
     constructor() {
         this.server = express();
         this.server.use(express.json());
+        this.server.use(cors());
     }
 
     private static createExecutable(httpRestController: HttpRestController) {
