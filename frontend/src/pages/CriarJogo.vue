@@ -69,7 +69,15 @@
 </template>
 
 <script>
+import { api } from 'boot/axios'
+
 const options = { day: 'numeric', year: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }
+const config = {
+  headers: {
+    Authorization: '64da91cf-d22f-43f0-a749-df8dfee21f9e'
+  }
+}
+
 export default {
   data () {
     return {
@@ -82,12 +90,28 @@ export default {
 
   methods: {
     onSubmit () {
-      this.$q.notify({
-        color: 'green-4',
-        textColor: 'white',
-        icon: 'cloud_done',
-        message: 'Submitted'
-      })
+      api.post('/game', {
+        name: this.campaignName,
+        maximumPlayers: this.qtdPlayers,
+        description: this.description
+      }, config)
+        .then((response) => {
+          this.data = response.data
+          this.$q.notify({
+            color: 'green-4',
+            textColor: 'white',
+            icon: 'cloud_done',
+            message: 'Jogo criado'
+          })
+        })
+        .catch(() => {
+          this.$q.notify({
+            color: 'negative',
+            position: 'top',
+            message: 'Loading Failed',
+            icon: 'report_problem'
+          })
+        })
     },
 
     onReset () {
