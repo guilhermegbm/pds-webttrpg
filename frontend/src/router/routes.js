@@ -11,6 +11,11 @@ const routes = [
     path: '/create_game',
     component: () => import('pages/CriarJogo.vue')
   },
+  {
+    path: '/game',
+    component: () => import('pages/Jogo.vue')
+  },
+
   // Always leave this as last one,
   // but you can also remove it
   {
