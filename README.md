@@ -44,15 +44,15 @@
 1. Como usuário que ainda não tem conta, eu desejo fazer sign up no sistema e criar a minha conta.
 - [ ] Implementar tela com formulário de cadastro (Ábner)
 - [ ] Integrar tela com API do backend (Ábner)
-- [ ] Implementar caso de uso e api rest para o cadastro (Lucas)
+- [x] Implementar caso de uso e api rest para o cadastro (Lucas)
 - [ ] Modelar tabela/entidade e salvar dados no banco (Guilherme)
  
 2. Como usuário, eu desejo fazer login na minha conta.
 - [ ] Implementar tela com formulário de login (Ábner)
 - [ ] Integrar tela com api do backend (Ábner)
-- [ ] Implementar caso de uso e api rest de autenticação no back (Lucas)
-- [ ] Implementar geração de token de autenticação (Guilherme e Lucas)
-- [ ] Implementar middleware para verificação de token de autenticação (Lucas)
+- [x] Implementar caso de uso e api rest de autenticação no back (Lucas)
+- [x] Implementar geração de token de autenticação (Guilherme e Lucas)
+- [x] Implementar middleware para verificação de token de autenticação (Lucas)
 
 
 3. Como usuário, eu desejo ver um dashboard com uma listagem de todos os meus jogos, abertos ou finalizados.
@@ -71,7 +71,7 @@
 
 5. Como usuário, quero criar um jogo novo com nome, número máximo de  jogadores, descrição e me tornar GM desse jogo.
 - [ ] Implementar tela com formulário de criação de jogo (João)
-- [ ] Implementar API para criar novos jogos (Lucas)
+- [x] Implementar API para criar novos jogos (Lucas)
 - [ ] Integrar tela com APi do backend (João)
 
 
@@ -112,8 +112,7 @@
 11.  Como Jogador ou GM, eu quero mandar mensagens públicas no chat:
 - [ ] Criar layout do chat (Ábner)
 - [ ] Periodicamente atualizar o chat com novas mensagens (João)
-- [ ] Implementar api no backend para buscar novas mensagens (Lucas)
-- [ ] Implementar api no backend para enviar e salvar novas mensagens (Guilherme)
+- [x] Implementar chat no backend por jogo (Lucas)
 
 
 12.  Como jogador ou GM, eu quero rolar dados.
