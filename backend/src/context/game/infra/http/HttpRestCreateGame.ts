@@ -21,7 +21,15 @@ export default class HttpRestCreateGame implements HttpRestController {
             const name = request.getBody().name;
             const maximumPlayers = request.getBody().maximumPlayers;
             const description = request.getBody().description;
-            await this.createGame.execute(name, maximumPlayers, description, userId);
+            const startDate = new Date(request.getBody().startDate);
+
+            await this.createGame.execute(
+                name,
+                maximumPlayers,
+                description,
+                userId,
+                startDate
+            );
             response.status(200).end()
         } catch (erro: any) {
             response.status(400).send({
