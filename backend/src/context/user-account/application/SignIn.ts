@@ -27,6 +27,10 @@ export default class SignIn {
         const token = this.authenticationTokenGenerator.generate();
         const authenticateToken = new AuthenticationToken(token, user, new Date(), this.TOKEN_EXPIRATION_TIME);
         this.authenticationTokenCollection.registerAuthenticationToken(authenticateToken);
-        return authenticateToken.getToken();
+
+        return {
+            userId: authenticateToken.getUser().getId(),
+            token: authenticateToken.getToken()
+        };
     }
 }

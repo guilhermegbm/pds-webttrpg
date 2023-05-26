@@ -23,9 +23,10 @@ export default class HttpRestSignIn implements HttpRestController {
         try {
             const username = request.getBody().username;
             const password = request.getBody().password;
-            const authenticationToken = await this.signIn.execute(username, password);
+            const result = await this.signIn.execute(username, password);
             response.status(200).send({
-                authenticationToken
+                authenticationToken: result.token,
+                userId: result.userId
             });
         } catch (erro: any) {
             response.status(404).send({
