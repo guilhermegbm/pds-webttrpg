@@ -8,7 +8,7 @@
         <q-input dense rounded outlined v-model="password" label="Password" bg-color="grey-4" class="q-mb-lg"/>
         <q-btn rounded color="cinza" label="Sign up" class="q-mb-lg"/>
       </q-form>
-      <p class="text-center">Already have an account? <a href="" class="link-login text-bold">Log in now</a></p>
+      <p class="text-center">Already have an account? <a href="signin" class="link-login text-bold">Log in now</a></p>
     </q-card>
   </q-page>
 </template>
