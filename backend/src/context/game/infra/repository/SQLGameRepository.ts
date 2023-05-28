@@ -43,4 +43,20 @@ export default class SQLGameRepository implements GameRepository {
             ]
         );
     }
+
+    async getById(gameId: string): Promise<Game | null> {
+        const gameData: GameTable | null = await database.oneOrNone("select * from webttrpg.game where id = $1", [gameId]);
+        if (gameData) {
+            return new Game(
+                gameData.id,
+                gameData.name,
+                gameData.maximum_players,
+                gameData.description,
+                gameData.user_id,
+                gameData.start_date,
+                gameData.created_at
+            );
+        }
+        return null;
+    }
 }

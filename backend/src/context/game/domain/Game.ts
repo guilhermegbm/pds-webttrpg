@@ -20,7 +20,9 @@ export default class Game {
         this.validateName(name);
         this.validateMaximumPlayers(maximumPlayers);
         this.validateDescription(description);
-        this.validateStartDate(startDate);
+        if (id === null) {
+            this.validateStartDate(startDate);
+        }
 
         this.id = id;
         this.name = name;
