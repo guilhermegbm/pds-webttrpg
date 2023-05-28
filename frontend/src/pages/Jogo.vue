@@ -83,8 +83,8 @@ export default {
       )
       this.newMessage = null
     },
-    addItem() {
-      console.log("Adding item")
+    addItem () {
+      console.log('Adding item')
     }
   }
 }

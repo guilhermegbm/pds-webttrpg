@@ -8,6 +8,8 @@ type GameTable = {
     maximum_players: number,
     description: string,
     user_id: string,
+    created_at: Date,
+    start_date: Date
 }
 
 export default class SQLGameRepository implements GameRepository {
@@ -20,19 +22,24 @@ export default class SQLGameRepository implements GameRepository {
                 gameData.name,
                 gameData.maximum_players,
                 gameData.description,
-                gameData.user_id);
+                gameData.user_id,
+                gameData.start_date,
+                gameData.created_at
+            );
         }
         return null;
     }
 
     async add(game: Game): Promise<void> {
-        await database.none("insert into webttrpg.game (id, name, maximum_players, description, user_id) values ($1, $2, $3, $4, $5)",
+        await database.none("insert into webttrpg.game (id, name, maximum_players, description, user_id, created_at, start_date) values ($1, $2, $3, $4, $5, $6, $7)",
             [
                 game.getId(),
                 game.getName(),
                 game.getMaximumPlayers(),
                 game.getDescription(),
-                game.getUserId()
+                game.getUserId(),
+                game.getCreatedAt(),
+                game.getStartDate()
             ]
         );
     }
