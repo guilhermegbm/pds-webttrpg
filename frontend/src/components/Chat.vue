@@ -1,5 +1,5 @@
 <template>
-  <div class="full-height">
+  <div class="full-height flex column">
     <q-chat-message
       v-for="message in messages"
       :key="message.id"

@@ -1,30 +1,30 @@
 <template>
-  <q-page class="row full-height full-width">
-    <div class="col-9 flex flex-center">
+  <q-page class="row overflow-hidden lust-for-list">
+    <div class="col-9 flex flex-center overflow-hidden">
       Map
     </div>
 
-    <div class="col" style="">
+    <div class="col bg-orange tabs-container">
       <q-tabs
         v-model="tab"
         shrink
-        class="bg-grey-3"
-      >
+        class="bg-grey-3 tabs-header"
+        >
         <q-tab name="chat" icon="chat" label="Chat" />
         <q-tab name="sheets" icon="description" label="Sheets" />
         <q-tab name="config" icon="settings" label="Settings" />
       </q-tabs>
 
-      <q-tab-panels class="q-pa-md" style="" v-model="tab" animated>
-        <q-tab-panel name="chat" class="">
+      <q-tab-panels class="q-pa-md tabs-content" style="height: 100%" v-model="tab" animated>
+        <q-tab-panel name="chat" class="bg-blue" style="height: 80%">
           <Chat />
         </q-tab-panel>
         <q-tab-panel name="sheets">
-          <q-btn color="primary" label="Add" @click="addSheetModal=true"/>
+            <q-btn color="primary" label="Add" @click="addSheetModal=true"/>
           <div
-            v-for="charSheet in characterSheets"
-            :key="charSheet.id"
-            @click="loadSheetInfo(charSheet)"
+          v-for="charSheet in characterSheets"
+          :key="charSheet.id"
+          @click="loadSheetInfo(charSheet)"
           >
             {{charSheet.characterName}}
           </div>
