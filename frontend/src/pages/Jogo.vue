@@ -19,20 +19,7 @@
 
       <q-tab-panels class="q-pa-md" v-model="tab" animated>
         <q-tab-panel name="chat">
-          <q-chat-message
-            v-for="message in messages"
-            :key="message.id"
-            :text="message.text"
-            :sent="message.sent" />
-          <q-input
-            name="newMessage"
-            square
-            outlined
-            type="textarea"
-            v-model="newMessage"
-            autogrow
-            @keydown.enter.prevent="onSend()"
-          />
+          <Chat />
         </q-tab-panel>
         <q-tab-panel name="sheets">
           <q-btn color="primary" label="Add" @click="addSheetModal=true"/>
@@ -95,8 +82,13 @@
 </template>
 
 <script>
+import Chat from '../components/Chat.vue'
+
 export default {
   name: 'Jogo',
+  components: {
+    Chat
+  },
   data () {
     return {
       addSheetModal: false,
@@ -106,37 +98,10 @@ export default {
       playerOptions: ['Joao', 'Lucas', 'Guilherme', 'Abner'],
       characterSheets: [],
       selectedCharacter: {},
-      tab: 'chat',
-      chatMessages: null,
-      newMessage: null,
-      messages: [
-        {
-          id: 1,
-          text: ['This is a message'],
-          sent: true
-        },
-        {
-          id: 2,
-          text: ['Hello how is it going?'],
-          sent: false
-        }
-      ]
+      tab: 'chat'
     }
   },
   methods: {
-    onSend () {
-      if (this.newMessage === null) {
-        return
-      }
-      this.messages.push(
-        {
-          id: this.messages.length + 1,
-          text: [this.newMessage],
-          sent: true
-        }
-      )
-      this.newMessage = null
-    },
     addItem () {
       this.characterSheets.push({
         id: this.characterSheets.length + 1,
