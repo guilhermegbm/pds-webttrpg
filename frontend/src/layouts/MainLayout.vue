@@ -63,6 +63,11 @@ const linksData = [
     title: 'Criar jogo',
     icon: 'chat',
     link: 'create_game'
+  },
+  {
+    title: 'jogo',
+    icon: 'chat',
+    link: 'game'
   }
 ]
 
