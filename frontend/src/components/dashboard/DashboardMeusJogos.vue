@@ -9,19 +9,21 @@
 
       <div id="lista-jogos" class="row">
 
-        <div v-for="item in testes" :key="item.val" class="col-4 options-card-col">
+        <div v-for="jogo in jogos" :key="jogo.id" class="col-4 options-card-col">
           <q-card class="my-card">
             <img src="./../../assets/dashboard/default-map.png" alt="Mapa do Jogo">
 
-            <q-card-section>
-              <div class="nome-jogo">Aventura 01</div>
-              <div class="usuario-autor-jogo">by John Doe</div>
+            <q-card-section class="q-pt-none q-pb-none">
+              <div class="nome-jogo"> {{ jogo.name }} </div>
+              <div class="usuario-autor-jogo">por John Doe</div>
               <div class="situacao-jogo">Em Andamento</div>
               <div class="data-inicio-jogo">28/05/2023</div>
             </q-card-section>
 
-            <q-card-section class="q-pt-none">
-              Em um mundo desolado, tal tal tal.Em um mundo desolado, tal tal tal.Em um mundo desolado, tal tal tal.Em um mundo desolado, tal tal tal.Em um mundo desolado, tal tal tal.
+            <q-separator inset />
+
+            <q-card-section>
+              {{ jogo.description }}
             </q-card-section>
           </q-card>
         </div>
@@ -33,21 +35,40 @@
 </template>
 
 <script>
+const config = {
+  headers: {
+    Authorization: '75438a79-4e91-4ebb-a61d-f58a251665fb'
+  }
+}
+
+import { api } from 'boot/axios'
+
 export default {
   name: 'DashboardOptions',
   data () {
     return {
-      lorem: 'Batatata taatata',
-      testes: [{ val: 1 }, { val: 2 }, { val: 3 }, { val: 4 }],
-      jogos: [
-        {
-          id: '1',
-          name: 'Game 1',
-          maximumPlayers: 5,
-          description: 'D 1',
-          userId: '3fd91d4f-ee40-4f48-8f4d-8eb1f7231401'
-        }
-      ]
+      jogos: []
+    }
+  },
+
+  created () {
+    this.buscarJogos()
+  },
+
+  methods: {
+    buscarJogos () {
+      api.get('/game', config)
+        .then((response) => {
+          this.jogos = response.data.allGames
+        })
+        .catch((e) => {
+          this.$q.notify({
+            color: 'negative',
+            position: 'top',
+            message: e.response.data.message,
+            icon: 'report_problem'
+          })
+        })
     }
   }
 }
