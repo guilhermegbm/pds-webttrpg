@@ -6,6 +6,6 @@ export default class GameRoutes {
 
     static defineRoutes(server: Server) {
         server.on(HttpMethod.POST, "/game", new HttpRestCreateGame());
-        server.on(HttpMethod.GET, "/game/listAll", new HttpRestListAllGames());
+        server.on(HttpMethod.GET, "/game", new HttpRestListAllGames());
     }
 }
