@@ -1,24 +1,22 @@
 <template>
-  <q-page class="row">
+  <q-page class="row full-height full-width">
     <div class="col-9 flex flex-center">
       Map
     </div>
 
-    <div class="col">
+    <div class="col" style="">
       <q-tabs
         v-model="tab"
-        dense
         shrink
         class="bg-grey-3"
-        narrow-indicator
       >
-        <q-tab name="chat" label="Chat" />
-        <q-tab name="sheets" label="Sheets" />
-        <q-tab name="config" label="Config" />
+        <q-tab name="chat" icon="chat" label="Chat" />
+        <q-tab name="sheets" icon="description" label="Sheets" />
+        <q-tab name="config" icon="settings" label="Settings" />
       </q-tabs>
 
-      <q-tab-panels class="q-pa-md" v-model="tab" animated>
-        <q-tab-panel name="chat">
+      <q-tab-panels class="q-pa-md" style="" v-model="tab" animated>
+        <q-tab-panel name="chat" class="">
           <Chat />
         </q-tab-panel>
         <q-tab-panel name="sheets">
