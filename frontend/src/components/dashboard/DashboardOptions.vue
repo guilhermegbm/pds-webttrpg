@@ -88,6 +88,7 @@ export default {
 #options {
   margin: 50px 50px 0px 50px;
   align-items: center;
+  padding-bottom: 40px
 }
 
 .options-card-col {

@@ -16,6 +16,12 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-12">
+          <DashboardMeusJogos />
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -24,11 +30,13 @@
 
 import DashboardHeader from 'src/components/dashboard/DashboardHeader.vue'
 import DashboardOptions from 'src/components/dashboard/DashboardOptions.vue'
+import DashboardMeusJogos from 'src/components/dashboard/DashboardMeusJogos.vue'
 
 export default {
   components: {
     DashboardHeader,
-    DashboardOptions
+    DashboardOptions,
+    DashboardMeusJogos
   },
   data () {
     return {
