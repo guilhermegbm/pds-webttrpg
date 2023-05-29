@@ -1,27 +1,36 @@
 export default class Game {
 
-    private id: string
-    private name: string
-    private maximumPlayers: number
-    private description: string
-    private userId: string
+    private id: string;
+    private name: string;
+    private maximumPlayers: number;
+    private description: string;
+    private userId: string;
+    private startDate: Date;
+    private createdAt: Date;
 
     constructor(
         id: string,
         name: string,
         maximumPlayers: number,
         description: string,
-        userId: string
+        userId: string,
+        startDate: Date,
+        createdAt: Date | null
     ) {
         this.validateName(name);
         this.validateMaximumPlayers(maximumPlayers);
         this.validateDescription(description);
+        if (id === null) {
+            this.validateStartDate(startDate);
+        }
 
         this.id = id;
         this.name = name;
         this.maximumPlayers = maximumPlayers;
         this.description = description;
         this.userId = userId;
+        this.startDate = startDate;
+        this.createdAt = createdAt == null ? new Date() : createdAt;
     }
 
     private validateName(name: string): void {
@@ -35,6 +44,13 @@ export default class Game {
 
     private validateDescription(description: string): void {
         if (!description) throw new Error("undefined description");
+    }
+
+    private validateStartDate(startDate: Date): void {
+        const currentDate = new Date();
+        if (startDate.getTime() <= currentDate.getTime()) {
+            throw new Error("the start date of the game cannot be in the past");
+        }
     }
 
     public getId() {
@@ -55,5 +71,13 @@ export default class Game {
 
     public getUserId() {
         return this.userId;
+    }
+
+    public getStartDate() {
+        return this.startDate;
+    }
+
+    public getCreatedAt() {
+        return this.createdAt;
     }
 }

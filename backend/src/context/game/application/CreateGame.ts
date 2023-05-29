@@ -12,7 +12,8 @@ export default class CreateGame {
     async execute(name: string,
         maximumPlayers: number,
         description: string, 
-        userId: string
+        userId: string,
+        startDate: Date
     ) {
         if (!name) throw new Error("invalid game name");
 
@@ -25,7 +26,9 @@ export default class CreateGame {
             name,
             maximumPlayers,
             description,
-            userId
+            userId,
+            startDate,
+            null
         );
         await this.gameRepository.add(newGame);
     }

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>GameChatRoom</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel = "stylesheet" href="style.css">
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+</head>
+<body>    
+    <div id="intro">
+      <h1>Game Chat</h1>
+    </div>
+    
+    <ul id="messages"></ul>
+    
+    <form action="">
+    	<input id="m" placeholder="Enter your message..." autocomplete="off" required />
+		<button>Send</button>
+	</form>
+    <script>
+    	const socket = io("http://localhost:3000", {transports : ['websocket']});
+    	const gameId = "bb927da9-b9db-4c90-a0b8-1dfb4420d32e";
+    	const userId = "62ca2512-2f78-4bb2-84a5-e5d8bca0d660";//user felipe
+  		$('form').submit(function(event) {
+    		event.preventDefault();
+
+			// Envia a mensagem
+  			socket.emit("game-chat-send-message", {
+  				userId,
+  				gameId,
+  				message: $('#m').val()
+  			});
+            $('#messages').append($('<li id="list">').text('Você:  ' + $('#m').val()));
+  			$('#m').val('');
+  			return false;
+		});
+
+		// Recebe a mensagem enviada por outro usuário
+		socket.on(gameId, function(response){
+			let name = "Você";
+			if (response.userId !== userId) {
+				name = response.userName;
+			}
+			$('#messages').append($('<li>').text(`${name}: ${response.message}`));
+		});
+
+		// Recebe todas as mensagens anteriores ao entrar no chat
+		socket.on("previus-bb927da9-b9db-4c90-a0b8-1dfb4420d32e", function(response){
+			for (let index in response) {
+				let name = "Você";
+				if (response[index].userId !== userId) {
+					name = response[index].userName;
+				}
+				$('#messages').append($('<li>').text(`${name}: ${response[index].message}`));
+			}
+		})
+    </script>
+</body>
+</html>

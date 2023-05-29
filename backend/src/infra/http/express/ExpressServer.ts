@@ -5,14 +5,17 @@ import ExpressResponse from "./ExpressResponse";
 import Middleware from "../Middleware";
 import HttpRestController from "../HttpRestController";
 import cors from 'cors';
+import http from "http";
 
 export default class ExpressServer implements Server {
     private server;
+    private httpServer;
 
     constructor() {
         this.server = express();
         this.server.use(express.json());
         this.server.use(cors());
+        this.httpServer = http.createServer(this.server);
     }
 
     private static createExecutable(httpRestController: HttpRestController) {
@@ -32,12 +35,16 @@ export default class ExpressServer implements Server {
     }
 
     listen(port: number): void {
-        this.server.listen(port, () => {
+        this.httpServer.listen(port, () => {
             console.log(`backend webttrpg listening on port ${port}`)
-        })
+        });
     }
 
     on(httpMethod: HttpMethod, api: string, httpRestController: HttpRestController): void {
         this.server[httpMethod](api, ExpressServer.createExecutable(httpRestController));
+    }
+
+    getHttpServer(): http.Server {
+        return this.httpServer;
     }
 }
