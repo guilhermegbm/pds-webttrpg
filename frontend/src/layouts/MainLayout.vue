@@ -15,7 +15,10 @@
           Dragon's Den
         </q-toolbar-title>
 
-        <div><!--user todo--></div>
+        <div>
+          <!--user todo-->
+          <span>{{ $store.state.storeUser }}</span>
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -47,6 +50,7 @@
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
+import { mapActions } from 'vuex'
 
 const linksData = [
   {
@@ -81,6 +85,12 @@ export default {
       leftDrawerOpen: false,
       essentialLinks: linksData
     }
+  },
+  methods: {
+    ...mapActions('storeUser', ['copyLoggedUserDataToVuex'])
+  },
+  mounted () {
+    this.copyLoggedUserDataToVuex()
   }
 }
 </script>
