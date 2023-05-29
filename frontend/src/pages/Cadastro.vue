@@ -6,10 +6,9 @@
         <q-input dense rounded outlined v-model="username" label="Username" bg-color="grey-4" class="q-mb-lg"/>
         <q-input dense rounded outlined v-model="password" label="Password" bg-color="grey-4" class="q-mb-lg"/>
         <q-input dense rounded outlined v-model="confirmationPassword" label="Confirm password" bg-color="grey-4" class="q-mb-lg"/>
-        <q-btn rounded color="cinza" label="Sign up" class="q-mb-lg" @click="signUp()"/>
+        <q-btn rounded color="cinza" label="Sign up" class="q-mb-lg" @click="cadastrarUsuario()"/>
       </q-form>
       <p class="text-center">Already have an account? <a href="signin" class="link-login text-bold">Log in now</a></p>
-      {{ $store.state }}
     </q-card>
   </q-page>
 </template>
@@ -27,8 +26,13 @@ export default {
   },
   methods: {
     ...mapActions('storeUser', ['signUp']),
-    signUp () {
-      this.signUp(this.username, this.password, this.confirmationPassword)
+    cadastrarUsuario () {
+      const payload = {
+        username: this.username,
+        password: this.password,
+        confirmationPassword: this.confirmationPassword
+      }
+      this.signUp(payload)
     }
   }
 }
