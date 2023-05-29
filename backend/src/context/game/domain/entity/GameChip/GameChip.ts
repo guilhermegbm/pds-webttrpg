@@ -7,6 +7,7 @@ import Stat from "./Stat";
 
 export default class GameChip {
 
+    private id: string | null;
     private game: Game;
     private name: string;
     private level: number;
@@ -19,13 +20,15 @@ export default class GameChip {
     private playersEditPermission: Player[];
 
     constructor(
+        id: string | null,
         game: Game,
         name: string,
         level: number,
         clazz: string,
-        ownerPlayer: Player,
+        ownerPlayer: Player
     ) {
         this.validateName(name);
+        this.id = id;
         this.game = game;
         this.name = name;
         this.level = level;
@@ -60,6 +63,10 @@ export default class GameChip {
 
     public addEnchantment(enchantment: Enchantment): void {
         this.enchantment.push(enchantment);
+    }
+
+    public getId(): string | null {
+        return this.id;
     }
 
     public getGame(): Game {
