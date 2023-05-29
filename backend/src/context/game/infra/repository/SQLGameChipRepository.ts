@@ -1,4 +1,5 @@
 import database from "../../../../infra/database";
+import Game from "../../domain/Game";
 import Player from "../../domain/Player";
 import Enchantment from "../../domain/entity/GameChip/Enchantment";
 import GameChip from "../../domain/entity/GameChip/GameChip";
@@ -7,13 +8,125 @@ import Skill from "../../domain/entity/GameChip/Skill";
 import Stat from "../../domain/entity/GameChip/Stat";
 import GameChipRepository from "../../domain/repository/GameChipRepository";
 import UuidV4IdGenerator from "../service/UuidV4IdGenerator";
+import SQLGameRepository from "./SQLGameRepository";
+import SQLPlayerRepository from "./SQLPlayerRepository";
 
 export default class SQLGameChipRepository implements GameChipRepository {
 
     private uuidV4IdGenerator: UuidV4IdGenerator;
+    private sqlGameRepository: SQLGameRepository;
+    private sqlPlayerRepository: SQLPlayerRepository;
 
     constructor() {
         this.uuidV4IdGenerator = new UuidV4IdGenerator();
+        this.sqlGameRepository = new SQLGameRepository();
+        this.sqlPlayerRepository = new SQLPlayerRepository();
+    }
+
+    async getByGameIdAndPlayerId(gameId: string, playerId: string): Promise<GameChip[]> {
+        
+        const gameChipsData = await database.manyOrNone("select * from webttrpg.game_chip where game_id = $1", [gameId]);
+        if (!gameChipsData) {
+            return [];
+        }
+        const game: Game | null = await this.sqlGameRepository.getById(gameId);
+        if (!game) throw new Error("game not found");
+        
+        if (game?.getUserId() === playerId) {
+            return await this.getByGameAndGameChipsData(game, gameChipsData);
+        } else {
+            const gameChipsId = gameChipsData.map(gameChipData => gameChipData.id);
+            const gameChipUsersData = await database.manyOrNone("select game_chip_id from webttrpg.game_chip_user where user_id = $1 and game_chip_id in ($2)",
+                [
+                    playerId,
+                    gameChipsId
+                ]
+            );
+            if (!gameChipUsersData) {
+                return [];
+            }
+            const gameChipsDataFiltered = gameChipsData.filter((gameChipData) => {
+                return gameChipUsersData.includes(gameChipData.id);
+            });
+            return await this.getByGameAndGameChipsData(game, gameChipsDataFiltered);
+        }
+    }
+
+    async getByGameAndGameChipsData(game: Game, gameChipsData: any[]): Promise<GameChip[]> {
+
+        const player: any = await this.sqlPlayerRepository.getById(game.getUserId());
+        const gameChips: GameChip[] = [];
+        for (const gameChipData of gameChipsData) {            
+
+            const gameChip = new GameChip(
+                gameChipData.id,
+                game,
+                gameChipData.name,
+                gameChipData.level,
+                gameChipData.class,
+                player
+            );
+
+            (await this.getStatsByGameChipId(gameChipData.id)).forEach(stat => gameChip.addStat(stat));
+            (await this.getInventorysByGameChipId(gameChipData.id)).forEach(inventory => gameChip.addInventory(inventory));
+            (await this.getSkillsByGameChipId(gameChipData.id)).forEach(skill => gameChip.addSkill(skill));
+            (await this.getEnchantmentsByGameChipId(gameChipData.id)).forEach(enchantment => gameChip.addEnchantment(enchantment));
+            (await this.getPlayersByGameChipId(gameChipData.id)).forEach(player => gameChip.addPlayer(player));
+
+            gameChips.push(gameChip);
+        }
+        return gameChips;
+    }
+
+    private async getStatsByGameChipId(gameChipId: string): Promise<Stat[]> {
+        const statsData = await database.manyOrNone("select * from webttrpg.game_chip_stat where game_chip_id = $1", [gameChipId]);
+        if (!statsData) {
+            return [];
+        }
+        return statsData.map(stat => new Stat(stat.name, stat.value));
+    }
+
+    private async getInventorysByGameChipId(gameChipId: string): Promise<Inventory[]> {
+        const inventorysData = await database.manyOrNone("select * from webttrpg.game_chip_inventory where game_chip_id = $1", [gameChipId]);
+        if (!inventorysData) {
+            return []
+        }
+        return inventorysData.map(inventoryData => new Inventory(inventoryData.name, inventoryData.quantity));
+    }
+
+    private async getSkillsByGameChipId(gameChipId: string): Promise<Skill[]> {
+        const skillsData = await database.manyOrNone("select * from webttrpg.game_chip_skill where game_chip_id = $1", [gameChipId]);
+        if (!skillsData) {
+            return []
+        }
+        return skillsData.map(skillData => new Skill(skillData.name, skillData.description));
+    }
+
+    private async getEnchantmentsByGameChipId(gameChipId: string): Promise<Enchantment[]> {
+        const enchantmentsData = await database.manyOrNone("select * from webttrpg.game_chip_enchantment where game_chip_id = $1", [gameChipId]);
+        if (!enchantmentsData) {
+            return []
+        }
+        return enchantmentsData.map(enchantmentData => new Enchantment(enchantmentData.name,
+            enchantmentData.castingTime,
+            enchantmentData.range,
+            enchantmentData.duration,
+            enchantmentData.concentration,
+            enchantmentData.description,
+            enchantmentData.leve)
+        );
+    }
+
+    private async getPlayersByGameChipId(gameChipId: string): Promise<Player[]> {
+        const playersData = await database.manyOrNone("select * from webttrpg.game_chip_user where game_chip_id = $1", [gameChipId]);
+        if (!playersData) {
+            return [];
+        }
+        const players: any = playersData.map(async (playerData) => {
+            const player = await this.sqlPlayerRepository.getById(playerData.user_id);
+            return player;
+        });
+        return await Promise.all(players);
     }
 
     async exist(
