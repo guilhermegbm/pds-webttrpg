@@ -44,6 +44,20 @@ export default class SQLGameRepository implements GameRepository {
         );
     }
 
+    async listAll(): Promise<Game[]> {
+      const allGamesFromTable: GameTable[] | null = await database.any("select * from webttrpg.game");
+      
+      //const allGames: Game[] = allGamesFromTable.map(gameTable => [ return new Game(gameTable.id)])
+      
+      let allGames: Game[] = [];
+
+      for (let gameTable of allGamesFromTable) {
+        let game = new Game(gameTable.id, gameTable.name, gameTable.maximum_players, gameTable.description, gameTable.user_id, gameTable.start_date, gameTable.created_at);
+        allGames.push(game);
+      }
+      return allGames;
+    }
+
     async getById(gameId: string): Promise<Game | null> {
         const gameData: GameTable | null = await database.oneOrNone("select * from webttrpg.game where id = $1", [gameId]);
         if (gameData) {
