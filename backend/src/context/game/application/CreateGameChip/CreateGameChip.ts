@@ -34,6 +34,7 @@ export default class CreateGameChip {
         const ownerPlayer: any = await this.playerRepository.getById(gameChipInput.ownerPlayerId);
         
         const gameChip = new GameChip(
+            null,
             game,
             gameChipInput.name,
             gameChipInput.level,
@@ -88,7 +89,8 @@ export default class CreateGameChip {
     }
 
     private async addPlayersInGameChip(gameChip: GameChip, gameChipInput: GameChipInput): Promise<void> {
-        for (const playerId of gameChipInput.playersEditPermission) {
+        const players = [...gameChipInput.playersEditPermission, gameChipInput.ownerPlayerId];
+        for (const playerId of players) {
             const player = await this.gamePlayerRepository.getPlayerByPlayerIdAndGameId(playerId, gameChipInput.gameId);
             if (!player) {
                 throw new Error("player does not belong to the game!");
