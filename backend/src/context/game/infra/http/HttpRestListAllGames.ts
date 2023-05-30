@@ -19,9 +19,7 @@ export default class HttpRestListAllGames implements HttpRestController {
   async execute(request: Request, response: Response): Promise<void> {
     try {
       const allGames = await this.listAllGames.execute();
-      response.status(200).send({
-        allGames
-      });
+      response.status(200).send(allGames);
     } catch (erro: any) {
       response.status(400).send({
         message: erro.message
