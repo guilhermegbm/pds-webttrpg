@@ -23,6 +23,26 @@ export default class SQLGameChipRepository implements GameChipRepository {
         this.sqlPlayerRepository = new SQLPlayerRepository();
     }
 
+    async delete(gameChipId: string): Promise<void> {
+        await database.none("delete from webttrpg.game_chip_stat where game_chip_id = $1", [gameChipId]);
+        await database.none("delete from webttrpg.game_chip_skill where game_chip_id = $1", [gameChipId]);
+        await database.none("delete from webttrpg.game_chip_inventory where game_chip_id = $1", [gameChipId]);
+        await database.none("delete from webttrpg.game_chip_enchantment where game_chip_id = $1", [gameChipId]);
+        await database.none("delete from webttrpg.game_chip_user where game_chip_id = $1", [gameChipId]);
+        await database.none("delete from webttrpg.game_chip where id = $1", [gameChipId]);
+    }
+
+    async getById(gameChipId: string): Promise<GameChip | null> {
+        const gameChipData = await database.oneOrNone("select * from webttrpg.game_chip where id = $1", [gameChipId]);
+        if (!gameChipData) {
+            return null;
+        }
+        const game: Game | null = await this.sqlGameRepository.getById(gameChipData.game_id);
+        if (!game) throw new Error("game not found");
+
+        return (await this.getByGameAndGameChipsData(game , [gameChipData]))[0];
+    }
+
     async getByGameIdAndPlayerId(gameId: string, playerId: string): Promise<GameChip[]> {
         
         const gameChipsData = await database.manyOrNone("select * from webttrpg.game_chip where game_id = $1", [gameId]);
@@ -52,7 +72,7 @@ export default class SQLGameChipRepository implements GameChipRepository {
         }
     }
 
-    async getByGameAndGameChipsData(game: Game, gameChipsData: any[]): Promise<GameChip[]> {
+    private async getByGameAndGameChipsData(game: Game, gameChipsData: any[]): Promise<GameChip[]> {
 
         const player: any = await this.sqlPlayerRepository.getById(game.getUserId());
         const gameChips: GameChip[] = [];
