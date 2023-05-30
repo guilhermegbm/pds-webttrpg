@@ -54,7 +54,7 @@ export default {
     buscarJogos () {
       api.get('/game', { headers: { Authorization: localStorage.getItem('authenticationToken') } })
         .then((response) => {
-          this.jogos = response.data.allGames
+          this.jogos = response.data
         })
         .catch((e) => {
           this.$q.notify({
