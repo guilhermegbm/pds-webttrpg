@@ -15,7 +15,7 @@
 
             <q-card-section class="q-pt-none q-pb-none">
               <div class="nome-jogo"> {{ jogo.name }} </div>
-              <div class="usuario-autor-jogo">por John Doe</div>
+              <div class="usuario-autor-jogo">por {{ jogo.authorPlayer.username }}</div>
               <div class="situacao-jogo">Em Andamento</div>
               <div class="data-inicio-jogo">{{ jogo.startDate | moment("DD/MM/YYYY") }} </div>
             </q-card-section>
