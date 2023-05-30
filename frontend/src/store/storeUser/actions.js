@@ -29,12 +29,15 @@ export function signUp (context, payload) {
 }
 
 export function signIn (context, payload) {
+  const vm = this
   axios.post('http://localhost:3000/sign-in', payload)
     .then(response => {
       try {
         localStorage.setItem('userId', response.data.userId)
         localStorage.setItem('authenticationToken', response.data.authenticationToken)
-
+        context.commit('setLoggedUser', response.data)
+        console.log(response)
+        vm.$router.push('/dashboard')
         Notify.create({
           type: 'positive',
           color: 'positive',
@@ -51,12 +54,8 @@ export function signIn (context, payload) {
           message: 'Error while saving user data. Please, try again.'
         })
       }
-
-      context.commit('setLoggedUser', response.data)
-      console.log(response)
     })
     .catch(error => {
-      debugger
       Notify.create({
         type: 'negative',
         color: 'negative',
