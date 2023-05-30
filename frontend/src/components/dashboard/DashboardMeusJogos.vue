@@ -17,7 +17,7 @@
               <div class="nome-jogo"> {{ jogo.name }} </div>
               <div class="usuario-autor-jogo">por John Doe</div>
               <div class="situacao-jogo">Em Andamento</div>
-              <div class="data-inicio-jogo">28/05/2023</div>
+              <div class="data-inicio-jogo">{{ jogo.startDate | moment("DD/MM/YYYY") }} </div>
             </q-card-section>
 
             <q-separator inset />
@@ -35,11 +35,6 @@
 </template>
 
 <script>
-const config = {
-  headers: {
-    Authorization: '75438a79-4e91-4ebb-a61d-f58a251665fb'
-  }
-}
 
 import { api } from 'boot/axios'
 
@@ -57,7 +52,7 @@ export default {
 
   methods: {
     buscarJogos () {
-      api.get('/game', config)
+      api.get('/game', { headers: { Authorization: localStorage.getItem('authenticationToken') } })
         .then((response) => {
           this.jogos = response.data.allGames
         })
