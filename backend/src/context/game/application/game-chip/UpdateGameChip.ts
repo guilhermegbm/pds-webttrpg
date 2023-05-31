@@ -5,7 +5,7 @@ import Skill from "../../domain/entity/GameChip/Skill";
 import Stat from "../../domain/entity/GameChip/Stat";
 import GameChipRepository from "../../domain/repository/GameChipRepository";
 import GamePlayerRepository from "../../domain/repository/GamePlayerRepository";
-import GameChipInput from "./Input";
+import GameChipInput from "./GameChipInput";
 
 export default class UpdateGameChip {
 

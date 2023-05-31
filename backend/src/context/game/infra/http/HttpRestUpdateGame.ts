@@ -1,8 +1,8 @@
 import HttpRestController from "../../../../infra/http/HttpRestController";
 import Request from "../../../../infra/http/Request";
 import Response from "../../../../infra/http/Response";
-import GameChipInput from "../../application/UpdateGameChip/Input";
-import UpdateGameChip from "../../application/UpdateGameChip/UpdateGameChip";
+import GameChipInput from "../../application/game-chip/GameChipInput";
+import UpdateGameChip from "../../application/game-chip/UpdateGameChip";
 import SQLGameChipRepository from "../repository/SQLGameChipRepository";
 import SQLGamePlayerRepository from "../repository/SQLGamePlayerRepository";
 
