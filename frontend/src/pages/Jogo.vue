@@ -1,24 +1,26 @@
 <template>
-  <q-page class="row overflow-hidden lust-for-list">
-    <div class="col-9 flex flex-center overflow-hidden">
+  <q-page class="row">
+    <div class="col-9 flex flex-center">
       Map
     </div>
 
-    <div class="col bg-orange tabs-container">
+    <div class="col row" style="">
       <q-tabs
         v-model="tab"
-        shrink
-        class="bg-grey-3 tabs-header"
-        style="height: 8vh"
+        shrink vertical
+        class="bg-grey-3 col-2"
+        style=""
         >
         <q-tab name="chat" icon="chat" label="Chat" />
         <q-tab name="sheets" icon="description" label="Sheets" />
         <q-tab name="config" icon="settings" label="Settings" />
       </q-tabs>
 
-      <q-tab-panels class="q-pa-md tabs-content" style="height: 92vh" v-model="tab" animated>
-        <q-tab-panel name="chat" class="bg-blue" style="height: 80%">
-          <Chat />
+      <q-tab-panels vertical class="col q-pa-md" v-model="tab" animated>
+        <q-tab-panel name="chat" class="">
+          <q-scroll-area class="" style="height:100%">
+            <Chat />
+          </q-scroll-area>
         </q-tab-panel>
         <q-tab-panel name="sheets">
           <Sheets />
@@ -27,6 +29,12 @@
     </div>
   </q-page>
 </template>
+
+<style>
+html, body {
+  overflow: hidden !important
+}
+</style>
 
 <script>
 import Chat from '../components/Chat.vue'

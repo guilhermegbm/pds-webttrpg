@@ -1,5 +1,5 @@
 <template>
-  <div class="row bg-pink" style="height: 100vh; overflow-y: hidden">
+  <div class="row bg-pink" style="height: 95vh">
     <div class="bg-green col-9">
       map
     </div>
@@ -25,6 +25,12 @@
     <!-- </div> -->
   </div>
 </template>
+
+<style>
+body {
+  overflow: hidden !important
+}
+</style>
 
 <script>
 

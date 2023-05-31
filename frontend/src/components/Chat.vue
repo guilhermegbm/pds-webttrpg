@@ -1,22 +1,39 @@
 <template>
-  <div class="full-height flex column">
-    <q-chat-message
-      v-for="message in messages"
-      :key="message.id"
-      :text="message.text"
-      :sent="message.sent"
-    />
-    <q-input
-      name="newMessage"
-      square
-      outlined
-      type="textarea"
-      v-model="newMessage"
-      autogrow
-      @keydown.enter.prevent="onSend()"
-    />
+  <div class="flex column container" :style="{ 'height': `${parentHeight}px` }">
+    <div class="col scrollbar" style="display: flex; flex-direction: column-reverse; overflow-y: auto; overflow-x:hidden">
+      <q-chat-message
+        v-for="message in messages"
+        :key="message.id"
+        :text="message.text"
+        :sent="message.sent"
+      />
+    </div>
+    <div class="col-1">
+      <q-input
+        name="newMessage"
+        class=""
+        square
+        outlined
+        type="textarea"
+        v-model="newMessage"
+        autogrow
+        @keydown.enter.prevent="onSend()"
+      />
+    </div>
   </div>
 </template>
+
+<style>
+.scrollbar {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+}
+
+.scrollbar::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
+</style>
 
 <script>
 export default ({
@@ -36,15 +53,19 @@ export default ({
           text: ['Hello how is it going?'],
           sent: false
         }
-      ]
+      ],
+      parentHeight: 0
     }
+  },
+  mounted () {
+    this.parentHeight = this.$parent.$el.offsetHeight
   },
   methods: {
     onSend () {
       if (this.newMessage === null) {
         return
       }
-      this.messages.push(
+      this.messages.unshift(
         {
           id: this.messages.length + 1,
           text: [this.newMessage],
