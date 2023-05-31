@@ -14,7 +14,7 @@ export default class UpdateGameChip {
         readonly gamePlayerRepository: GamePlayerRepository
     ) {}
 
-    async execute(gameChipInput: GameChipInput, playerId: string): Promise<GameChip> {
+    async execute(gameChipInput: GameChipInput, playerId: string): Promise<void> {
         if (!gameChipInput.id) throw new Error("game chip id not found");
 
         const gameChipPersisted: any = await this.gameChipRepository.getById(gameChipInput.id)
@@ -38,7 +38,7 @@ export default class UpdateGameChip {
         this.addEnchantmentsInGameChip(gameChip, gameChipInput);
         await this.addPlayersInGameChip(gameChip, gameChipInput);
 
-        return await this.gameChipRepository.update(gameChip);
+        await this.gameChipRepository.update(gameChip);
     }
 
     private validateOwnerPlayer(gameChip: GameChip, playerId: string) {
