@@ -1,6 +1,7 @@
 export default class GameChipInput {
 
     constructor(
+        readonly id: string | null,
         readonly gameId: string,
         readonly name: string,
         readonly level: number,

@@ -1,8 +1,8 @@
 import HttpRestController from "../../../../infra/http/HttpRestController";
 import Request from "../../../../infra/http/Request";
 import Response from "../../../../infra/http/Response";
-import CreateGameChip from "../../application/CreateGameChip/CreateGameChip";
-import GameChipInput from "../../application/CreateGameChip/Input";
+import CreateGameChip from "../../application/GameChip/CreateGameChip";
+import GameChipInput from "../../application/GameChip/GameChipInput";
 import SQLGameChipRepository from "../repository/SQLGameChipRepository";
 import SQLGamePlayerRepository from "../repository/SQLGamePlayerRepository";
 import SQLGameRepository from "../repository/SQLGameRepository";
@@ -41,12 +41,13 @@ export default class HttpRestCreateGameChip implements HttpRestController {
         const level = request.getBody().level;
         const clazz = request.getBody().class;
         const stats = request.getBody().stats;
-        const inventorys = request.getBody().inventory;
+        const inventorys = request.getBody().inventorys;
         const skills = request.getBody().skills;
         const enchantments = request.getBody().enchantments;
         const playersEditPermission = request.getBody().playersEditPermission;
 
-        return new GameChipInput(gameId,
+        return new GameChipInput(null,
+            gameId,
             name,
             level,
             clazz,
