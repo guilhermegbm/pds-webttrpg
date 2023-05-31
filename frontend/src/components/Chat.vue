@@ -8,7 +8,10 @@
         :sent="message.sent"
       />
     </div>
-    <div class="col-1">
+    <div class="col-3">
+      <p>Are we connected to the server? {{isConnected}}</p>
+      <p>Message from server: "{{socketMessage}}"</p>
+      <button @click="pingServer()">Ping Server</button>
       <q-input
         name="newMessage"
         class=""
@@ -36,6 +39,10 @@
 </style>
 
 <script>
+// const socket = io("http://localhost:3000", {transports : ['websocket']});
+// const gameId = "bb927da9-b9db-4c90-a0b8-1dfb4420d32e";
+// const userId = "62ca2512-2f78-4bb2-84a5-e5d8bca0d660";//user felipe
+
 export default ({
   name: 'Chat',
   data () {
@@ -54,13 +61,34 @@ export default ({
           sent: false
         }
       ],
-      parentHeight: 0
+      parentHeight: 0,
+      isConnected: false,
+      socketMessage: ''
     }
   },
   mounted () {
     this.parentHeight = this.$parent.$el.offsetHeight
   },
+  sockets: {
+    connect () {
+      // Fired when the socket connects.
+      this.isConnected = true
+    },
+
+    disconnect () {
+      this.isConnected = false
+    },
+
+    // Fired when the server sends something on the "messageChannel" channel.
+    messageChannel (data) {
+      this.socketMessage = data
+    }
+  },
   methods: {
+    pingServer () {
+      // Send the "pingServer" event to the server.
+      this.$socket.emit('pingServer', 'PING!')
+    },
     onSend () {
       if (this.newMessage === null) {
         return
