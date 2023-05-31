@@ -18,7 +18,7 @@
 
       <div class="row">
         <div class="col-12">
-          <DashboardMeusJogos />
+          <DashboardMyGames />
         </div>
       </div>
 
@@ -30,18 +30,13 @@
 
 import DashboardHeader from 'src/components/dashboard/DashboardHeader.vue'
 import DashboardOptions from 'src/components/dashboard/DashboardOptions.vue'
-import DashboardMeusJogos from 'src/components/dashboard/DashboardMeusJogos.vue'
+import DashboardMyGames from 'src/components/dashboard/DashboardMyGames.vue'
 
 export default {
   components: {
     DashboardHeader,
     DashboardOptions,
-    DashboardMeusJogos
-  },
-  data () {
-    return {
-      teste: 'Valor Teste'
-    }
+    DashboardMyGames
   }
 }
 </script>
