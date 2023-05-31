@@ -89,7 +89,7 @@ export default class CreateGameChip {
     }
 
     private async addPlayersInGameChip(gameChip: GameChip, gameChipInput: GameChipInput): Promise<void> {
-        const players = [...gameChipInput.playersEditPermission, gameChipInput.ownerPlayerId];
+        const players = [...gameChipInput.playersEditPermission];
         for (const playerId of players) {
             const player = await this.gamePlayerRepository.getPlayerByPlayerIdAndGameId(playerId, gameChipInput.gameId);
             if (!player) {
