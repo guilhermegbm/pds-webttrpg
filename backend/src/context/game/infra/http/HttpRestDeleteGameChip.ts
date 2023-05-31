@@ -1,7 +1,7 @@
 import HttpRestController from "../../../../infra/http/HttpRestController";
 import Request from "../../../../infra/http/Request";
 import Response from "../../../../infra/http/Response";
-import DeleteGameChip from "../../application/DeleteGameChip";
+import DeleteGameChip from "../../application/game-chip/DeleteGameChip";
 import SQLGameChipRepository from "../repository/SQLGameChipRepository";
 
 export default class HttpRestDeleteGameChip implements HttpRestController {
