@@ -9,13 +9,14 @@
         v-model="tab"
         shrink
         class="bg-grey-3 tabs-header"
+        style="height: 8vh"
         >
         <q-tab name="chat" icon="chat" label="Chat" />
         <q-tab name="sheets" icon="description" label="Sheets" />
         <q-tab name="config" icon="settings" label="Settings" />
       </q-tabs>
 
-      <q-tab-panels class="q-pa-md tabs-content" style="height: 100%" v-model="tab" animated>
+      <q-tab-panels class="q-pa-md tabs-content" style="height: 92vh" v-model="tab" animated>
         <q-tab-panel name="chat" class="bg-blue" style="height: 80%">
           <Chat />
         </q-tab-panel>
