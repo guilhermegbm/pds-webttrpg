@@ -1,5 +1,3 @@
-import GameRepository from "../../domain/GameRepository";
-import PlayerRepository from "../../domain/PlayerRepository";
 import Enchantment from "../../domain/entity/GameChip/Enchantment";
 import GameChip from "../../domain/entity/GameChip/GameChip";
 import Inventory from "../../domain/entity/GameChip/Inventory";
@@ -9,52 +7,47 @@ import GameChipRepository from "../../domain/repository/GameChipRepository";
 import GamePlayerRepository from "../../domain/repository/GamePlayerRepository";
 import GameChipInput from "./Input";
 
-export default class CreateGameChip {
+export default class UpdateGameChip {
 
-    constructor (
-        readonly gameRepository: GameRepository,
-        readonly playerRepository: PlayerRepository,
+    constructor(
         readonly gameChipRepository: GameChipRepository,
         readonly gamePlayerRepository: GamePlayerRepository
     ) {}
 
-    async execute(gameChipInput: GameChipInput): Promise<void> {
-        if (!gameChipInput.ownerPlayerId) throw new Error("invalid owner player id!");
-        if (!gameChipInput.gameId) throw new Error("invalid game id!");
-        if (!gameChipInput.name) throw new Error("invalid game chip name!");
+    async execute(gameChipInput: GameChipInput, playerId: string): Promise<GameChip> {
+        if (!gameChipInput.id) throw new Error("game chip id not found");
 
-        const game = await this.gameRepository.getById(gameChipInput.gameId);
-        if (!game) {
-            throw new Error("game id not found");
+        const gameChipPersisted: any = await this.gameChipRepository.getById(gameChipInput.id)
+        if (!gameChipPersisted) {
+            throw new Error("game chip not found");
         }
+        this.validateOwnerPlayer(gameChipPersisted, playerId);
 
-        if (game.getUserId() !== gameChipInput.ownerPlayerId) {
-            throw new Error("game does not belong to the owner player!");
-        }
-        const ownerPlayer: any = await this.playerRepository.getById(gameChipInput.ownerPlayerId);
-        
         const gameChip = new GameChip(
-            null,
-            game,
+            gameChipPersisted.getId(),
+            gameChipPersisted.getGame(),
             gameChipInput.name,
             gameChipInput.level,
             gameChipInput.clazz,
-            ownerPlayer
+            gameChipPersisted.getOwnerPlayer()
         );
+
         this.addStatsInGameChip(gameChip, gameChipInput);
         this.addSkillsInGameChip(gameChip, gameChipInput);
         this.addInventorysInGameChip(gameChip, gameChipInput);
         this.addEnchantmentsInGameChip(gameChip, gameChipInput);
         await this.addPlayersInGameChip(gameChip, gameChipInput);
 
-        const existGameChip = await this.gameChipRepository.exist(gameChip.getName(),
-            gameChip.getOwnerPlayer().getId(),
-            gameChip.getGame().getId()
-        );
-        if (existGameChip) {
-            throw new Error("there is already a game sheet with this name, owner and game");
+        return await this.gameChipRepository.update(gameChip);
+    }
+
+    private validateOwnerPlayer(gameChip: GameChip, playerId: string) {
+        const playerWithPermission = gameChip.getPlayersEditPermission().filter(player => {
+            return player.getId() === playerId;
+        });
+        if (gameChip.getOwnerPlayer().getId() !== playerId && playerWithPermission.length === 0) {
+            throw new Error("player is not allowed to change game chip");
         }
-        await this.gameChipRepository.add(gameChip);
     }
 
     private addStatsInGameChip(gameChip: GameChip, gameChipInput: GameChipInput): void {

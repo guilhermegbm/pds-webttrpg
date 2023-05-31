@@ -5,7 +5,8 @@ import http from "http";
 export enum HttpMethod {
     POST = "post",
     GET = "get",
-    DELETE = "delete"
+    DELETE = "delete",
+    PUT = "put",
 }
 
 export default interface Server {
