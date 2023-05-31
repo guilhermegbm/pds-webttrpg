@@ -31,13 +31,16 @@
         v-model="description"
         label="Descrição da campanha *"
         lazy-rules
+        :rules="[
+          val => val !== null && val !== '' || 'Campo Obrigatório'
+        ]"
       />
 
-      <q-input outlined v-model="date">
+      <q-input outlined v-model="startDate">
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-date v-model="date" mask="DD/MM/YYYY HH:mm">
+              <q-date v-model="startDate" mask="DD/MM/YYYY HH:mm">
                 <div class="row items-center justify-end">
                   <q-btn v-close-popup label="Close" color="primary" flat />
                 </div>
@@ -49,7 +52,7 @@
         <template v-slot:append>
           <q-icon name="access_time" class="cursor-pointer">
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-time v-model="date" mask="DD/MM/YYYY, HH:mm" format24h>
+              <q-time v-model="startDate" mask="DD/MM/YYYY, HH:mm" format24h>
                 <div class="row items-center justify-end">
                   <q-btn v-close-popup label="Close" color="primary" flat />
                 </div>
@@ -72,11 +75,6 @@
 import { api } from 'boot/axios'
 
 const options = { day: 'numeric', year: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }
-const config = {
-  headers: {
-    Authorization: '64da91cf-d22f-43f0-a749-df8dfee21f9e'
-  }
-}
 
 export default {
   data () {
@@ -84,17 +82,22 @@ export default {
       campaignName: null,
       qtdPlayers: null,
       description: null,
-      date: new Date().toLocaleString('pt-br', options)
+      startDate: new Date().toLocaleString('pt-br', options)
     }
   },
 
   methods: {
     onSubmit () {
+      const moment = require('moment')
+      const startDateAsMoment = moment(this.startDate, 'DD/MM/YYYY, HH:mm')
+
       api.post('/game', {
+        userId: localStorage.getItem('userId'),
         name: this.campaignName,
         maximumPlayers: this.qtdPlayers,
-        description: this.description
-      }, config)
+        description: this.description,
+        startDate: startDateAsMoment.format('YYYY-MM-DDTHH:mm:ss.sssZ')
+      }, { headers: { Authorization: localStorage.getItem('authenticationToken') } })
         .then((response) => {
           this.data = response.data
           this.$q.notify({
@@ -104,11 +107,12 @@ export default {
             message: 'Jogo criado'
           })
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log(e)
           this.$q.notify({
             color: 'negative',
             position: 'top',
-            message: 'Loading Failed',
+            message: e.response.data.message,
             icon: 'report_problem'
           })
         })

@@ -20,6 +20,8 @@ export default class CreateGame {
         const game = await this.gameRepository.getByName(name);
         if (game) throw new Error("game name already used");
 
+        if (!description) throw new Error("The description must not be empty");
+
         const gameId = this.idGenerator.generate();
         const newGame = new Game(
             gameId,
