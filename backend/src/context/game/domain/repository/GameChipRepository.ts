@@ -7,4 +7,5 @@ export default interface GameChipRepository {
     getByGameIdAndPlayerId(gameId: string, playerId: string): Promise<GameChip[]>;
     delete(gameChipId: string): Promise<void>;
     getById(gameChipId: string): Promise<GameChip | null>;
+    update(gameChip: GameChip): Promise<GameChip>;
 }
