@@ -33,7 +33,9 @@
         </q-card-section>
 
         <q-card-section>
-          <img class="options-image" src="./../../assets/dashboard/icon-novo-jogo.png" alt="icon-encontrar-jogos">
+          <q-btn square flat class="options-image-btn" v-on:click="openDialogCreateNewGame()">
+            <img class="options-image" src="./../../assets/dashboard/icon-novo-jogo.png" alt="icon-encontrar-jogos">
+          </q-btn>
         </q-card-section>
       </q-card>
     </div>
@@ -74,13 +76,37 @@
       </q-card>
     </div>
 
+    <q-dialog v-model="dialogCreateNewGame">
+      <q-card flat bordered>
+        <q-card-section>
+          <CreateGame />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
   </div>
 
 </template>
 
 <script>
+import CreateGame from 'src/components/create_game/CreateGame.vue'
+
 export default {
-  name: 'DashboardOptions'
+  components: {
+    CreateGame
+  },
+  name: 'DashboardOptions',
+  data () {
+    return {
+      dialogCreateNewGame: false
+    }
+  },
+
+  methods: {
+    openDialogCreateNewGame () {
+      this.dialogCreateNewGame = true
+    }
+  }
 }
 </script>
 
@@ -101,6 +127,12 @@ export default {
 
 .options-header {
   text-align: center;
+}
+
+.options-image-btn {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .options-image {

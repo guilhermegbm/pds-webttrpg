@@ -12,7 +12,7 @@ export default class ExpressResponse implements Response {
         return this;
     }
     send(result: object): void {
-        this.response.send({ ... result});
+        this.response.send(result);
     }
     end(): void {
         this.response.end();
