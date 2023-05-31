@@ -4,9 +4,11 @@ import UserAccountRoutes from "./context/user-account/infra/http/UserAccountRout
 import ExpressServer from "./infra/http/express/ExpressServer"
 import MiddlewareAuthenticationTokenValidation from "./infra/http/middleware/MiddlewareAuthenticationTokenValidation";
 import SocketIOWebServer from "./infra/socket/socketIO/SocketIOWebServer";
+import path from "path";
 
 // Configurações servidor http
-const server = new ExpressServer()
+const directoryPathForPublicImages = path.join(__dirname, "..", "public");
+const server = new ExpressServer(directoryPathForPublicImages);
 UserAccountRoutes.defineRoutes(server);
 server.addMiddleware(new MiddlewareAuthenticationTokenValidation());
 GameRoutes.defineRoutes(server);
