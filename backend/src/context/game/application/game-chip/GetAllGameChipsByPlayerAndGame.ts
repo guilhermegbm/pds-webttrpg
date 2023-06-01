@@ -1,5 +1,5 @@
-import GameChip from "../domain/entity/GameChip/GameChip";
-import GameChipRepository from "../domain/repository/GameChipRepository";
+import GameChip from "../../domain/entity/GameChip/GameChip";
+import GameChipRepository from "../../domain/repository/GameChipRepository";
 
 export default class GetAllGameChipsByPlayerAndGame {
 
