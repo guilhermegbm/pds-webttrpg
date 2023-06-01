@@ -31,11 +31,12 @@ export default class GameChatSocketOn implements SocketOn {
             const userId = data.userId;
             const gameId = data.gameId;
             const message = data.message;
-            const username = await this.sendMessage.execute(userId, gameId, message);
+            const output: any = await this.sendMessage.execute(userId, gameId, message);
             return {
                 userId,
-                userName: username,
+                userName: output.username,
                 gameId,
+                messageId: output.messageId,
                 message,
                 hasError: false
             };
@@ -46,5 +47,4 @@ export default class GameChatSocketOn implements SocketOn {
             }
         }
     }
-
 }
