@@ -11,10 +11,13 @@ export default class ExpressServer implements Server {
     private server;
     private httpServer;
 
-    constructor() {
+    constructor(
+        directoryPathForPublicImages: string
+    ) {
         this.server = express();
         this.server.use(express.json());
         this.server.use(cors());
+        this.server.use("/public", express.static(directoryPathForPublicImages));
         this.httpServer = http.createServer(this.server);
     }
 

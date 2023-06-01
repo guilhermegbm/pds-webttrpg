@@ -2,6 +2,7 @@ import HttpRestController from "../../../../infra/http/HttpRestController";
 import Request from "../../../../infra/http/Request";
 import Response from "../../../../infra/http/Response";
 import CreateGame from "../../application/CreateGame";
+import SQLGamePlayerRepository from "../repository/SQLGamePlayerRepository";
 import SQLGameRepository from "../repository/SQLGameRepository";
 import UuidV4IdGenerator from "../service/UuidV4IdGenerator";
 
@@ -12,7 +13,9 @@ export default class HttpRestCreateGame implements HttpRestController {
     constructor() {
         this.createGame = new CreateGame(
             new SQLGameRepository(),
-            new UuidV4IdGenerator());
+            new UuidV4IdGenerator(),
+            new SQLGamePlayerRepository()
+        );
     }
 
     async execute(request: Request, response: Response): Promise<void> {

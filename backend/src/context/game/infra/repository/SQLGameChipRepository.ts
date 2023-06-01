@@ -23,6 +23,41 @@ export default class SQLGameChipRepository implements GameChipRepository {
         this.sqlPlayerRepository = new SQLPlayerRepository();
     }
 
+    async update(gameChip: GameChip): Promise<GameChip> {
+        const gameChipId: any = gameChip.getId();
+        await database.none("delete from webttrpg.game_chip_stat where game_chip_id = $1", [gameChipId]);
+        await database.none("delete from webttrpg.game_chip_skill where game_chip_id = $1", [gameChipId]);
+        await database.none("delete from webttrpg.game_chip_inventory where game_chip_id = $1", [gameChipId]);
+        await database.none("delete from webttrpg.game_chip_enchantment where game_chip_id = $1", [gameChipId]);
+        await database.none("delete from webttrpg.game_chip_user where game_chip_id = $1", [gameChipId]);
+
+        await database.none("update webttrpg.game_chip set name = $1, level = $2, class = $3 where id = $4",
+            [
+                gameChip.getName(),
+                gameChip.getLevel(),
+                gameChip.getClazz(),
+                gameChipId
+            ]
+        );
+
+        const promiseStats = this.saveGameChipStats(gameChip.getStats(), gameChipId);
+        const promiseSkills = this.saveGameChipSkills(gameChip.getSkills(), gameChipId);
+        const promiseInventorys = this.saveGameChipInventorys(gameChip.getInventorys(), gameChipId);
+        const promiseEnchantments = this.saveGameChipEnchantments(gameChip.getEnchantment(), gameChipId);
+        const promisePlayers = this.saveGameChipPlayers(gameChip.getPlayersEditPermission(), gameChipId);
+
+        await Promise.all([
+            promiseStats,
+            promiseSkills,
+            promiseInventorys,
+            promiseEnchantments,
+            promisePlayers
+        ]);
+
+        const gameChipSaved: any = await this.getById(gameChipId);
+        return gameChipSaved;
+    }
+
     async delete(gameChipId: string): Promise<void> {
         await database.none("delete from webttrpg.game_chip_stat where game_chip_id = $1", [gameChipId]);
         await database.none("delete from webttrpg.game_chip_skill where game_chip_id = $1", [gameChipId]);

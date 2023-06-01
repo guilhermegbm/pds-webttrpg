@@ -13,7 +13,7 @@ export default class SendMessage {
         readonly idGenerator: IdGenerator
     ) {}
 
-    async execute(userId: string, gameId: string, message: string): Promise<string> {        
+    async execute(userId: string, gameId: string, message: string): Promise<Output> {        
         if (!userId) throw new Error("undefined user id");
         if (!gameId) throw new Error("undefined game id");
 
@@ -21,12 +21,24 @@ export default class SendMessage {
         if (!exist) {
             throw new Error("user does not belong to this game");
         }
+
+        const messageId = this.idGenerator.generate();
         const newMessage = new Message(this.idGenerator.generate(),
             message,
             userId,
             gameId,
             new Date(), "");
         await this.messageRepository.add(newMessage);
-        return await this.userRepository.getUsernameById(userId);
+        const username = await this.userRepository.getUsernameById(userId);
+        const output = {
+            username,
+            messageId
+        }
+        return output;
     }
+}
+
+type Output = {
+    username: string,
+    messageId: string
 }
