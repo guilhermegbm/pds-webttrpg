@@ -1,8 +1,8 @@
 import HttpRestController from "../../../../infra/http/HttpRestController";
 import Request from "../../../../infra/http/Request";
 import Response from "../../../../infra/http/Response";
-import GameChipInput from "../../application/UpdateGameChip/Input";
-import UpdateGameChip from "../../application/UpdateGameChip/UpdateGameChip";
+import GameChipInput from "../../application/game-chip/GameChipInput";
+import UpdateGameChip from "../../application/game-chip/UpdateGameChip";
 import SQLGameChipRepository from "../repository/SQLGameChipRepository";
 import SQLGamePlayerRepository from "../repository/SQLGamePlayerRepository";
 
@@ -38,11 +38,11 @@ export default class HttpRestUpdateGame implements HttpRestController {
         const name = request.getBody().name;
         const level = request.getBody().level;
         const clazz = request.getBody().class;
-        const stats = request.getBody().stats;
-        const inventorys = request.getBody().inventorys;
-        const skills = request.getBody().skills;
-        const enchantments = request.getBody().enchantments;
-        const playersEditPermission = request.getBody().playersEditPermission;
+        const stats = !request.getBody().stats ? [] : request.getBody().stats;
+        const inventorys = !request.getBody().inventorys ? [] : request.getBody().inventorys;
+        const skills = !request.getBody().skills ? [] : request.getBody().skills;
+        const enchantments = !request.getBody().enchantments ? [] : request.getBody().enchantments;
+        const playersEditPermission = !request.getBody().playersEditPermission ? [] : request.getBody().playersEditPermission;
 
         return new GameChipInput(
             gameChipId,

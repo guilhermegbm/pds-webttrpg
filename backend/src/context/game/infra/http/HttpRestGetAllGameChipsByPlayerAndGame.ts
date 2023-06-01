@@ -1,7 +1,7 @@
 import HttpRestController from "../../../../infra/http/HttpRestController";
 import Request from "../../../../infra/http/Request";
 import Response from "../../../../infra/http/Response";
-import GetAllGameChipsByPlayerAndGame from "../../application/GetAllGameChipsByPlayerAndGame";
+import GetAllGameChipsByPlayerAndGame from "../../application/game-chip/GetAllGameChipsByPlayerAndGame";
 import SQLGameChipRepository from "../repository/SQLGameChipRepository";
 
 export default class HttpRestGetAllGameChipsByPlayerAndGame implements HttpRestController {
