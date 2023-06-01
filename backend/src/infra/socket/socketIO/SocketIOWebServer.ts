@@ -16,7 +16,8 @@ export default class SocketIOWebServer implements SocketWebServer {
             cors: {
                 origin: baseUrl,
                 methods: ["GET", "POST"]
-            }
+            },
+            allowEIO3: true
         });
     }
 

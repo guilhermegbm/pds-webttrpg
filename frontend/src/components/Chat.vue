@@ -39,10 +39,6 @@
 </style>
 
 <script>
-// const socket = io("http://localhost:3000", {transports : ['websocket']});
-// const gameId = "bb927da9-b9db-4c90-a0b8-1dfb4420d32e";
-// const userId = "62ca2512-2f78-4bb2-84a5-e5d8bca0d660";//user felipe
-
 export default ({
   name: 'Chat',
   data () {
@@ -63,7 +59,7 @@ export default ({
       ],
       parentHeight: 0,
       isConnected: false,
-      socketMessage: ''
+      sockeTMessage: ''
     }
   },
   mounted () {

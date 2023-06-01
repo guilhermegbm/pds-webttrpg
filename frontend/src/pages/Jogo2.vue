@@ -1,37 +1,42 @@
 <template>
-  <div class="row bg-pink" style="height: 95vh">
-    <div class="bg-green col-9">
-      map
-    </div>
-
-    <!-- <div class="bg-orange col">
-      <div>
-        <div v-for="n in 100" :key="n" class="q-py-xs">
-          Lorem ipsum dolor sit amet, consectetur adipisicing
-          elit, sed do eiusmod tempor incididunt ut labore et
-          dolore magna aliqua.
-        </div>
-      </div>
-    </div> -->
-
-    <!-- <div class="bg-blue col"> -->
-      <q-scroll-area class="bg-blue col" style="width: 100%;">
-        <div v-for="n in 100" :key="n" class="q-py-xs">
-          Lorem ipsum dolor sit amet, consectetur adipisicing
-          elit, sed do eiusmod tempor incididunt ut labore et
-          dolore magna aliqua.
-        </div>
-      </q-scroll-area>
-    <!-- </div> -->
+  <div>
+    <p v-if="isConnected">We're connected to the server!</p>
+    <p>Message from server: "{{socketMessage}}"</p>
+    <button @click="pingServer()">Ping Server</button>
   </div>
 </template>
 
-<style>
-body {
-  overflow: hidden !important
-}
-</style>
-
+<script src="/socket.io/socket.io.js"></script>
 <script>
+export default {
+  data () {
+    return {
+      isConnected: false,
+      socketMessage: ''
+    }
+  },
 
+  sockets: {
+    connect () {
+      // Fired when the socket connects.
+      this.isConnected = true
+    },
+
+    disconnect () {
+      this.isConnected = false
+    },
+
+    // Fired when the server sends something on the "messageChannel" channel.
+    messageChannel (data) {
+      this.socketMessage = data
+    }
+  },
+
+  methods: {
+    pingServer () {
+      // Send the "pingServer" event to the server.
+      this.$socket.emit('pingServer', 'PING!')
+    }
+  }
+}
 </script>
