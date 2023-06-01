@@ -1,18 +1,20 @@
 import Game from "../domain/Game";
 import GameRepository from "../domain/GameRepository";
 import IdGenerator from "../domain/IdGenerator";
+import GamePlayerRepository from "../domain/repository/GamePlayerRepository";
 
 export default class CreateGame {
 
     constructor(
         readonly gameRepository: GameRepository,
-        readonly idGenerator: IdGenerator
+        readonly idGenerator: IdGenerator,
+        readonly gamePlayerRepository: GamePlayerRepository
     ) {}
 
     async execute(name: string,
         maximumPlayers: number,
         description: string, 
-        userId: string,
+        ownerplayerId: string,
         startDate: Date
     ) {
         if (!name) throw new Error("invalid game name");
@@ -28,10 +30,11 @@ export default class CreateGame {
             name,
             maximumPlayers,
             description,
-            userId,
+            ownerplayerId,
             startDate,
             null
         );
         await this.gameRepository.add(newGame);
+        await this.gamePlayerRepository.add(ownerplayerId, gameId);
     }
 }
