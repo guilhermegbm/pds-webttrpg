@@ -39,7 +39,7 @@
     :key="charSheet.id"
     @click="loadSheetInfo(charSheet)"
     >
-      {{charSheet.characterName}}
+      {{charSheet.name}}
     </div>
 
     <!-- Modal para criar ficha de personagem -->
@@ -68,17 +68,19 @@
     <!-- Modal da ficha de personagem clicada -->
     <q-dialog v-model="sheetModal">
       <q-card v-if="hasSelectedCharacter">
-        <q-card-section>
-          <div class="text-h6">{{selectedCharacter.characterName}}</div>
+        <q-card-section class="flex row justify-between">
+          <div class="text-h6">{{selectedCharacter.name}}</div>
+          <q-btn class="danger" label="Delete" @click="deleteSheet(selectedCharacter)" v-close-popup />
+          <!-- Abrir confirmação de deletar -->
         </q-card-section>
 
         <q-separator />
 
         <q-card-section style="max-height: 70vh; min-width: 50vw;" class="scroll">
           <div>
-            <q-input type="text" label="Level"/>
-            <q-input type="text" label="Classe"/>
-            <q-input type="text" label="Prof. Bonus" v-model="profBonus"/>
+            <q-input type="text" label="Level" v-model="selectedCharacter.level"/>
+            <q-input type="text" label="Classe" v-model="selectedCharacter.clazz" />
+            <q-input type="text" label="Prof. Bonus" v-model="selectedCharacter.profBonus"/>
             <span class="text-h6">Atributos</span>
             <div class="attr-stats">
               <div>
@@ -102,21 +104,35 @@
               </div>
               <div class="attr-savingthrows">
                 <span>Skills</span>
-                <div class="" v-for="(skill, index) in selectedCharacter.skills" :key="index">
-                  <input type="checkbox" v-model="skill.addProfBonus" />
+                <div class="" v-for="(attrSkill, index) in selectedCharacter.attrSkills" :key="index">
+                  <input type="checkbox" v-model="attrSkill.addProfBonus" />
                   <span>
-                    {{ skill.addProfBonus ? skill.value + Number(profBonus) : skill.value }} {{ skill.name }}
+                    {{ attrSkill.addProfBonus ? attrSkill.value + Number(profBonus) : attrSkill.value }} {{ attrSkill.name }}
                   </span>
                 </div>
               </div>
             </div>
             <div>
               <span class="text-h6">Inventario</span>
-              <q-input v-for="(inv,index) in inventoryItems" :key="index" v-model="inventoryItems[index].name" type="text" label="Item" />
-              <q-btn @click="addInvItem()" label="+" color="primary" />
+              <q-input
+                v-for="(inv,index) in selectedCharacter.inventorys"
+                :key="index"
+                v-model="selectedCharacter.inventorys[index].name"
+                type="text"
+                label="Item"
+              />
+              <q-btn @click="addItem('inv', selectedCharacter)" label="+" color="primary" />
             </div>
             <div>
               <span class="text-h6">Features</span>
+              <q-input
+                v-for="(skl,index) in selectedCharacter.skills"
+                :key="index"
+                v-model="selectedCharacter.skills[index].name"
+                type="text"
+                label="Item"
+              />
+              <q-btn @click="addItem('skill', selectedCharacter)" label="+" color="primary" />
             </div>
           </div>
         </q-card-section>
@@ -124,7 +140,7 @@
 
         <q-card-actions align="right">
           <q-btn flat label="Fechar" color="primary" v-close-popup />
-          <q-btn flat label="Salvar" @click="updateSheet()" color="primary" v-close-popup />
+          <q-btn flat label="Salvar" @click="updateSheet(selectedCharacter)" color="primary" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -132,25 +148,33 @@
 </template>
 
 <script>
+import { api } from 'boot/axios'
+
+const config = {
+  headers: {
+    Authorization: localStorage.getItem('authenticationToken')
+  }
+}
+const gameId = '4c96cb52-a481-41a8-bdc3-ee5c1d73dc92'
+
 export default {
   name: 'Sheets',
   data () {
     return {
       addSheetModal: false,
       sheetModal: false,
+      level: 1,
+      clazz: '',
+      skills: [],
+      magic: [],
       profBonus: 2,
       characterName: '',
       selectDropdown: null,
-      playerOptions: ['Joao', 'Lucas', 'Guilherme', 'Abner'],
+      playerOptions: [localStorage.getItem('userId')], // Always put the GM into playerEditPermissions...
       characterSheets: [],
       hasSelectedCharacter: false,
       selectedCharacter: {},
-      inventoryItems: [
-        {
-          name: '',
-          qtd: 0
-        }
-      ]
+      inventorys: []
     }
   },
   // computed: {
@@ -193,50 +217,95 @@ export default {
         }
       ]
 
-      const skills = [
-        {
-          name: 'Acrobatics (Dex)',
-          addProfBonus: false,
-          value: Math.floor(stats[1].value - 10) / 2
-        },
-        {
-          name: 'Animal Handling (Wis)',
-          addProfBonus: false,
-          value: Math.floor(stats[4].value - 10) / 2
-        },
-        {
-          name: 'Arcana (Int)',
-          addProfBonus: false,
-          value: Math.floor(stats[3].value - 10) / 2
-        },
-        {
-          name: 'Athletics (Str)',
-          addProfBonus: false,
-          value: Math.floor(stats[0].value - 10) / 2
-        },
-        {
-          name: 'Deception (Cha)',
-          addProfBonus: false,
-          value: Math.floor(stats[5].value - 10) / 2
-        },
-        {
-          name: 'History (Int)',
-          addProfBonus: false,
-          value: Math.floor(stats[3].value - 10) / 2
-        }
-      ]
+      // const attrSkills = [
+      //   {
+      //     name: 'Acrobatics (Dex)',
+      //     addProfBonus: false,
+      //     value: Math.floor(stats[1].value - 10) / 2
+      //   },
+      //   {
+      //     name: 'Animal Handling (Wis)',
+      //     addProfBonus: false,
+      //     value: Math.floor(stats[4].value - 10) / 2
+      //   },
+      //   {
+      //     name: 'Arcana (Int)',
+      //     addProfBonus: false,
+      //     value: Math.floor(stats[3].value - 10) / 2
+      //   },
+      //   {
+      //     name: 'Athletics (Str)',
+      //     addProfBonus: false,
+      //     value: Math.floor(stats[0].value - 10) / 2
+      //   },
+      //   {
+      //     name: 'Deception (Cha)',
+      //     addProfBonus: false,
+      //     value: Math.floor(stats[5].value - 10) / 2
+      //   },
+      //   {
+      //     name: 'History (Int)',
+      //     addProfBonus: false,
+      //     value: Math.floor(stats[3].value - 10) / 2
+      //   }
+      // ]
 
-      this.characterSheets.push({
-        characterName: this.characterName,
-        canEdit: this.selectDropdown,
-        profBonus: this.profBonus,
+      const characterSheet = {
+        name: this.characterName,
+        level: this.level,
+        class: this.clazz,
         stats,
-        skills
-      })
+        inventorys: null,
+        skills: null,
+        enchantments: null,
+        playersEditPermission: this.selectDropdown,
+        imageName: '',
+        gameId,
+        userId: localStorage.getItem('userId')
+      }
+
+      api.post(`/game/${gameId}/game-chip`,
+        characterSheet, config)
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+
+      // Remove this for a method to call said API later
+      api.get(`/game/${gameId}/game-chip`,
+        config)
+        .then((response) => {
+          this.characterSheets = [...response.data]
+        }).catch((err) => {
+          console.log(err)
+        })
+
       this.resetSheet()
     },
-    updateSheet () {
-      console.log('Atualizando Ficha...')
+    updateSheet (character) {
+      character.enchantments = null
+      character.class = character.clazz
+
+      api.put(`/game/${gameId}/game-chip/${character.id}`,
+        character, config)
+        .then((response) => {
+          console.log(response)
+        }).catch((err) => {
+          console.log(err)
+        })
+    },
+    deleteSheet (character) {
+      const index = this.characterSheets.indexOf(character, 0)
+      this.characterSheets.splice(index, 1)
+
+      api.delete(`/game/${gameId}/game-chip/${character.id}`, config)
+        .then((response) => {
+          console.log(response)
+        }).catch((err) => {
+          console.log(err)
+        })
     },
     resetSheet () {
       this.characterName = ''
@@ -248,12 +317,31 @@ export default {
       this.sheetModal = true
       this.hasSelectedCharacter = true
     },
-    addInvItem () {
-      this.inventoryItems.push({
-        name: '',
-        qtd: 0
-      })
+    addItem (type, selectedCharacter) {
+      switch (type) {
+        case 'inv':
+          selectedCharacter.inventorys.push({
+            name: '',
+            quantity: 1
+          })
+          break
+        case 'skill':
+          selectedCharacter.skills.push({
+            name: '',
+            description: ''
+          })
+          break
+      }
     }
+  },
+  beforeMount () {
+    api.get('/game/4c96cb52-a481-41a8-bdc3-ee5c1d73dc92/game-chip',
+      config)
+      .then((response) => {
+        this.characterSheets = [...response.data]
+      }).catch((err) => {
+        console.log(err)
+      })
   }
 }
 </script>
