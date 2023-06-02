@@ -31,11 +31,12 @@ export default class SQLGameChipRepository implements GameChipRepository {
         await database.none("delete from webttrpg.game_chip_enchantment where game_chip_id = $1", [gameChipId]);
         await database.none("delete from webttrpg.game_chip_user where game_chip_id = $1", [gameChipId]);
 
-        await database.none("update webttrpg.game_chip set name = $1, level = $2, class = $3 where id = $4",
+        await database.none("update webttrpg.game_chip set name = $1, level = $2, class = $3, image_name = $4 where id = $5",
             [
                 gameChip.getName(),
                 gameChip.getLevel(),
                 gameChip.getClazz(),
+                gameChip.getImageName(),
                 gameChipId
             ]
         );
@@ -119,6 +120,7 @@ export default class SQLGameChipRepository implements GameChipRepository {
                 gameChipData.name,
                 gameChipData.level,
                 gameChipData.class,
+                gameChipData.image_name,
                 player
             );
 
@@ -201,12 +203,13 @@ export default class SQLGameChipRepository implements GameChipRepository {
 
     async add(gameChip: GameChip): Promise<void> {
         const gameChipId = this.uuidV4IdGenerator.generate();
-        await database.none("insert into webttrpg.game_chip (id, name, level, class, game_id, user_id) values ($1, $2, $3, $4, $5, $6)",
+        await database.none("insert into webttrpg.game_chip (id, name, level, class, image_name, game_id, user_id) values ($1, $2, $3, $4, $5, $6, $7)",
             [
                 gameChipId,
                 gameChip.getName(),
                 gameChip.getLevel(),
                 gameChip.getClazz(),
+                gameChip.getImageName(),
                 gameChip.getGame().getId(),
                 gameChip.getOwnerPlayer().getId()
             ]
@@ -345,5 +348,4 @@ export default class SQLGameChipRepository implements GameChipRepository {
             ]
         );
     }
-
 }
