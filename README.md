@@ -77,7 +77,7 @@
 
 6. Como usuário, quero entrar em um jogo já criado e me tornar um jogador desse Jogo:
 - [ ] Implementar Modal para ver informações do jogo (João)
-- [ ] Implementar caso de uso no backend: Atualizar lista de jogadores inclusos no Jogo (Lucas)
+- [x] Implementar caso de uso no backend: Atualizar lista de jogadores inclusos no Jogo (Lucas)
 - [ ] Integrar tela com API do backend (Guilherme)
 
 
@@ -85,12 +85,12 @@
 - [ ] Implementar Modal para criação de fichas (Ábner)
 - [ ] Criar um layout de ficha básico (João)
 - [ ] Integrar com API para salvar fichas e pessoas atribuídas (João)
-- [ ] Implementar funcionalidade no backend para salvar fichas no banco (Lucas)
+- [x] Implementar funcionalidade no backend para salvar fichas no banco (Lucas)
 
 
 8. Como jogador, eu quero configurar a ficha que foi atribuída a mim
-- [ ] Implementar caso de uso para configurar ficha do jogador (Lucas)
-- [ ] Implementar api rest que acionará o caso de uso (Lucas)
+- [x] Implementar caso de uso para configurar ficha do jogador (Lucas)
+- [x] Implementar api rest que acionará o caso de uso (Lucas)
 - [ ] Implementar tela com campos da ficha (Ábner)
 - [ ] Integrar API para editar e salvar alterações na ficha (Ábner)
 
@@ -98,8 +98,8 @@
 9. Como GM, durante o jogo, quero criar tokens dos personagens/inimigos e colocá-los em um mapa:
 - [ ] Criar campo que permite upload de imagem para o token (João)
 - [ ] Integrar upload com API do backend (João)
-- [ ] Implementar repositório para upload de imagens dos personagens  (Lucas)
-- [ ] Implementar api rest para receber uma imagem e salvar no repositório (Lucas)
+- [x] Implementar repositório para upload de imagens dos personagens  (Lucas)
+- [x] Implementar api rest para receber uma imagem e salvar no repositório (Lucas)
 
 
 10.  Como Jogador ou GM, eu quero mover meus tokens pelo mapa:
