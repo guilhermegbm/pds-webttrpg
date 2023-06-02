@@ -18,7 +18,7 @@ export default class Inventory {
     }
 
     private validateQuantity(quantity: number): void {
-        if (!quantity) throw new Error("undefined name");
+        if (quantity === null) throw new Error("undefined quantity");
         if (quantity < 0) throw new Error("quantity cannot be less than zero");
     }
 
