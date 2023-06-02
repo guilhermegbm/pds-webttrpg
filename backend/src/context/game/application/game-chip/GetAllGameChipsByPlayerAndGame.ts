@@ -11,15 +11,16 @@ import OutputGameChip, {
 export default class GetAllGameChipsByPlayerAndGame {
 
     constructor(
-        readonly gameChipRepository: GameChipRepository
+        readonly gameChipRepository: GameChipRepository,
+        readonly baseImageUrl: string
     ) {}
 
     async execute(gameId: string, playerId: string): Promise<OutputGameChip[]> {
         const gameChips = await this.gameChipRepository.getByGameIdAndPlayerId(gameId, playerId);
-        return gameChips.map(this.buildOutputGameChip);
+        return gameChips.map(gameChip => this.buildOutputGameChip(gameChip, this.baseImageUrl));
     }
 
-    private buildOutputGameChip(gameChip: GameChip): OutputGameChip {
+    private buildOutputGameChip(gameChip: GameChip, baseImageUrl: string): OutputGameChip {
         const gameChipId: any = gameChip.getId();
         const playersEditPermission = gameChip.getPlayersEditPermission().map(player => player.getId())
 
@@ -27,12 +28,14 @@ export default class GetAllGameChipsByPlayerAndGame {
         const inventorys = gameChip.getInventorys().map(inventory => new GameChipInventoryOutput(inventory.getName(), inventory.getQuantity()));
         const skills = gameChip.getSkills().map(skill => new GameChipSkillsOutput(skill.getName(), skill.getDescription()));
         const enchantments = gameChip.getEnchantment().map(GetAllGameChipsByPlayerAndGame.buildEnchantmentOutput);
+        const imageUrl = `${baseImageUrl}/${gameChip.getImageName()}`;
 
         return new OutputGameChip(
             gameChipId,
             gameChip.getName(),
             gameChip.getLevel(),
             gameChip.getClazz(),
+            imageUrl,
             statsOutput,
             inventorys,
             skills,

@@ -12,6 +12,7 @@ export default class GameChip {
     private name: string;
     private level: number;
     private clazz: string;
+    private imageName: string;
     private ownerPlayer: Player;
     private stats: Stat[];
     private inventorys: Inventory[];
@@ -25,6 +26,7 @@ export default class GameChip {
         name: string,
         level: number,
         clazz: string,
+        imageName: string,
         ownerPlayer: Player
     ) {
         this.validateName(name);
@@ -33,6 +35,7 @@ export default class GameChip {
         this.name = name;
         this.level = level;
         this.clazz = clazz;
+        this.imageName = imageName;
         this.ownerPlayer = ownerPlayer;
         this.stats = [];
         this.inventorys = [];
@@ -83,6 +86,10 @@ export default class GameChip {
 
     public getClazz(): string {
         return this.clazz;
+    }
+
+    public getImageName(): string {
+        return this.imageName;
     }
 
     public getOwnerPlayer(): Player {

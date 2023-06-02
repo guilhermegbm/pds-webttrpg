@@ -1,0 +1,1 @@
+alter table webttrpg.game_chip add column image_name varchar null;
