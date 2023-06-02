@@ -1,10 +1,12 @@
 export default class GameChipInput {
 
     constructor(
+        readonly id: string | null,
         readonly gameId: string,
         readonly name: string,
         readonly level: number,
         readonly clazz: string,
+        readonly imageName: string,
         readonly ownerPlayerId: string,
         readonly stats: GameChipStatsInput[],
         readonly inventorys: GameChipInventoryInput[],

@@ -1,7 +1,7 @@
 import HttpRestController from "../../../../infra/http/HttpRestController";
 import Request from "../../../../infra/http/Request";
 import Response from "../../../../infra/http/Response";
-import GetAllGameChipsByPlayerAndGame from "../../application/GetAllGameChipsByPlayerAndGame";
+import GetAllGameChipsByPlayerAndGame from "../../application/game-chip/GetAllGameChipsByPlayerAndGame";
 import SQLGameChipRepository from "../repository/SQLGameChipRepository";
 
 export default class HttpRestGetAllGameChipsByPlayerAndGame implements HttpRestController {
@@ -9,8 +9,10 @@ export default class HttpRestGetAllGameChipsByPlayerAndGame implements HttpRestC
     private getAllGameChipsByPlayerAndGame: GetAllGameChipsByPlayerAndGame;
  
     constructor() {
+        const baseImageUrl = "http://localhost:3000/public";
         this.getAllGameChipsByPlayerAndGame = new GetAllGameChipsByPlayerAndGame(
-            new SQLGameChipRepository()
+            new SQLGameChipRepository(),
+            baseImageUrl
         );
     }
 

@@ -1,21 +1,17 @@
 import HttpRestController from "../../../../infra/http/HttpRestController";
 import Request from "../../../../infra/http/Request";
 import Response from "../../../../infra/http/Response";
-import CreateGameChip from "../../application/game-chip/CreateGameChip";
 import GameChipInput from "../../application/game-chip/GameChipInput";
+import UpdateGameChip from "../../application/game-chip/UpdateGameChip";
 import SQLGameChipRepository from "../repository/SQLGameChipRepository";
 import SQLGamePlayerRepository from "../repository/SQLGamePlayerRepository";
-import SQLGameRepository from "../repository/SQLGameRepository";
-import SQLPlayerRepository from "../repository/SQLPlayerRepository";
 
-export default class HttpRestCreateGameChip implements HttpRestController {
+export default class HttpRestUpdateGame implements HttpRestController {
 
-    private createGameChip: CreateGameChip;
+    private updateGameChip: UpdateGameChip;
 
     constructor() {
-        this.createGameChip = new CreateGameChip(
-            new SQLGameRepository(),
-            new SQLPlayerRepository(),
+        this.updateGameChip = new UpdateGameChip(
             new SQLGameChipRepository(),
             new SQLGamePlayerRepository()
         );
@@ -23,8 +19,9 @@ export default class HttpRestCreateGameChip implements HttpRestController {
 
     async execute(request: Request, response: Response): Promise<void> {
         try {
+            const userId = request.getBody().userId;
             const gameChipInput = this.buildGameChipInput(request);
-            await this.createGameChip.execute(gameChipInput);
+            await this.updateGameChip.execute(gameChipInput, userId);
             response.status(200).end()
         } catch (erro: any) {
             console.error(erro.stack);
@@ -36,7 +33,8 @@ export default class HttpRestCreateGameChip implements HttpRestController {
 
     private buildGameChipInput(request: Request) {
         const userId = request.getBody().userId;
-        const gameId = request.getParams().id;
+        const gameId = request.getParams().game_id;
+        const gameChipId = request.getParams().game_chip_id;
         const name = request.getBody().name;
         const level = request.getBody().level;
         const clazz = request.getBody().class;
@@ -47,7 +45,8 @@ export default class HttpRestCreateGameChip implements HttpRestController {
         const enchantments = !request.getBody().enchantments ? [] : request.getBody().enchantments;
         const playersEditPermission = !request.getBody().playersEditPermission ? [] : request.getBody().playersEditPermission;
 
-        return new GameChipInput(null,
+        return new GameChipInput(
+            gameChipId,
             gameId,
             name,
             level,
