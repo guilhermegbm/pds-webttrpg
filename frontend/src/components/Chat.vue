@@ -4,9 +4,10 @@
       <q-chat-message
         v-for="message in messages"
         :key="message.id"
-        :text="message.text"
-        :sent="message.sent"
+        :text="[message.message]"
+        :sent="message.userId === $store.state.storeUser.userId"
       />
+      {{ messages }}
     </div>
     <div class="col-3">
       <p>Are we connected to the server? {{isConnected}}</p>
@@ -59,19 +60,35 @@ export default ({
       ],
       parentHeight: 0,
       isConnected: false,
-      sockeTMessage: ''
+      socketMessage: ''
     }
   },
   mounted () {
+    debugger
+    // this.$socket.connect()
     this.parentHeight = this.$parent.$el.offsetHeight
+    this.sockets.subscribe('previus-bb927da9-b9db-4c90-a0b8-1dfb4420d32e', messages => {
+      this.messages = messages.reverse()
+      console.log(messages)
+    })
+  },
+  beforeDestroy () {
+    debugger
+    // this.sockets.unsubscribe('previus-bb927da9-b9db-4c90-a0b8-1dfb4420d32e')
+    // this.$socket.disconnect()
+  },
+  destroyed () {
+    debugger
   },
   sockets: {
     connect () {
+      debugger
       // Fired when the socket connects.
       this.isConnected = true
     },
 
     disconnect () {
+      debugger
       this.isConnected = false
     },
 
@@ -83,7 +100,8 @@ export default ({
   methods: {
     pingServer () {
       // Send the "pingServer" event to the server.
-      this.$socket.emit('pingServer', 'PING!')
+      // this.$socket.emit('pingServer', 'PING!')
+      this.$socket.connect()
     },
     onSend () {
       if (this.newMessage === null) {
