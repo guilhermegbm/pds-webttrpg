@@ -9,8 +9,10 @@ export default class HttpRestGetAllGameChipsByPlayerAndGame implements HttpRestC
     private getAllGameChipsByPlayerAndGame: GetAllGameChipsByPlayerAndGame;
  
     constructor() {
+        const baseImageUrl = "http://localhost:3000/public";
         this.getAllGameChipsByPlayerAndGame = new GetAllGameChipsByPlayerAndGame(
-            new SQLGameChipRepository()
+            new SQLGameChipRepository(),
+            baseImageUrl
         );
     }
 
