@@ -28,6 +28,7 @@ export default class GameChatSocketOn implements SocketOn {
 
     async process(data: any): Promise<any> {
         try {
+            console.log(JSON.stringify(data));
             const userId = data.userId;
             const gameId = data.gameId;
             const message = data.message;

@@ -39,6 +39,7 @@
 }
 </style>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
 <script>
 export default ({
   name: 'Chat',
@@ -67,9 +68,20 @@ export default ({
     debugger
     // this.$socket.connect()
     this.parentHeight = this.$parent.$el.offsetHeight
-    this.sockets.subscribe('previus-bb927da9-b9db-4c90-a0b8-1dfb4420d32e', messages => {
-      this.messages = messages.reverse()
-      console.log(messages)
+    // this.sockets.subscribe('previus-bb927da9-b9db-4c90-a0b8-1dfb4420d32e', messages => {
+    //   this.messages = messages.reverse()
+    //   console.log(messages)
+    // })
+    this.meuSocket = io("http://localhost:3000", {transports: ['websocket', 'polling', 'flashsocket']})
+    this.meuSocket.on("previus-bb927da9-b9db-4c90-a0b8-1dfb4420d32e", (response) => {
+      this.messages = response.reverse()
+    })
+
+    // RETIRAR ESSE EMIT. COLOQUEI SÓ PRA TESTAR
+    this.meuSocket.emit('game-chat-send-message', {
+      userId: '62ca2512-2f78-4bb2-84a5-e5d8bca0d660',
+      gameId: 'bb927da9-b9db-4c90-a0b8-1dfb4420d32e',
+      message: 'test_mounted'
     })
   },
   beforeDestroy () {
@@ -107,6 +119,13 @@ export default ({
       if (this.newMessage === null) {
         return
       }
+      // É IMPORTANTE PEGAR O USER_ID, QUE É O DA PESSOA LOGADA E SUBSTITUIR AQUI
+      // E TB PEGAR O ID JOGO
+      this.meuSocket.emit('game-chat-send-message', {
+        userId: '62ca2512-2f78-4bb2-84a5-e5d8bca0d660',
+        gameId: 'bb927da9-b9db-4c90-a0b8-1dfb4420d32e',
+        message: this.newMessage
+      })
       this.messages.unshift(
         {
           id: this.messages.length + 1,
