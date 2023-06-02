@@ -40,6 +40,7 @@ export default class HttpRestCreateGameChip implements HttpRestController {
         const name = request.getBody().name;
         const level = request.getBody().level;
         const clazz = request.getBody().class;
+        const imageName = request.getBody().imageName;
         const stats = !request.getBody().stats ? [] : request.getBody().stats;
         const inventorys = !request.getBody().inventorys ? [] : request.getBody().inventorys;
         const skills = !request.getBody().skills ? [] : request.getBody().skills;
@@ -51,6 +52,7 @@ export default class HttpRestCreateGameChip implements HttpRestController {
             name,
             level,
             clazz,
+            imageName,
             userId,
             stats,
             inventorys,
