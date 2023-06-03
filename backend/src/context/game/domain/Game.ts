@@ -48,11 +48,6 @@ export default class Game {
 
     private validateStartDate(startDate: Date): void {
         if (!startDate) throw new Error("undefined start date");
-        
-        const currentDate = new Date();
-        if (startDate.getTime() <= currentDate.getTime()) {
-            throw new Error("the start date of the game cannot be in the past");
-        }
     }
 
     public getId() {

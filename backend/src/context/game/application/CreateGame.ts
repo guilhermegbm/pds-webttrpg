@@ -24,6 +24,11 @@ export default class CreateGame {
 
         if (!description) throw new Error("The description must not be empty");
 
+        const currentDate = new Date();
+        if (startDate.getTime() <= currentDate.getTime()) {
+            throw new Error("the start date of the game cannot be in the past");
+        }
+
         const gameId = this.idGenerator.generate();
         const newGame = new Game(
             gameId,
