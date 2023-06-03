@@ -29,7 +29,7 @@ export default class UpdateGameChip {
             gameChipInput.name,
             gameChipInput.level,
             gameChipInput.clazz,
-            gameChipInput.imageName,
+            gameChipInput.imageURL,
             gameChipPersisted.getOwnerPlayer()
         );
 
