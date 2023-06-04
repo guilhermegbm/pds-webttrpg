@@ -9,7 +9,8 @@ type GameTable = {
     description: string,
     user_id: string,
     created_at: Date,
-    start_date: Date
+    start_date: Date,
+    img_map_base_64: string,
 }
 
 export default class SQLGameRepository implements GameRepository {
@@ -24,14 +25,15 @@ export default class SQLGameRepository implements GameRepository {
                 gameData.description,
                 gameData.user_id,
                 gameData.start_date,
-                gameData.created_at
+                gameData.created_at,
+                gameData.img_map_base_64
             );
         }
         return null;
     }
 
     async add(game: Game): Promise<void> {
-        await database.none("insert into webttrpg.game (id, name, maximum_players, description, user_id, created_at, start_date) values ($1, $2, $3, $4, $5, $6, $7)",
+        await database.none("insert into webttrpg.game (id, name, maximum_players, description, user_id, created_at, start_date, img_map_base_64) values ($1, $2, $3, $4, $5, $6, $7, $8)",
             [
                 game.getId(),
                 game.getName(),
@@ -39,7 +41,8 @@ export default class SQLGameRepository implements GameRepository {
                 game.getDescription(),
                 game.getUserId(),
                 game.getCreatedAt(),
-                game.getStartDate()
+                game.getStartDate(),
+                game.getImgMapBase64()
             ]
         );
     }
@@ -52,7 +55,7 @@ export default class SQLGameRepository implements GameRepository {
       let allGames: Game[] = [];
 
       for (let gameTable of allGamesFromTable) {
-        let game = new Game(gameTable.id, gameTable.name, gameTable.maximum_players, gameTable.description, gameTable.user_id, gameTable.start_date, gameTable.created_at);
+        let game = new Game(gameTable.id, gameTable.name, gameTable.maximum_players, gameTable.description, gameTable.user_id, gameTable.start_date, gameTable.created_at, gameTable.img_map_base_64);
         allGames.push(game);
       }
       return allGames;
@@ -68,7 +71,8 @@ export default class SQLGameRepository implements GameRepository {
                 gameData.description,
                 gameData.user_id,
                 gameData.start_date,
-                gameData.created_at
+                gameData.created_at,
+                gameData.img_map_base_64
             );
         }
         return null;

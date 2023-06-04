@@ -11,7 +11,7 @@
 
         <div v-for="jogo in jogos" :key="jogo.id" class="col-4 options-card-col">
           <q-card class="my-card">
-            <img src="./../../assets/dashboard/default-map.png" alt="Mapa do Jogo">
+            <img class="map-img-game" :src="jogo.imgMapBase64" alt="Mapa do Jogo">
 
             <q-card-section class="q-pt-none q-pb-none">
               <div class="name-game"> {{ jogo.name }} </div>
@@ -80,6 +80,10 @@ export default {
 
 .options-card-col {
   padding: 10px;
+}
+
+.map-img-game {
+  max-height: 280px;
 }
 
 .name-game {
