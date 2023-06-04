@@ -7,6 +7,7 @@ export default class Game {
     private userId: string;
     private startDate: Date;
     private createdAt: Date;
+    private imgMapBase64: string;
 
     constructor(
         id: string,
@@ -15,7 +16,8 @@ export default class Game {
         description: string,
         userId: string,
         startDate: Date,
-        createdAt: Date | null
+        createdAt: Date | null,
+        imgMapBase64: string
     ) {
         this.validateName(name);
         this.validateMaximumPlayers(maximumPlayers);
@@ -23,6 +25,7 @@ export default class Game {
         if (createdAt === null) {
             this.validateStartDate(startDate);
         }
+        this.validateMapImage(imgMapBase64)
 
         this.id = id;
         this.name = name;
@@ -31,6 +34,7 @@ export default class Game {
         this.userId = userId;
         this.startDate = startDate;
         this.createdAt = createdAt == null ? new Date() : createdAt;
+        this.imgMapBase64 = imgMapBase64;
     }
 
     private validateName(name: string): void {
@@ -48,6 +52,12 @@ export default class Game {
 
     private validateStartDate(startDate: Date): void {
         if (!startDate) throw new Error("undefined start date");
+    }
+
+    private validateMapImage(imgMapBase64: string): void {
+      if (!imgMapBase64 || imgMapBase64 == "") throw new Error("undefined image");
+
+      if (!imgMapBase64.startsWith("data:image/png;base64,")) throw new Error("Invalid image format");
     }
 
     public getId() {
@@ -76,5 +86,9 @@ export default class Game {
 
     public getCreatedAt() {
         return this.createdAt;
+    }
+
+    public getImgMapBase64() {
+        return this.imgMapBase64;
     }
 }
