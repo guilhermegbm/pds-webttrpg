@@ -25,24 +25,38 @@
             <q-card-section>
               {{ jogo.description }}
             </q-card-section>
+
+            <q-card-section>
+              <q-btn label="Mais informações" color="primary" @click="openDialogGameInfo(jogo)"/>
+            </q-card-section>
           </q-card>
         </div>
       </div>
 
     </div>
-  </div>
 
+    <q-dialog v-model="dialogGameInfo">
+      <DashboardGameInfo :game="selectedGame" />
+    </q-dialog>
+
+  </div>
 </template>
 
 <script>
 
 import { api } from 'boot/axios'
+import DashboardGameInfo from 'src/components/dashboard/DashboardGameInfo.vue'
 
 export default {
+  components: {
+    DashboardGameInfo
+  },
   name: 'DashboardOptions',
   data () {
     return {
-      jogos: []
+      jogos: [],
+      dialogGameInfo: false,
+      selectedGame: null
     }
   },
 
@@ -64,6 +78,10 @@ export default {
             icon: 'report_problem'
           })
         })
+    },
+    openDialogGameInfo (game) {
+      this.selectedGame = game
+      this.dialogGameInfo = true
     }
   }
 }
