@@ -6,7 +6,7 @@ export default class GameChipInput {
         readonly name: string,
         readonly level: number,
         readonly clazz: string,
-        readonly imageName: string,
+        readonly imageURL: string,
         readonly ownerPlayerId: string,
         readonly stats: GameChipStatsInput[],
         readonly inventorys: GameChipInventoryInput[],

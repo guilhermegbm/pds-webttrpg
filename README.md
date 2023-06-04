@@ -56,23 +56,23 @@
 
 
 3. Como usuário, eu desejo ver um dashboard com uma listagem de todos os meus jogos, abertos ou finalizados.
-- [ ] Implementar caso de uso que retorna todos os jogos de um usuário (Lucas e Guilherme)
-- [ ] Disponibilizar api rest para retornar lista de jogos (Lucas)
-- [ ] Implementar tela de dashboard (Guilherme)
-- [ ] Integrar tela com API do backend (Guilherme)
+- [x] Implementar caso de uso que retorna todos os jogos de um usuário (Lucas e Guilherme)
+- [x] Disponibilizar api rest para retornar lista de jogos (Lucas)
+- [x] Implementar tela de dashboard (Guilherme)
+- [x] Integrar tela com API do backend (Guilherme)
 
 
 4. Como usuário, quero listar jogos públicos disponíveis.
-- [ ] Implementar caso de uso que retorna todos os jogos públicos (Lucas e Guilherme)
-- [ ] Implementar api rest para retornar os jogos públicos. (Lucas)
-- [ ] Implementar na tela de dashboard uma aba de jogos públicos (Guilherme)
-- [ ] Integrar tela com API do backend (Guilherme)
+- [x] Implementar caso de uso que retorna todos os jogos públicos (Lucas e Guilherme)
+- [x] Implementar api rest para retornar os jogos públicos. (Lucas)
+- [x] Implementar na tela de dashboard uma aba de jogos públicos (Guilherme)
+- [x] Integrar tela com API do backend (Guilherme)
 
 
 5. Como usuário, quero criar um jogo novo com nome, número máximo de  jogadores, descrição e me tornar GM desse jogo.
-- [ ] Implementar tela com formulário de criação de jogo (João)
+- [x] Implementar tela com formulário de criação de jogo (João)
 - [x] Implementar API para criar novos jogos (Lucas)
-- [ ] Integrar tela com APi do backend (João)
+- [x] Integrar tela com APi do backend (João)
 
 
 6. Como usuário, quero entrar em um jogo já criado e me tornar um jogador desse Jogo:

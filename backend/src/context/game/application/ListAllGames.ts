@@ -16,7 +16,7 @@ export default class ListAllGames {
 
     const outputGames = allGames.map(async game => {
       const player = await this.playerRepository.getById(game.getUserId());
-      return new OutputGame(game.getId(), game.getName(), game.getMaximumPlayers(), game.getDescription(), game.getStartDate(), game.getCreatedAt(), player)
+      return new OutputGame(game.getId(), game.getName(), game.getMaximumPlayers(), game.getDescription(), game.getStartDate(), game.getCreatedAt(), game.getImgMapBase64(), player)
     })
 
     /*let outputGames: OutputGame[] = []
@@ -49,6 +49,7 @@ class OutputGame {
     readonly description: string,
     readonly startDate: Date,
     readonly createdAt: Date | null,
+    readonly imgMapBase64: string,
     authorPlayer: Player | null
   ) {
     if (authorPlayer != null) {
