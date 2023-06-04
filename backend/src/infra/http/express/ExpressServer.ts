@@ -15,7 +15,7 @@ export default class ExpressServer implements Server {
         directoryPathForPublicImages: string
     ) {
         this.server = express();
-        this.server.use(express.json());
+        this.server.use(express.json({limit: '50mb'}));
         this.server.use(cors());
         this.server.use("/public", express.static(directoryPathForPublicImages));
         this.httpServer = http.createServer(this.server);

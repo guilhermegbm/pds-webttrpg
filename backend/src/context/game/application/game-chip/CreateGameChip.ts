@@ -39,7 +39,7 @@ export default class CreateGameChip {
             gameChipInput.name,
             gameChipInput.level,
             gameChipInput.clazz,
-            gameChipInput.imageName,
+            gameChipInput.imageURL,
             ownerPlayer
         );
         this.addStatsInGameChip(gameChip, gameChipInput);
