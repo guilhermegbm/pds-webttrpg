@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md" style="max-width: 400px">
+  <div class="q-pa-md" style="width: 500px;">
 
     <q-form
       @submit="onSubmit"
@@ -62,6 +62,28 @@
         </template>
       </q-input>
 
+      <q-file
+        v-model="mapImage"
+        @input="handleFileMapImageUpload"
+        label="Selecione o mapa principal"
+        outlined
+        bottom-slots
+        counter
+        v-bind:multiple="false">
+        <template v-slot:prepend>
+          <q-icon name="cloud_upload" @click.stop.prevent />
+        </template>
+        <template v-slot:append>
+          <q-icon name="close" @click.stop.prevent="mapImage = null" class="cursor-pointer" />
+        </template>
+
+        <template v-slot:hint>
+          Apenas arquivos .png
+        </template>
+      </q-file>
+
+      <q-img v-if="base64MapImage" :src="base64MapImage"/>
+
       <div>
         <q-btn label="Submit" type="submit" color="primary"/>
         <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
@@ -82,11 +104,23 @@ export default {
       campaignName: null,
       qtdPlayers: null,
       description: null,
-      startDate: new Date().toLocaleString('pt-br', options)
+      startDate: new Date().toLocaleString('pt-br', options),
+      mapImage: null,
+      base64MapImage: null
     }
   },
 
   methods: {
+    handleFileMapImageUpload () {
+      const reader = new FileReader()
+      reader.readAsDataURL(this.mapImage)
+      reader.onload = (event) => {
+        this.base64MapImage = event.target.result
+      }
+      reader.onerror = function (error) {
+        console.log('Error rendering Base 64 Img: ', error)
+      }
+    },
     onSubmit () {
       const moment = require('moment')
       const startDateAsMoment = moment(this.startDate, 'DD/MM/YYYY, HH:mm')
@@ -96,7 +130,8 @@ export default {
         name: this.campaignName,
         maximumPlayers: this.qtdPlayers,
         description: this.description,
-        startDate: startDateAsMoment.format('YYYY-MM-DDTHH:mm:ss.sssZ')
+        startDate: startDateAsMoment.format('YYYY-MM-DDTHH:mm:ss.sssZ'),
+        base64MapImage: this.base64MapImage
       }, { headers: { Authorization: localStorage.getItem('authenticationToken') } })
         .then((response) => {
           this.data = response.data
@@ -122,7 +157,9 @@ export default {
       this.campaignName = null
       this.qtdPlayers = null
       this.description = null
-      this.date = new Date().toLocaleString('en-GB')
+      this.startDate = new Date().toLocaleString('en-GB')
+      this.mapImage = null
+      this.base64MapImage = null
     }
   }
 }
