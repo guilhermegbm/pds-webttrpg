@@ -59,6 +59,9 @@
 
     <q-card-actions align="right" class="bg-white text-teal">
       <q-btn flat label="Fechar" v-close-popup />
+      <q-btn flat label="Entrar no Jogo" @click="joinGame" v-if="loggedUserHasAccess"/>
+      <q-btn flat label="Solicitar Acesso" @click="requestAccess" v-else/>
+
     </q-card-actions>
   </q-card>
 
@@ -77,7 +80,8 @@ export default {
   },
   data () {
     return {
-      playersByGame: []
+      playersByGame: [],
+      loggedUserHasAccess: false
     }
   },
 
@@ -91,6 +95,7 @@ export default {
       api.get(url, { headers: { Authorization: localStorage.getItem('authenticationToken') } })
         .then((response) => {
           this.playersByGame = response.data
+          this.checkIfLoggedUserHasAccess()
         })
         .catch((e) => {
           this.$q.notify({
@@ -101,12 +106,43 @@ export default {
           })
         })
     },
-    firstLetterUpperCase (text) {
-      if (!text || text == null || text === '') {
-        return ''
-      }
 
-      return (text.substring(0, 1)).toUpperCase()
+    checkIfLoggedUserHasAccess () {
+      const loggedUserId = localStorage.getItem('userId')
+      this.loggedUserHasAccess = false
+
+      this.playersByGame.forEach((player) => {
+        if (player.id === loggedUserId) {
+          this.loggedUserHasAccess = true
+        }
+      })
+    },
+    requestAccess () {
+      api.post('/game/request-access', {
+        playerId: localStorage.getItem('userId'),
+        gameId: this.game.id
+      }, { headers: { Authorization: localStorage.getItem('authenticationToken') } })
+        .then((response) => {
+          this.$q.notify({
+            color: 'green-4',
+            textColor: 'white',
+            icon: 'cloud_done',
+            message: 'Solicitação aceita'
+          })
+          this.getAllPlayersByGame()
+        })
+        .catch((e) => {
+          console.log(e)
+          this.$q.notify({
+            color: 'negative',
+            position: 'top',
+            message: e.response.data.message,
+            icon: 'report_problem'
+          })
+        })
+    },
+    joinGame () {
+      console.log('Passou join game')
     }
   }
 }
