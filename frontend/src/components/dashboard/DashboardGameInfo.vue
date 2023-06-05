@@ -142,7 +142,7 @@ export default {
         })
     },
     joinGame () {
-      console.log('Passou join game')
+      this.$router.push('game')
     }
   }
 }
