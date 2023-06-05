@@ -15,7 +15,7 @@
         </q-card-section>
 
         <q-card-section>
-          <img class="options-image" src="./../../assets/dashboard/icon-encontrar-jogos.png" alt="icon-encontrar-jogos">
+          <q-img class="options-image" src="./../../assets/dashboard/icon-encontrar-jogos.png" alt="icon-encontrar-jogos"/>
         </q-card-section>
       </q-card>
     </div>
@@ -34,7 +34,7 @@
 
         <q-card-section>
           <q-btn square flat class="options-image-btn" v-on:click="openDialogCreateNewGame()">
-            <img class="options-image" src="./../../assets/dashboard/icon-novo-jogo.png" alt="icon-encontrar-jogos">
+            <q-img class="options-image" src="./../../assets/dashboard/icon-novo-jogo.png" alt="icon-encontrar-jogos"/>
           </q-btn>
         </q-card-section>
       </q-card>
@@ -53,7 +53,7 @@
         </q-card-section>
 
         <q-card-section>
-          <img class="options-image" src="./../../assets/dashboard/icon-pesquisar-usuario.png" alt="icon-encontrar-jogos">
+          <q-img class="options-image" src="./../../assets/dashboard/icon-pesquisar-usuario.png" alt="icon-encontrar-jogos"/>
         </q-card-section>
       </q-card>
     </div>
@@ -71,7 +71,7 @@
         </q-card-section>
 
         <q-card-section>
-          <img class="options-image" src="./../../assets/dashboard/icon-entrar.png" alt="icon-encontrar-jogos">
+          <q-img class="options-image" src="./../../assets/dashboard/icon-entrar.png" alt="icon-encontrar-jogos"/>
         </q-card-section>
       </q-card>
     </div>

@@ -7,17 +7,25 @@
       </p>
     </div>
     <div class="col-1">
-      <q-btn round color="primary" style="float: right;">
-        <q-avatar size="40px" font-size="20px" color="primary" text-color="white">G</q-avatar>
-      </q-btn>
+      <DefaultAvatar :userId="userId" :showFullUsername="false"/>
     </div>
   </div>
 
 </template>
 
 <script>
+import DefaultAvatar from '../DefaultAvatar.vue'
+
 export default {
-  name: 'DashboardHeader'
+  components: {
+    DefaultAvatar
+  },
+  name: 'DashboardHeader',
+  data () {
+    return {
+      userId: localStorage.getItem('userId')
+    }
+  }
 }
 </script>
 
