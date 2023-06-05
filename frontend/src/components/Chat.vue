@@ -9,7 +9,7 @@
         :sent="message.userId === $store.state.storeUser.userId"
       />
     </div>
-    <div class="col-1">
+    <div class="col-3">
       <q-input
         name="newMessage"
         class=""
