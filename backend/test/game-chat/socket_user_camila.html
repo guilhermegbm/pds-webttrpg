@@ -20,7 +20,7 @@
 		<button>Send</button>
 	</form>
     <script>
-    	const socket = io("http://localhost:3000", {transports : ['websocket']});
+    	const socket = io("http://localhost:8080", {transports : ['websocket']});
     	const gameId = "bb927da9-b9db-4c90-a0b8-1dfb4420d32e";
     	const userId = "62ca2512-2f78-4bb2-84a5-e5d8bca0d660";//user felipe
   		$('form').submit(function(event) {

@@ -15,8 +15,10 @@ export default class SocketIOWebServer implements SocketWebServer {
         this.socketWebServer = new SocketIO.Server(httpServer, {
             cors: {
                 origin: baseUrl,
-                methods: ["GET", "POST"]
-            }
+                methods: ["GET", "POST"],
+                credentials: true
+            },
+            allowEIO3: true
         });
     }
 

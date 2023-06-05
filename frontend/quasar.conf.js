@@ -24,7 +24,8 @@ module.exports = function (/* ctx */) {
     boot: [
 
       'axios',
-      'config_moment'
+      'config_moment',
+      'socket'
 
     ],
 

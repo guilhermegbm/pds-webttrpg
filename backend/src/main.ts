@@ -17,6 +17,6 @@ server.listen(3000);
 // Configurações servidor socket
 const socketServer = new SocketIOWebServer(
     server.getHttpServer(),
-    "http://localhost:3000"
+    "http://localhost:8080"
 );
 socketServer.connect([new GameChatSocketOn()]);
