@@ -284,7 +284,87 @@ export default {
           api.get(`/game/${this.$props.game.id}/game-chip`,
             config)
             .then((response) => {
-              this.characterSheets = [...response.data]
+              this.characterSheets = response.data.map((sheet) => {
+                const attrSkills = [
+                  {
+                    name: 'Acrobatics (Dex)',
+                    type: 'dex'
+                  },
+                  {
+                    name: 'Animal Handling (Wis)',
+                    type: 'wis'
+                  },
+                  {
+                    name: 'Arcana (Int)',
+                    type: 'int'
+                  },
+                  {
+                    name: 'Athletics (Str)',
+                    type: 'str'
+                  },
+                  {
+                    name: 'Deception (Cha)',
+                    type: 'cha'
+                  },
+                  {
+                    name: 'History (Int)',
+                    type: 'int'
+                  },
+                  {
+                    name: 'Insight (Wis)',
+                    type: 'wis'
+                  },
+                  {
+                    name: 'Intimidation (Cha)',
+                    type: 'cha'
+                  },
+                  {
+                    name: 'Investigation (Int)',
+                    type: 'int'
+                  },
+                  {
+                    name: 'Medicine (Wis)',
+                    type: 'wis'
+                  },
+                  {
+                    name: 'Nature (Int)',
+                    type: 'int'
+                  },
+                  {
+                    name: 'Perception (Wis)',
+                    type: 'wis'
+                  },
+                  {
+                    name: 'Performance (Cha)',
+                    type: 'cha'
+                  },
+                  {
+                    name: 'Persuasion (Cha)',
+                    type: 'cha'
+                  },
+                  {
+                    name: 'Religion (Int)',
+                    type: 'int'
+                  },
+                  {
+                    name: 'Sleight of Hand (Dex)',
+                    type: 'dex'
+                  },
+                  {
+                    name: 'Stealth (Dex)',
+                    type: 'dex'
+                  },
+                  {
+                    name: 'Survival (Wis)',
+                    type: 'wis'
+                  }
+                ]
+
+                return {
+                  ...sheet,
+                  attrSkills
+                }
+              })
             }).catch((err) => {
               console.log(err)
             })
@@ -477,7 +557,6 @@ export default {
 
           return {
             ...sheet,
-            imageURL: 'https://i.imgur.com/Q2We6mI.png',
             attrSkills
           }
         })

@@ -14,6 +14,7 @@ export function signUp (context, payload) {
         position: 'top',
         message: 'User created successfully!'
       })
+      this.$router.push('/signin')
       console.log(response)
     })
     .catch(error => {
