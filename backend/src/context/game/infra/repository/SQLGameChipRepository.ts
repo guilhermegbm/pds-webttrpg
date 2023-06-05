@@ -101,8 +101,9 @@ export default class SQLGameChipRepository implements GameChipRepository {
             if (!gameChipUsersData) {
                 return [];
             }
+            const gameChipUsersDataMap = gameChipUsersData.map(g => g.game_chip_id);
             const gameChipsDataFiltered = gameChipsData.filter((gameChipData) => {
-                return gameChipUsersData.includes(gameChipData.id);
+                return gameChipUsersDataMap.includes(gameChipData.id);
             });
             return await this.getByGameAndGameChipsData(game, gameChipsDataFiltered);
         }
