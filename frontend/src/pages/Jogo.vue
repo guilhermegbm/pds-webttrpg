@@ -1,6 +1,18 @@
 <template>
   <q-page class="row">
-    <div class="col-9 flex flex-center">
+    <div
+      class="col-9 flex flex-center"
+      @drop="onDrop($event, 1)"
+      @dragover.prevent
+      @dragenter.prevent>
+      <q-img
+        v-for="(token, index) in draggedTokens"
+        :src="token.url"
+        :key="index"
+        :style="token.style"
+        draggable
+        @ondrag="startDrag($event, token.url)"
+      />
       Map
     </div>
 
@@ -11,9 +23,9 @@
         class="bg-grey-3 col-2"
         style=""
         >
-        <q-tab name="chat" icon="chat" label="Chat" />
-        <q-tab name="sheets" icon="description" label="Sheets" />
-        <q-tab name="config" icon="settings" label="Settings" />
+        <q-tab name="chat" icon="chat" />
+        <q-tab name="sheets" icon="description" />
+        <q-tab name="config" icon="settings" />
       </q-tabs>
 
       <q-tab-panels vertical class="col q-pa-md" v-model="tab" animated>
@@ -23,7 +35,7 @@
           </q-scroll-area>
         </q-tab-panel>
         <q-tab-panel name="sheets">
-          <Sheets />
+          <Sheets ref="sheetsRef"/>
         </q-tab-panel>
       </q-tab-panels>
     </div>
@@ -48,7 +60,22 @@ export default {
   },
   data () {
     return {
-      tab: 'chat'
+      tab: 'chat',
+      draggedTokens: []
+    }
+  },
+  methods: {
+    startDrag (evt, token) {
+      evt.dataTransfer.dropEffect = 'move'
+      evt.dataTransfer.effectAllowed = 'move'
+      evt.dataTransfer.setData('sheetImg', token)
+    },
+    onDrop (evt) {
+      const sheetImg = evt.dataTransfer.getData('sheetImg')
+      this.draggedTokens.push({
+        url: sheetImg,
+        style: `position:absolute; height: 32px; width: 32px; left:${evt.layerX}px; top:${evt.layerY}px`
+      })
     }
   }
 }
