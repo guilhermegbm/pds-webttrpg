@@ -142,7 +142,7 @@ export default {
         })
     },
     joinGame () {
-      this.$router.push('game')
+      this.$router.push(`/game/${this.game.id}`)
     }
   }
 }

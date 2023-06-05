@@ -7,7 +7,7 @@ const routes = [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'signup', component: () => import('pages/Cadastro.vue') },
       { path: 'signin', component: () => import('pages/Login.vue') },
-      { path: 'game', component: () => import('pages/Jogo.vue') },
+      { path: 'game/:gameId', component: () => import('pages/Jogo.vue'), props: { gameId: '' } },
       { path: 'dashboard', component: () => import('pages/Dashboard.vue') }
     ]
   },

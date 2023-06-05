@@ -38,7 +38,7 @@
 
 <template>
   <div>
-    <q-btn size="sm" color="primary" label="Add" @click="addSheetModal=true"/>
+    <q-btn v-if="game.authorPlayer.id === userId" size="sm" color="primary" label="Add" @click="addSheetModal=true"/>
     <q-separator class="q-mt-xs q-mb-xs" />
     <div
       class="flex column items-stretch justify-around text-weight-medium"
@@ -86,7 +86,7 @@
 
         <q-separator />
 
-        <q-card-section style="max-height: 70vh; min-width: 50vw;" class="scroll">
+        <q-card-section style="max-height: 70vh;" class="scroll">
           <div>
             <div class="flex row items-center">
               <div class="flex column col-3">
@@ -187,12 +187,15 @@
 
 <script>
 import { api } from 'boot/axios'
+import { Notify } from 'quasar'
 
 const config = {
   headers: {
     Authorization: localStorage.getItem('authenticationToken')
   }
 }
+
+const userId = localStorage.getItem('userId')
 
 export default {
   name: 'Sheets',
@@ -210,8 +213,12 @@ export default {
       characterSheets: [],
       hasSelectedCharacter: false,
       selectedCharacter: {},
-      inventorys: []
+      inventorys: [],
+      userId
     }
+  },
+  props: {
+    game: Object
   },
   computed: {
     calculateProfBonus () {
@@ -267,14 +274,14 @@ export default {
         enchantments: null,
         playersEditPermission: canEdit,
         imageURL: 'https://i.imgur.com/Q2We6mI.png',
-        gameId: this.$store.state.storeGame.gameId,
+        gameId: this.$props.game.id,
         userId: localStorage.getItem('userId')
       }
 
-      api.post(`/game/${this.$store.state.storeGame.gameId}/game-chip`,
+      api.post(`/game/${this.$props.game.id}/game-chip`,
         characterSheet, config)
         .then((response) => {
-          api.get(`/game/${this.$store.state.storeGame.gameId}/game-chip`,
+          api.get(`/game/${this.$props.game.id}/game-chip`,
             config)
             .then((response) => {
               this.characterSheets = [...response.data]
@@ -292,10 +299,16 @@ export default {
       character.enchantments = null
       character.class = character.clazz
 
-      api.put(`/game/${this.$store.state.storeGame.gameId}/game-chip/${character.id}`,
+      api.put(`/game/${this.$props.game.id}/game-chip/${character.id}`,
         character, config)
         .then((response) => {
-          console.log(response)
+          Notify.create({
+            type: 'positive',
+            color: 'positive',
+            timeout: 2000,
+            position: 'top',
+            message: 'Character updated!'
+          })
         }).catch((err) => {
           console.log(err)
         })
@@ -304,9 +317,15 @@ export default {
       const index = this.characterSheets.indexOf(character, 0)
       this.characterSheets.splice(index, 1)
 
-      api.delete(`/game/${this.$store.state.storeGame.gameId}/game-chip/${character.id}`, config)
+      api.delete(`/game/${this.$props.game.id}/game-chip/${character.id}`, config)
         .then((response) => {
-          console.log(response)
+          Notify.create({
+            type: 'positive',
+            color: 'positive',
+            timeout: 2000,
+            position: 'top',
+            message: 'Character deleted!'
+          })
         }).catch((err) => {
           console.log(err)
         })
@@ -372,11 +391,12 @@ export default {
     startDrag (evt, sheet) {
       evt.dataTransfer.dropEffect = 'move'
       evt.dataTransfer.effectAllowed = 'move'
-      evt.dataTransfer.setData('sheetImg', sheet.imageURL)
+      const sheetData = [sheet.id, sheet.imageURL]
+      evt.dataTransfer.setData('sheet', sheetData)
     }
   },
   beforeMount () {
-    api.get(`/game/${this.$store.state.storeGame.gameId}/game-chip`,
+    api.get(`/game/${this.$props.game.id}/game-chip`,
       config)
       .then((response) => {
         this.characterSheets = response.data.map((sheet) => {
@@ -420,6 +440,38 @@ export default {
             {
               name: 'Medicine (Wis)',
               type: 'wis'
+            },
+            {
+              name: 'Nature (Int)',
+              type: 'int'
+            },
+            {
+              name: 'Perception (Wis)',
+              type: 'wis'
+            },
+            {
+              name: 'Performance (Cha)',
+              type: 'cha'
+            },
+            {
+              name: 'Persuasion (Cha)',
+              type: 'cha'
+            },
+            {
+              name: 'Religion (Int)',
+              type: 'int'
+            },
+            {
+              name: 'Sleight of Hand (Dex)',
+              type: 'dex'
+            },
+            {
+              name: 'Stealth (Dex)',
+              type: 'dex'
+            },
+            {
+              name: 'Survival (Wis)',
+              type: 'wis'
             }
           ]
 
@@ -433,7 +485,8 @@ export default {
         console.log(err)
       })
 
-    api.get(`/game/${this.$store.state.storeGame.gameId}/players`,
+    // Gets all players in game to add for edit permissions
+    api.get(`/game/${this.$props.game.id}/players`,
       config)
       .then((response) => {
         this.playerOptions = response.data.map((players) => {
@@ -441,6 +494,10 @@ export default {
             value: players.id,
             label: players.username
           }
+        })
+
+        this.playerOptions = this.playerOptions.filter((players) => {
+          return players.value !== this.$props.game.authorPlayer.id
         })
       }).catch((err) => {
         console.log(err)
