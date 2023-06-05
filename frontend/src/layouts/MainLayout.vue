@@ -16,8 +16,7 @@
         </q-toolbar-title>
 
         <div>
-          <!--user todo-->
-          <span>{{ $store.state.storeUser }}</span>
+          <DefaultAvatar v-if="$store.state.storeUser.userId" :showFullUsername="false"/>
         </div>
       </q-toolbar>
     </q-header>
@@ -50,6 +49,7 @@
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
+import DefaultAvatar from '../components/DefaultAvatar.vue'
 import { mapActions } from 'vuex'
 
 const linksData = [
@@ -83,7 +83,8 @@ const linksData = [
 export default {
   name: 'MainLayout',
   components: {
-    EssentialLink
+    EssentialLink,
+    DefaultAvatar
   },
   data () {
     return {
@@ -94,7 +95,7 @@ export default {
   methods: {
     ...mapActions('storeUser', ['copyLoggedUserDataToVuex'])
   },
-  mounted () {
+  created () {
     this.copyLoggedUserDataToVuex()
   }
 }

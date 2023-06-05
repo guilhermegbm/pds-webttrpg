@@ -4,7 +4,7 @@
       <q-avatar
         size="40px"
         font-size="20px"
-        color="primary"
+        color="secondary"
         text-color="white">
 
           <span v-if="loadingGetUserById">
@@ -55,10 +55,11 @@
 
 <script>
 import { api } from 'boot/axios'
+import { mapActions } from 'vuex'
 
 export default {
   props: {
-    userId: String,
+    // userId: String,
     propUsername: String,
     showFullUsername: Boolean
   },
@@ -76,6 +77,7 @@ export default {
   },
 
   methods: {
+    ...mapActions('storeUser', ['logOut']),
     checkUsername () {
       if (!this.propUsername || this.propUsername == null || this.propUsername === '') {
         this.getUserById()
@@ -84,13 +86,14 @@ export default {
       }
     },
     getUserById () {
-      if (!this.userId || this.userId == null || this.userId === '') {
+      const userId = this.$store.state.storeUser.userId
+      if (!userId || userId == null || userId === '') {
         return
       }
 
       this.loadingGetUserById = true
 
-      const url = '/user/' + this.userId
+      const url = '/user/' + userId
       api.get(url, { headers: { Authorization: localStorage.getItem('authenticationToken') } })
         .then((response) => {
           this.user = response.data
@@ -116,6 +119,7 @@ export default {
 
     logout () {
       this.$router.push('signin')
+      this.logOut()
     },
 
     firstLetterUpperCase (text) {

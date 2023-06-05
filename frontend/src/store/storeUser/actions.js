@@ -31,10 +31,8 @@ export function signUp (context, payload) {
 
 export function signIn (context, payload) {
   const vm = this
-  debugger
   axios.post('http://localhost:3000/sign-in', payload)
     .then(response => {
-      debugger
       try {
         localStorage.setItem('userId', response.data.userId)
         localStorage.setItem('authenticationToken', response.data.authenticationToken)
@@ -81,4 +79,8 @@ export function copyLoggedUserDataToVuex (context, payload) {
   }
 
   context.commit('setLoggedUser', data)
+}
+
+export function logOut (context, payload) {
+  context.commit('cleanLoggedUser')
 }
