@@ -105,8 +105,8 @@
 10.  Como Jogador ou GM, eu quero mover meus tokens pelo mapa:
 - [x] Implementar movimentação de tokens por setas direcionais (João)
 - [x] Implementar busca periódica da posição dos tokens dos outros personagens, inimigos e objetos (João)
-- [x] Implementar caso de uso no backend para atualizar e salvar a nova posição do token (Guilherme)
-- [x] Implementar caso de uso no backend para buscar a posição dos outros personagens, inimigos e objetos (Guilherme)
+- [ ] Implementar caso de uso no backend para atualizar e salvar a nova posição do token (Guilherme)
+- [ ] Implementar caso de uso no backend para buscar a posição dos outros personagens, inimigos e objetos (Guilherme)
 
 
 11.  Como Jogador ou GM, eu quero mandar mensagens públicas no chat:
@@ -126,3 +126,17 @@
 - [x] Implementar layout para permitir o upload de imagens (Ábner)
 - [x] Integrar upload com backend (Ábner)
 - [x] Implementar repositório para upload de mapas (Lucas)
+
+# Arquitetura do projeto
+
+A estrutura do projeto segue uma arquitetura Hexagonal mesclada com princípios de DDD, onde as pastas e pacotes mais altos na hierarquia segmentam os múltiplos domínios do sistema e, para cada domínio, a estrutura se divide para seguir os princípios da arquitetura hexagonal, incluindo adaptadores, portas de saída e classes do domínio (Entidades e classes de Regra de Negócio).
+
+Mais especificamente, o projeto possui atualmente três domínios principais:
+
+Game - que engloba todas as funcionalidades referentes a jogo, como a criação e listagem dos Jogos e o gerenciamento das fichas, tokens e jogadores.
+
+User - que implementa as funções associadas aos usuários do sistema, por exemplo, as funcionalidades de sign-up, sign-in, "esqueci minha senha", etc.
+
+Chat - que agrupa as operações realizadas sobre o chat, como o envio de mensagens, a busca/recebimento de mensagens, o tratamento da rolagem de dados, entre outras.
+
+Para cada domínio, implementamos uma sub Arquitetura Hexagonal com um pacote "application", que contém todas as classes com a Regra de Negócio daquele domínio, um pacote "entity", que armazena todas as entidades relacionadas àquele domínio, um pacote repository, que define as Interfaces (portas de saída) necessárias para conexão ao banco de dados, e um pacote "infra" que contém toda a implementação de repositórios (Adaptadores que implementam as portas de saída), de classes Rest (Adaptadores de conexão HTTP) e de classes utilitárias que usam alguma tecnologia específica.
