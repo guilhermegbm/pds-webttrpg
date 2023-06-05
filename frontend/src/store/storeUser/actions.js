@@ -11,7 +11,7 @@ export function signUp (context, payload) {
         type: 'positive',
         color: 'positive',
         timeout: 2000,
-        position: 'center',
+        position: 'top',
         message: 'User created successfully!'
       })
       console.log(response)
@@ -22,7 +22,7 @@ export function signUp (context, payload) {
         type: 'negative',
         color: 'negative',
         timeout: 2000,
-        position: 'center',
+        position: 'top',
         message: `Error: ${msg}`
       })
       console.log(error)
@@ -45,7 +45,7 @@ export function signIn (context, payload) {
           type: 'positive',
           color: 'positive',
           timeout: 2000,
-          position: 'center',
+          position: 'top',
           message: 'Logged in successfully!'
         })
       } catch (error) {
@@ -53,7 +53,7 @@ export function signIn (context, payload) {
           type: 'negative',
           color: 'negative',
           timeout: 2000,
-          position: 'center',
+          position: 'top',
           message: 'Error while saving user data. Please, try again.'
         })
       }
@@ -64,7 +64,7 @@ export function signIn (context, payload) {
         type: 'negative',
         color: 'negative',
         timeout: 2000,
-        position: 'center',
+        position: 'top',
         message: `Error: ${msg}`
       })
       console.log(error)
