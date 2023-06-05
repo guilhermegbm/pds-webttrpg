@@ -8,8 +8,7 @@ const routes = [
       { path: 'signup', component: () => import('pages/Cadastro.vue') },
       { path: 'signin', component: () => import('pages/Login.vue') },
       { path: 'game', component: () => import('pages/Jogo.vue') },
-      { path: 'dashboard', component: () => import('pages/Dashboard.vue') },
-      { path: 'chat', component: () => import('components/ChatTeste.vue') }
+      { path: 'dashboard', component: () => import('pages/Dashboard.vue') }
     ]
   },
   // Always leave this as last one,

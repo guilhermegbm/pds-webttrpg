@@ -69,9 +69,14 @@ const linksData = [
     link: 'create_game'
   },
   {
-    title: 'jogo',
+    title: 'Jogo',
     icon: 'chat',
     link: 'game'
+  },
+  {
+    title: 'Dashboard',
+    icon: 'chat',
+    link: 'dashboard'
   }
 ]
 

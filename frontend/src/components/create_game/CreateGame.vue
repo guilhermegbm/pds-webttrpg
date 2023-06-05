@@ -36,7 +36,7 @@
         ]"
       />
 
-      <q-input outlined v-model="startDate">
+      <q-input label="Data de início *" outlined v-model="startDate">
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
             <q-popup-proxy transition-show="scale" transition-hide="scale">
