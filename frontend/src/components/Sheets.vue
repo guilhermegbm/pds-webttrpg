@@ -1,4 +1,9 @@
 <style>
+  .token {
+    width: 20%;
+    height: 20%;
+  }
+
   .attr-stats {
     display: flex;
   }
@@ -33,13 +38,19 @@
 
 <template>
   <div>
-    <q-btn color="primary" label="Add" @click="addSheetModal=true"/>
+    <q-btn size="sm" color="primary" label="Add" @click="addSheetModal=true"/>
+    <q-separator class="q-mt-xs q-mb-xs" />
     <div
-    v-for="charSheet in characterSheets"
-    :key="charSheet.id"
-    @click="loadSheetInfo(charSheet)"
+      class="flex column items-stretch justify-around text-weight-medium"
+      style="cursor: pointer;"
+      v-for="charSheet in characterSheets"
+      :key="charSheet.id"
+      @click="loadSheetInfo(charSheet)"
+      draggable
+      @dragstart="startDrag($event, charSheet)"
     >
       {{charSheet.name}}
+      <q-separator class="q-mt-xs q-mb-xs" />
     </div>
 
     <!-- Modal para criar ficha de personagem -->
@@ -70,21 +81,29 @@
       <q-card v-if="hasSelectedCharacter">
         <q-card-section class="flex row justify-between">
           <div class="text-h6">{{selectedCharacter.name}}</div>
-          <q-btn class="danger" label="Delete" @click="deleteSheet(selectedCharacter)" v-close-popup />
-          <!-- Abrir confirmação de deletar -->
+          <q-btn color="red" label="Delete" @click="deleteSheet(selectedCharacter)" v-close-popup />
         </q-card-section>
 
         <q-separator />
 
         <q-card-section style="max-height: 70vh; min-width: 50vw;" class="scroll">
           <div>
-            <q-input type="text" label="Level" v-model="selectedCharacter.level"/>
-            <q-input type="text" label="Classe" v-model="selectedCharacter.clazz" />
-            <q-input type="text" label="Prof. Bonus" v-model="selectedCharacter.profBonus"/>
-            <span class="text-h6">Atributos</span>
+            <div class="flex row items-center">
+              <div class="flex column col-3">
+                <img class="token col-3" :src=selectedCharacter.imageURL />
+                <q-input class="col-1" type="text" label="Token URL" v-model="selectedCharacter.imageURL" />
+              </div>
+              <div class="flex column col-grow q-ma-md">
+                <q-input type="text" label="Level" v-model="selectedCharacter.level"/>
+                <q-input type="text" label="Class" v-model="selectedCharacter.clazz" />
+                <div class="text-bold q-mt-sm">Prof. Bonus</div>
+                <span>{{ calculateProfBonus }}</span>
+              </div>
+            </div>
+            <q-separator class="q-mt-md" />
+            <p class="text-h6">Attributes</p>
             <div class="attr-stats">
               <div>
-                <!-- Add v-for here to clutter the page less -->
                 <q-input
                   v-for="(stat, index) in selectedCharacter.stats"
                   :key="index"
@@ -95,44 +114,63 @@
               </div>
               <div class="attr-savingthrows">
                 <span>Saving Throws</span>
-                <div class="" v-for="(stat, index) in selectedCharacter.stats" :key="index">
+                <div v-for="(stat, index) in selectedCharacter.stats" :key="index">
                   <input type="checkbox" v-model="stat.addProfBonus" />
                   <span>
-                    {{ stat.addProfBonus ? (Math.floor((stat.value - 10) / 2)) + Number(profBonus) : Math.floor((stat.value - 10) / 2) }} {{ stat.name }}
+                    {{ stat.addProfBonus ? Math.floor(((stat.value - 10) / 2) + calculateProfBonus) : Math.floor(((stat.value - 10) / 2)) }} {{ stat.name }}
                   </span>
                 </div>
               </div>
               <div class="attr-savingthrows">
                 <span>Skills</span>
-                <div class="" v-for="(attrSkill, index) in selectedCharacter.attrSkills" :key="index">
+                <div v-for="(attrSkill, index) in selectedCharacter.attrSkills" :key="index">
                   <input type="checkbox" v-model="attrSkill.addProfBonus" />
                   <span>
-                    {{ attrSkill.addProfBonus ? attrSkill.value + Number(profBonus) : attrSkill.value }} {{ attrSkill.name }}
+                    {{
+                      attrSkill.addProfBonus ? calcAttrSkill(selectedCharacter, attrSkill) + calculateProfBonus : calcAttrSkill(selectedCharacter, attrSkill)
+                    }}
+                    {{ attrSkill.name }}
                   </span>
                 </div>
               </div>
             </div>
-            <div>
-              <span class="text-h6">Inventario</span>
-              <q-input
-                v-for="(inv,index) in selectedCharacter.inventorys"
-                :key="index"
-                v-model="selectedCharacter.inventorys[index].name"
-                type="text"
-                label="Item"
-              />
-              <q-btn @click="addItem('inv', selectedCharacter)" label="+" color="primary" />
+            <q-separator class="q-mt-md" />
+            <div class="q-mt-md">
+              <span class="text-h6 q-mr-md">Inventory</span>
+              <div class="flex row justify-between items-start q-mb-md" v-for="(inv,index) in selectedCharacter.inventorys" :key="index">
+                <q-input
+                  class="col-6"
+                  v-model="selectedCharacter.inventorys[index].name"
+                  type="text"
+                  label="Item"
+                />
+                <q-separator vertical />
+                <q-input
+                  class="col-3"
+                  v-model="selectedCharacter.inventorys[index].quantity"
+                  type="number"
+                  label="Quantity"
+                />
+                <q-btn padding="sm" color="red" size="xs" icon="delete" @click="deleteItem('inv', index, selectedCharacter)" v-close-popup />
+              </div>
+              <q-btn round padding="sm" size="xs" icon="add" @click="addItem('inv', selectedCharacter)" color="primary" />
             </div>
-            <div>
-              <span class="text-h6">Features</span>
-              <q-input
-                v-for="(skl,index) in selectedCharacter.skills"
-                :key="index"
-                v-model="selectedCharacter.skills[index].name"
-                type="text"
-                label="Item"
-              />
-              <q-btn @click="addItem('skill', selectedCharacter)" label="+" color="primary" />
+            <q-separator class="q-mt-md" />
+            <div class="q-mt-md">
+              <span class="text-h6 q-mr-md">Features</span>
+              <div class="flex row justify-between items-start q-mb-md" v-for="(skl,index) in selectedCharacter.skills" :key="index">
+                <div class="col-10">
+                  <q-input
+                    :key="index"
+                    v-model="selectedCharacter.skills[index].name"
+                    type="text"
+                    label="Name"
+                  />
+                  <q-input type="textarea" label="Description" v-model="selectedCharacter.skills[index].description" />
+                </div>
+                <q-btn padding="sm" color="red" size="xs" icon="delete" @click="deleteItem('skill', index, selectedCharacter)" v-close-popup />
+              </div>
+              <q-btn round padding="sm" size="xs" icon="add" @click="addItem('skill', selectedCharacter)" color="primary" />
             </div>
           </div>
         </q-card-section>
@@ -155,7 +193,6 @@ const config = {
     Authorization: localStorage.getItem('authenticationToken')
   }
 }
-const gameId = '4c96cb52-a481-41a8-bdc3-ee5c1d73dc92'
 
 export default {
   name: 'Sheets',
@@ -167,21 +204,20 @@ export default {
       clazz: '',
       skills: [],
       magic: [],
-      profBonus: 2,
       characterName: '',
       selectDropdown: null,
-      playerOptions: [localStorage.getItem('userId')], // Always put the GM into playerEditPermissions...
+      playerOptions: [], // Always put the GM into playerEditPermissions...
       characterSheets: [],
       hasSelectedCharacter: false,
       selectedCharacter: {},
       inventorys: []
     }
   },
-  // computed: {
-  //   strength () {
-  //     return Math.floor((stats[0].value - 10) / 2)
-  //   }
-  // },
+  computed: {
+    calculateProfBonus () {
+      return Math.ceil(1 + (this.selectedCharacter.level / 4))
+    }
+  },
   methods: {
     addSheet () {
       const stats = [
@@ -217,38 +253,9 @@ export default {
         }
       ]
 
-      // const attrSkills = [
-      //   {
-      //     name: 'Acrobatics (Dex)',
-      //     addProfBonus: false,
-      //     value: Math.floor(stats[1].value - 10) / 2
-      //   },
-      //   {
-      //     name: 'Animal Handling (Wis)',
-      //     addProfBonus: false,
-      //     value: Math.floor(stats[4].value - 10) / 2
-      //   },
-      //   {
-      //     name: 'Arcana (Int)',
-      //     addProfBonus: false,
-      //     value: Math.floor(stats[3].value - 10) / 2
-      //   },
-      //   {
-      //     name: 'Athletics (Str)',
-      //     addProfBonus: false,
-      //     value: Math.floor(stats[0].value - 10) / 2
-      //   },
-      //   {
-      //     name: 'Deception (Cha)',
-      //     addProfBonus: false,
-      //     value: Math.floor(stats[5].value - 10) / 2
-      //   },
-      //   {
-      //     name: 'History (Int)',
-      //     addProfBonus: false,
-      //     value: Math.floor(stats[3].value - 10) / 2
-      //   }
-      // ]
+      const canEdit = this.selectDropdown.map((select) => {
+        return select.value
+      })
 
       const characterSheet = {
         name: this.characterName,
@@ -258,28 +265,25 @@ export default {
         inventorys: null,
         skills: null,
         enchantments: null,
-        playersEditPermission: this.selectDropdown,
-        imageName: '',
-        gameId,
+        playersEditPermission: canEdit,
+        imageURL: 'https://i.imgur.com/Q2We6mI.png',
+        gameId: this.$store.state.storeGame.gameId,
         userId: localStorage.getItem('userId')
       }
 
-      api.post(`/game/${gameId}/game-chip`,
+      api.post(`/game/${this.$store.state.storeGame.gameId}/game-chip`,
         characterSheet, config)
         .then((response) => {
-          console.log(response)
+          api.get(`/game/${this.$store.state.storeGame.gameId}/game-chip`,
+            config)
+            .then((response) => {
+              this.characterSheets = [...response.data]
+            }).catch((err) => {
+              console.log(err)
+            })
         })
         .catch((error) => {
           console.log(error)
-        })
-
-      // Remove this for a method to call said API later
-      api.get(`/game/${gameId}/game-chip`,
-        config)
-        .then((response) => {
-          this.characterSheets = [...response.data]
-        }).catch((err) => {
-          console.log(err)
         })
 
       this.resetSheet()
@@ -288,7 +292,7 @@ export default {
       character.enchantments = null
       character.class = character.clazz
 
-      api.put(`/game/${gameId}/game-chip/${character.id}`,
+      api.put(`/game/${this.$store.state.storeGame.gameId}/game-chip/${character.id}`,
         character, config)
         .then((response) => {
           console.log(response)
@@ -300,7 +304,7 @@ export default {
       const index = this.characterSheets.indexOf(character, 0)
       this.characterSheets.splice(index, 1)
 
-      api.delete(`/game/${gameId}/game-chip/${character.id}`, config)
+      api.delete(`/game/${this.$store.state.storeGame.gameId}/game-chip/${character.id}`, config)
         .then((response) => {
           console.log(response)
         }).catch((err) => {
@@ -312,8 +316,8 @@ export default {
       this.selectDropdown = null
     },
     loadSheetInfo (character) {
-      console.log(character)
       this.selectedCharacter = character
+
       this.sheetModal = true
       this.hasSelectedCharacter = true
     },
@@ -332,13 +336,113 @@ export default {
           })
           break
       }
+    },
+    deleteItem (type, index, selectedCharacter) {
+      switch (type) {
+        case 'inv':
+          selectedCharacter.inventorys.splice(index, 1)
+          break
+        case 'skill':
+          selectedCharacter.skills.splice(index, 1)
+          break
+      }
+    },
+    calcAttrSkill (character, attrSkill) {
+      let attrValue = 10
+      switch (attrSkill.type) {
+        case 'str':
+          attrValue = Math.floor(((character.stats[0].value - 10) / 2))
+          break
+        case 'dex':
+          attrValue = Math.floor(((character.stats[1].value - 10) / 2))
+          break
+        case 'int':
+          attrValue = Math.floor(((character.stats[3].value - 10) / 2))
+          break
+        case 'wis':
+          attrValue = Math.floor(((character.stats[4].value - 10) / 2))
+          break
+        case 'cha':
+          attrValue = Math.floor(((character.stats[5].value - 10) / 2))
+          break
+      }
+
+      return attrValue
+    },
+    startDrag (evt, sheet) {
+      evt.dataTransfer.dropEffect = 'move'
+      evt.dataTransfer.effectAllowed = 'move'
+      evt.dataTransfer.setData('sheetImg', sheet.imageURL)
+      console.log(sheet)
     }
   },
   beforeMount () {
-    api.get('/game/4c96cb52-a481-41a8-bdc3-ee5c1d73dc92/game-chip',
+    api.get(`/game/${this.$store.state.storeGame.gameId}/game-chip`,
       config)
       .then((response) => {
-        this.characterSheets = [...response.data]
+        this.characterSheets = response.data.map((sheet) => {
+          const attrSkills = [
+            {
+              name: 'Acrobatics (Dex)',
+              type: 'dex'
+            },
+            {
+              name: 'Animal Handling (Wis)',
+              type: 'wis'
+            },
+            {
+              name: 'Arcana (Int)',
+              type: 'int'
+            },
+            {
+              name: 'Athletics (Str)',
+              type: 'str'
+            },
+            {
+              name: 'Deception (Cha)',
+              type: 'cha'
+            },
+            {
+              name: 'History (Int)',
+              type: 'int'
+            },
+            {
+              name: 'Insight (Wis)',
+              type: 'wis'
+            },
+            {
+              name: 'Intimidation (Cha)',
+              type: 'cha'
+            },
+            {
+              name: 'Investigation (Int)',
+              type: 'int'
+            },
+            {
+              name: 'Medicine (Wis)',
+              type: 'wis'
+            }
+          ]
+
+          return {
+            ...sheet,
+            imageURL: 'https://i.imgur.com/Q2We6mI.png',
+            attrSkills
+          }
+        })
+      }).catch((err) => {
+        console.log(err)
+      })
+
+    api.get(`/game/${this.$store.state.storeGame.gameId}/players`,
+      config)
+      .then((response) => {
+        this.playerOptions = response.data.map((players) => {
+          return {
+            value: players.id,
+            label: players.username
+          }
+        })
       }).catch((err) => {
         console.log(err)
       })
