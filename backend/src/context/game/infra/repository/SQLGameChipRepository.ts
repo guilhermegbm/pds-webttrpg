@@ -92,7 +92,7 @@ export default class SQLGameChipRepository implements GameChipRepository {
             return await this.getByGameAndGameChipsData(game, gameChipsData);
         } else {
             const gameChipsId = gameChipsData.map(gameChipData => gameChipData.id);
-            const gameChipUsersData = await database.manyOrNone("select game_chip_id from webttrpg.game_chip_user where user_id = $1 and game_chip_id in ($2)",
+            const gameChipUsersData = await database.manyOrNone("select game_chip_id from webttrpg.game_chip_user where user_id = $1 and game_chip_id in ($2:csv)",
                 [
                     playerId,
                     gameChipsId
