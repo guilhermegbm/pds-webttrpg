@@ -141,6 +141,7 @@ export default {
             icon: 'cloud_done',
             message: 'Jogo criado'
           })
+          this.$root.$emit('newGameCreated')
         })
         .catch((e) => {
           console.log(e)

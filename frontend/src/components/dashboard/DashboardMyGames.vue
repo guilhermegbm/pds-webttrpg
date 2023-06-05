@@ -64,6 +64,12 @@ export default {
     this.buscarJogos()
   },
 
+  mounted () {
+    this.$root.$on('newGameCreated', event => {
+      this.buscarJogos()
+    })
+  },
+
   methods: {
     buscarJogos () {
       api.get('/game', { headers: { Authorization: localStorage.getItem('authenticationToken') } })

@@ -102,6 +102,12 @@ export default {
     }
   },
 
+  mounted () {
+    this.$root.$on('newGameCreated', event => {
+      this.dialogCreateNewGame = false
+    })
+  },
+
   methods: {
     openDialogCreateNewGame () {
       this.dialogCreateNewGame = true
