@@ -7,6 +7,7 @@ import HttpRestGetAllPlayersByGame from "./HttpRestGetAllPlayersByGame";
 import HttpRestDeleteGameChip from "./HttpRestDeleteGameChip";
 import HttpRestUpdateGameChip from "./HttpRestUpdateGameChip";
 import HttpRestGetGameById from "./HttpRestGetGameById";
+import HttpRestRequestAccessToGame from "./HttpRestRequestAccessToGame";
 
 export default class GameRoutes {
 
@@ -19,5 +20,6 @@ export default class GameRoutes {
         server.on(HttpMethod.GET, "/game/:id/game-chip", new HttpRestGetAllGameChipsByPlayerAndGame());
         server.on(HttpMethod.DELETE, "/game/:game_id/game-chip/:game_chip_id", new HttpRestDeleteGameChip());
         server.on(HttpMethod.PUT, "/game/:game_id/game-chip/:game_chip_id", new HttpRestUpdateGameChip());
+        server.on(HttpMethod.POST, "/game/request-access", new HttpRestRequestAccessToGame());
     }
 }
