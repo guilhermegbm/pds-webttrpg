@@ -83,9 +83,7 @@ export default ({
           totalRoll += Math.floor(Math.random() * side + 1)
         }
 
-        totalRoll += mods
-
-        this.newMessage = `Rolando ${amount}d${side} + ${mods}: ${totalRoll}`
+        this.newMessage = `Rolando ${amount}d${side}: (${totalRoll}) + ${mods} = ${totalRoll + mods}`
       }
       // É IMPORTANTE PEGAR O USER_ID, QUE É O DA PESSOA LOGADA E SUBSTITUIR AQUI
       // E TB PEGAR O ID JOGO

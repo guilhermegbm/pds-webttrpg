@@ -144,7 +144,6 @@ export default {
         })
     },
     joinGame () {
-      debugger
       this.setGameInfo(this.game)
       this.$router.push('game')
     }

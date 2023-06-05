@@ -11,9 +11,9 @@
         :key="index"
         :style="token.style"
         draggable
-        @ondrag="startDrag($event, token.url)"
+        @dragstart="startDrag($event, token)"
       />
-      Map
+      <q-img style="z-index: -99;" :src="game.imgMapBase64" alt="Mapa do Jogo"/>
     </div>
 
     <div class="col row" style="">
@@ -35,7 +35,10 @@
           </q-scroll-area>
         </q-tab-panel>
         <q-tab-panel name="sheets">
-          <Sheets ref="sheetsRef"/>
+          <Sheets :game="game" />
+        </q-tab-panel>
+        <q-tab-panel name="config">
+          <q-btn color="primary" label="Sair do Jogo" @click="leaveGame()"/>
         </q-tab-panel>
       </q-tab-panels>
     </div>
@@ -51,6 +54,13 @@ html, body {
 <script>
 import Chat from '../components/Chat.vue'
 import Sheets from '../components/Sheets.vue'
+import { api } from 'boot/axios'
+
+const config = {
+  headers: {
+    Authorization: localStorage.getItem('authenticationToken')
+  }
+}
 
 export default {
   name: 'Jogo',
@@ -60,6 +70,8 @@ export default {
   },
   data () {
     return {
+      gameId: this.$route.params.gameId,
+      game: [],
       tab: 'chat',
       draggedTokens: []
     }
@@ -71,15 +83,34 @@ export default {
     startDrag (evt, token) {
       evt.dataTransfer.dropEffect = 'move'
       evt.dataTransfer.effectAllowed = 'move'
-      evt.dataTransfer.setData('sheetImg', token)
+      const tokenArr = [token.id, token.url]
+      evt.dataTransfer.setData('sheet', tokenArr)
     },
     onDrop (evt) {
-      const sheetImg = evt.dataTransfer.getData('sheetImg')
-      this.draggedTokens.push({
-        url: sheetImg,
-        style: `position:absolute; height: 32px; width: 32px; left:${evt.layerX}px; top:${evt.layerY}px`
-      })
+      const sheet = evt.dataTransfer.getData('sheet')
+      const splitSheet = sheet.split(',')
+      const currToken = this.draggedTokens.find((elm) => elm.id === splitSheet[0])
+      if (!currToken) {
+        this.draggedTokens.push({
+          id: splitSheet[0],
+          url: splitSheet[1],
+          style: `position:absolute; height: 64px; width: 64px; left:${evt.layerX}px; top:${evt.layerY}px`
+        })
+      } else {
+        currToken.style = `position:absolute; height: 64px; width: 64px; left:${evt.layerX}px; top:${evt.layerY}px`
+      }
+    },
+    leaveGame () {
+      this.$router.push('/dashboard')
     }
+  },
+  beforeMount () {
+    api.get(`/game/${this.gameId}`, config)
+      .then((response) => {
+        this.game = response.data
+      }).catch((err) => {
+        console.log(err)
+      })
   }
 }
 </script>
