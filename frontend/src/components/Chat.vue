@@ -45,16 +45,17 @@ export default ({
       chatMessages: null,
       newMessage: null,
       messages: [],
-      parentHeight: 0
+      parentHeight: 0,
+      gameId: this.$route.params.gameId
     }
   },
   mounted () {
     this.parentHeight = this.$parent.$el.offsetHeight
     this.meuSocket = io("http://localhost:3000", { transports: ['websocket', 'polling', 'flashsocket'] })
-    this.meuSocket.on(`previus-${this.$store.state.storeGame.gameId}`, (response) => {
+    this.meuSocket.on(`previus-${this.gameId}`, (response) => {
       this.messages = response.reverse()
     })
-    this.meuSocket.on(this.$store.state.storeGame.gameId, (response) => {
+    this.meuSocket.on(this.gameId, (response) => {
       const msg = {
         message: response.message,
         messageId: response.messageId,
@@ -89,12 +90,12 @@ export default ({
       // E TB PEGAR O ID JOGO
       this.meuSocket.emit('game-chat-send-message', {
         userId: this.$store.state.storeUser.userId,
-        gameId: this.$store.state.storeGame.gameId,
+        gameId: this.gameId,
         message: this.newMessage
       })
       this.meuSocket.disconnect()
       this.meuSocket.connect()
-      this.meuSocket.on(`previus-${this.$store.state.storeGame.gameId}`, (response) => {
+      this.meuSocket.on(`previus-${this.gameId}`, (response) => {
         this.messages = response
       })
 

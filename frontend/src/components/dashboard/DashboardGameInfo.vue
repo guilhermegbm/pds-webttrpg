@@ -145,7 +145,7 @@ export default {
     },
     joinGame () {
       this.setGameInfo(this.game)
-      this.$router.push('game')
+      this.$router.push(`game/${this.game.id}`)
     }
   }
 }
