@@ -11,18 +11,19 @@ export function signUp (context, payload) {
         type: 'positive',
         color: 'positive',
         timeout: 2000,
-        position: 'center',
+        position: 'top',
         message: 'User created successfully!'
       })
       console.log(response)
     })
     .catch(error => {
+      const msg = error.response.data.message ? error.response.data.message : error.message // error?.response?.data?.message ?? error?.message ?? 'erro'
       Notify.create({
         type: 'negative',
         color: 'negative',
         timeout: 2000,
-        position: 'center',
-        message: `Error: ${error.response.data.message}`
+        position: 'top',
+        message: `Error: ${msg}`
       })
       console.log(error)
     })
@@ -30,8 +31,10 @@ export function signUp (context, payload) {
 
 export function signIn (context, payload) {
   const vm = this
+  debugger
   axios.post('http://localhost:3000/sign-in', payload)
     .then(response => {
+      debugger
       try {
         localStorage.setItem('userId', response.data.userId)
         localStorage.setItem('authenticationToken', response.data.authenticationToken)
@@ -42,26 +45,27 @@ export function signIn (context, payload) {
           type: 'positive',
           color: 'positive',
           timeout: 2000,
-          position: 'center',
+          position: 'top',
           message: 'Logged in successfully!'
         })
-      } catch (e) {
+      } catch (error) {
         Notify.create({
           type: 'negative',
           color: 'negative',
           timeout: 2000,
-          position: 'center',
+          position: 'top',
           message: 'Error while saving user data. Please, try again.'
         })
       }
     })
     .catch(error => {
+      const msg = error.response.data.message ? error.response.data.message : error.message // error?.response?.data?.message ?? error?.message ?? 'erro'
       Notify.create({
         type: 'negative',
         color: 'negative',
         timeout: 2000,
-        position: 'center',
-        message: `Error: ${error.response.data.message}`
+        position: 'top',
+        message: `Error: ${msg}`
       })
       console.log(error)
     })

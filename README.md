@@ -42,14 +42,14 @@
 
 **Sprint #2**
 1. Como usuário que ainda não tem conta, eu desejo fazer sign up no sistema e criar a minha conta.
-- [ ] Implementar tela com formulário de cadastro (Ábner)
-- [ ] Integrar tela com API do backend (Ábner)
+- [x] Implementar tela com formulário de cadastro (Ábner)
+- [x] Integrar tela com API do backend (Ábner)
 - [x] Implementar caso de uso e api rest para o cadastro (Lucas)
 - [ ] Modelar tabela/entidade e salvar dados no banco (Guilherme)
  
 2. Como usuário, eu desejo fazer login na minha conta.
-- [ ] Implementar tela com formulário de login (Ábner)
-- [ ] Integrar tela com api do backend (Ábner)
+- [x] Implementar tela com formulário de login (Ábner)
+- [x] Integrar tela com api do backend (Ábner)
 - [x] Implementar caso de uso e api rest de autenticação no back (Lucas)
 - [x] Implementar geração de token de autenticação (Guilherme e Lucas)
 - [x] Implementar middleware para verificação de token de autenticação (Lucas)
@@ -110,8 +110,8 @@
 
 
 11.  Como Jogador ou GM, eu quero mandar mensagens públicas no chat:
-- [ ] Criar layout do chat (Ábner)
-- [ ] Periodicamente atualizar o chat com novas mensagens (João)
+- [x] Criar layout do chat (Ábner)
+- [x] Periodicamente atualizar o chat com novas mensagens (João)
 - [x] Implementar chat no backend por jogo (Lucas)
 
 

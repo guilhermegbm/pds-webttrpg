@@ -11,7 +11,7 @@
 
         <div v-for="jogo in jogos" :key="jogo.id" class="col-4 options-card-col">
           <q-card class="my-card">
-            <q-img class="map-img-game" :src="jogo.imgMapBase64"/>
+            <q-img class="map-img-game" :src="jogo.imgMapBase64" alt="Mapa do Jogo"></q-img>
 
             <q-card-section class="q-pt-none q-pb-none">
               <div class="name-game"> {{ jogo.name }} </div>
