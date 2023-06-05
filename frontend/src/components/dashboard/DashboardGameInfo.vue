@@ -12,7 +12,7 @@
     <q-card-section>
       <div class="row">
         <div class="col-6">
-          <img class="map-img-game" :src="game.imgMapBase64" alt="Mapa do Jogo">
+          <q-img class="map-img-game" :src="game.imgMapBase64" alt="Mapa do Jogo"/>
         </div>
         <div class="col-6">
           <div class="row">
