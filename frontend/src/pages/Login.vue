@@ -1,14 +1,14 @@
 <template>
-  <q-page class="row flex-center" style="margin-left: -20vw">
-    <div class="row items-end">
-      <div class="" style="z-index: 2">
+  <q-page class="row flex-center">
+    <div class="row items-end" style="margin-left: -20vw">
+      <div class="">
         <img
           alt="Quasar logo"
           src="~assets/logo.svg"
           style="width: 20vw"
         >
       </div>
-      <q-card class="q-pa-xl bg-vermelho rounded-borders column justify-center items-center" style="z-index: 1">
+      <q-card class="q-pa-xl bg-vermelho rounded-borders column justify-center">
         <p class="dragonsden">Dragon's Den</p>
         <q-form class="q-px-xl column justify-center">
           <q-input dense rounded outlined v-model="username" label="Username" bg-color="grey-4" class="q-mb-lg"/>
