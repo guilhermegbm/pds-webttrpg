@@ -1,12 +1,12 @@
 <template>
-  <div class="flex column container" :style="{ 'height': `${parentHeight}px` }">
+  <div class="flex column container" style="height: 800px">
     <div class="col scrollbar" style="display: flex; flex-direction: column-reverse; overflow-y: auto; overflow-x:hidden">
       <q-chat-message
-        v-for="message in messages"
-        :key="message.id"
-        :name="message.userName"
-        :text="[message.message]"
-        :sent="message.userId === $store.state.storeUser.userId"
+      v-for="message in messages"
+      :key="message.id"
+      :name="message.userName"
+      :text="[message.message]"
+      :sent="message.userId === $store.state.storeUser.userId"
       />
     </div>
     <div class="col-1">
@@ -45,7 +45,7 @@ export default ({
       chatMessages: null,
       newMessage: null,
       messages: [],
-      parentHeight: 0,
+      parentHeight: [],
       gameId: this.$route.params.gameId
     }
   },

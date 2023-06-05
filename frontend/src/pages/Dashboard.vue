@@ -31,9 +31,6 @@ export default {
 </script>
 
 <style>
-html, body {
-  overflow-x: hidden;
-}
 #main {
   background-color: #E7E7E7;
 }
