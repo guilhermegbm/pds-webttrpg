@@ -17,12 +17,13 @@ export function signUp (context, payload) {
       console.log(response)
     })
     .catch(error => {
+      const msg = error.response.data.message ? error.response.data.message : error.message // error?.response?.data?.message ?? error?.message ?? 'erro'
       Notify.create({
         type: 'negative',
         color: 'negative',
         timeout: 2000,
         position: 'center',
-        message: `Error: ${error.response.data.message}`
+        message: `Error: ${msg}`
       })
       console.log(error)
     })
@@ -47,7 +48,7 @@ export function signIn (context, payload) {
           position: 'center',
           message: 'Logged in successfully!'
         })
-      } catch (e) {
+      } catch (error) {
         Notify.create({
           type: 'negative',
           color: 'negative',
@@ -58,12 +59,13 @@ export function signIn (context, payload) {
       }
     })
     .catch(error => {
+      const msg = error.response.data.message ? error.response.data.message : error.message // error?.response?.data?.message ?? error?.message ?? 'erro'
       Notify.create({
         type: 'negative',
         color: 'negative',
         timeout: 2000,
         position: 'center',
-        message: `Error: ${error.response.data.message}`
+        message: `Error: ${msg}`
       })
       console.log(error)
     })
