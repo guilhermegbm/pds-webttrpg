@@ -110,7 +110,6 @@ export default {
 
     onClickBtnShowUserInfo () {
       if (this.user != null) {
-        console.log(this.user)
         this.toggleMenuUserInfo = !this.toggleMenuUserInfo
       }
     },
