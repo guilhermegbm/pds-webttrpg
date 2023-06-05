@@ -32,8 +32,11 @@
           </div>
           <br />
           <div class="row">
-            <div class="col-12">
-              <b>GM:</b> &nbsp;&nbsp;&nbsp; <q-avatar size="40px" font-size="20px" color="primary" text-color="white">{{firstLetterUpperCase(game.authorPlayer.username)}}</q-avatar> {{game.authorPlayer.username}}
+            <div class="col-1">
+              <b>GM:</b>
+            </div>
+            <div class="col-6">
+              <DefaultAvatar :userId="game.authorPlayer.id" :propUsername="game.authorPlayer.username" :showFullUsername="true"/>
             </div>
           </div>
         </div>
@@ -42,9 +45,17 @@
 
     <q-separator inset />
 
-    <q-card-actions>
+    <q-card-section>
       <div class="text-h6">Jogadores já confirmados</div>
-    </q-card-actions>
+    </q-card-section>
+
+    <q-card-section>
+      <div class="row">
+        <div class="col-3" style="margin-bottom: 5px;" v-for="player in playersByGame" :key="player.id">
+          <DefaultAvatar :userId="player.id" :propUsername="player.username" :showFullUsername="true"/>
+        </div>
+      </div>
+    </q-card-section>
 
     <q-card-actions align="right" class="bg-white text-teal">
       <q-btn flat label="Fechar" v-close-popup />
@@ -55,8 +66,12 @@
 
 <script>
 import { api } from 'boot/axios'
+import DefaultAvatar from '../DefaultAvatar.vue'
 
 export default {
+  components: {
+    DefaultAvatar
+  },
   props: {
     game: Object
   },
@@ -76,7 +91,6 @@ export default {
       api.get(url, { headers: { Authorization: localStorage.getItem('authenticationToken') } })
         .then((response) => {
           this.playersByGame = response.data
-          console.log(this.playersByGame)
         })
         .catch((e) => {
           this.$q.notify({
