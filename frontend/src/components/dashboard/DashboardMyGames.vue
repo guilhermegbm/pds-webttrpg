@@ -1,16 +1,15 @@
 <template>
-
-  <div id="my-games" class="row">
+  <div id="my-games" class="row q-pa-xl">
     <div class="col-12">
 
-      <div class="row">
-        <div class="col-12 text-h4" style="margin: 10px">Meus Jogos</div>
+      <div class="row q-pa-sm">
+        <p class="col-12 text-h4">Jogos públicos</p>
       </div>
 
       <div id="list-games" class="row">
 
-        <div v-for="jogo in jogos" :key="jogo.id" class="col-4 options-card-col">
-          <q-card class="my-card">
+        <div v-for="jogo in jogos" :key="jogo.id" class="col-4">
+          <q-card class="q-ma-sm">
             <q-img class="map-img-game" :src="jogo.imgMapBase64" alt="Mapa do Jogo"></q-img>
 
             <q-card-section class="q-pt-none q-pb-none">
@@ -99,7 +98,7 @@ export default {
 }
 
 #list-games {
-  padding: 0px 50px;
+  padding: 0;
 }
 
 .options-card-col {

@@ -69,6 +69,7 @@
 
 <script>
 import { api } from 'boot/axios'
+import { mapActions } from 'vuex'
 import DefaultAvatar from '../DefaultAvatar.vue'
 
 export default {
@@ -90,6 +91,7 @@ export default {
   },
 
   methods: {
+    ...mapActions('storeGame', ['setGameInfo']),
     getAllPlayersByGame () {
       const url = '/game/' + this.game.id + '/players'
       api.get(url, { headers: { Authorization: localStorage.getItem('authenticationToken') } })
@@ -142,6 +144,8 @@ export default {
         })
     },
     joinGame () {
+      debugger
+      this.setGameInfo(this.game)
       this.$router.push('game')
     }
   }

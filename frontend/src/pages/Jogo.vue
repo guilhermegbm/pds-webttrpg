@@ -64,6 +64,9 @@ export default {
       draggedTokens: []
     }
   },
+  mounted () {
+
+  },
   methods: {
     startDrag (evt, token) {
       evt.dataTransfer.dropEffect = 'move'
