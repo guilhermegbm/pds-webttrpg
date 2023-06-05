@@ -1,12 +1,19 @@
 <template>
-  <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    >
+  <q-page class="flex flex-center row">
+      <img
+        alt="Quasar logo"
+        src="~assets/logo.svg"
+        style="width: 20vw"
+      >
   </q-page>
 </template>
+
+<style>
+html, body {
+  height: 100vh;
+  overflow: hidden;
+}
+</style>
 
 <script>
 export default {
