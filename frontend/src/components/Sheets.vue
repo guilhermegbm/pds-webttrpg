@@ -373,7 +373,6 @@ export default {
       evt.dataTransfer.dropEffect = 'move'
       evt.dataTransfer.effectAllowed = 'move'
       evt.dataTransfer.setData('sheetImg', sheet.imageURL)
-      console.log(sheet)
     }
   },
   beforeMount () {

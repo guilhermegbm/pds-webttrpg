@@ -69,6 +69,24 @@ export default ({
       if (this.newMessage === null) {
         return
       }
+
+      if(this.newMessage.startsWith('/r ')) {
+        const regex = /\d*d{1}\d* *\+? *\d*/g
+        const matches = regex.exec(this.newMessage)
+        const splitMsg = matches[0].split(/[d\+]/)
+        const amount = +splitMsg[0]
+        const side = +splitMsg[1]
+        const mods = +splitMsg[2]
+
+        let totalRoll = 0
+        for(let i = 0; i < amount; i++) {
+          totalRoll += Math.floor(Math.random() * side + 1)
+        }
+
+        totalRoll += mods
+
+        this.newMessage = `Rolando ${amount}d${side} + ${mods}: ${totalRoll}`
+      }
       // É IMPORTANTE PEGAR O USER_ID, QUE É O DA PESSOA LOGADA E SUBSTITUIR AQUI
       // E TB PEGAR O ID JOGO
       this.meuSocket.emit('game-chat-send-message', {
