@@ -1,7 +1,7 @@
 import Game from "../domain/Game";
 import GameRepository from "../domain/GameRepository";
-import Player from "../domain/Player";
 import PlayerRepository from "../domain/PlayerRepository";
+import OutputGame from "./outputs/OutputGame";
 
 export default class ListAllGames {
 
@@ -27,39 +27,5 @@ export default class ListAllGames {
     }*/
 
     return await Promise.all(outputGames);
-  }
-}
-
-class OutputPlayer {
-
-  constructor(
-    readonly id: string,
-    readonly username: string
-  ) { }
-}
-
-class OutputGame {
-
-  private authorPlayer: OutputPlayer | null
-
-  constructor(
-    readonly id: string,
-    readonly name: string,
-    readonly maximumPlayers: number,
-    readonly description: string,
-    readonly startDate: Date,
-    readonly createdAt: Date | null,
-    readonly imgMapBase64: string,
-    authorPlayer: Player | null
-  ) {
-    if (authorPlayer != null) {
-      this.authorPlayer = new OutputPlayer(authorPlayer.getId(), authorPlayer.getUsername())
-    } else {
-      this.authorPlayer = null
-    }
-  }
-
-  public getAuthorPlayer() {
-    return this.authorPlayer;
   }
 }
