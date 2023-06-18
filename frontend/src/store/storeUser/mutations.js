@@ -9,4 +9,5 @@ export function setLoggedUser (state, payload) {
 export function cleanLoggedUser (state, payload) {
   state.userId = ''
   state.authenticationToken = ''
+  localStorage.clear()
 }

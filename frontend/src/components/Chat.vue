@@ -1,5 +1,5 @@
 <template>
-  <div class="flex column container" style="height: 800px">
+  <div class="flex column container" style="height: 500px">
     <div class="col scrollbar" style="display: flex; flex-direction: column-reverse; overflow-y: auto; overflow-x:hidden">
       <q-chat-message
       v-for="message in messages"
