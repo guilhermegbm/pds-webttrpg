@@ -7,8 +7,8 @@
       style="width: 20vw"
       >
       <div class="row flex-center justify-around">
-        <q-btn rounded color="vermelho" label="Sign in" class="q-px-xl" @click="$router.push('/signin')" />
-        <q-btn rounded color="cinza" label="Sign up" class="q-px-xl" @click="$router.push('/signup')" />
+        <q-btn size="sm" rounded color="vermelho" label="Sign in" class="q-px-md" @click="$router.push('/signin')" />
+        <q-btn size="sm" rounded color="cinza" label="Sign up" class="q-px-md" @click="$router.push('/signup')" />
       </div>
     </div>
   </q-page>
