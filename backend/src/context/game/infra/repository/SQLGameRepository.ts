@@ -1,6 +1,6 @@
 import database from "../../../../infra/database";
-import Game from "../../domain/Game";
-import GameRepository from "../../domain/GameRepository";
+import Game from "../../domain/entity/Game";
+import GameRepository from "../../domain/repository/GameRepository";
 
 type GameTable = {
     id: string,

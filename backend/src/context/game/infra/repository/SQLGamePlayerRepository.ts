@@ -1,5 +1,5 @@
 import database from "../../../../infra/database";
-import Player from "../../domain/Player";
+import Player from "../../domain/entity/Player";
 import GamePlayerRepository from "../../domain/repository/GamePlayerRepository";
 
 export default class SQLGamePlayerRepository implements GamePlayerRepository {

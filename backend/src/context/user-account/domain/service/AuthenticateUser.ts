@@ -1,5 +1,5 @@
-import EncryptPassword from "./EncryptPassword";
-import User from "./entity/User";
+import EncryptPassword from "../service/EncryptPassword";
+import User from "../entity/User";
 
 export default class AuthenticateUser {
     async authenticate(user: User, plainPassword: string, encryptPassword: EncryptPassword) {

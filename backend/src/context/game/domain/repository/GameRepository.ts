@@ -1,4 +1,4 @@
-import Game from "./Game";
+import Game from "../entity/Game";
 
 export default interface GameRepository {
     getByName(name: string): Promise<Game | null>;

@@ -1,5 +1,5 @@
-import Game from "../../Game";
-import Player from "../../Player";
+import Game from "../Game";
+import Player from "../Player";
 import Enchantment from "./Enchantment";
 import Inventory from "./Inventory";
 import Skill from "./Skill";

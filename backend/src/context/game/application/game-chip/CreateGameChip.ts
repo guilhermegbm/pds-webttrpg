@@ -1,5 +1,5 @@
-import GameRepository from "../../domain/GameRepository";
-import PlayerRepository from "../../domain/PlayerRepository";
+import GameRepository from "../../domain/repository/GameRepository";
+import PlayerRepository from "../../domain/repository/PlayerRepository";
 import Enchantment from "../../domain/entity/GameChip/Enchantment";
 import GameChip from "../../domain/entity/GameChip/GameChip";
 import Inventory from "../../domain/entity/GameChip/Inventory";

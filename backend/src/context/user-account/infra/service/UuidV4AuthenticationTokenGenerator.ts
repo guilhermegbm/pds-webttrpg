@@ -1,4 +1,4 @@
-import AuthenticationTokenGenerator from "../../domain/AuthenticationTokenGenerator";
+import AuthenticationTokenGenerator from "../../domain/service/AuthenticationTokenGenerator";
 import { uuid } from "uuidv4";
 
 export default class UuidV4AuthenticationTokenGenerator implements AuthenticationTokenGenerator {

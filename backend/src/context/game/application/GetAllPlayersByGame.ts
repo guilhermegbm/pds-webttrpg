@@ -1,5 +1,5 @@
-import Player from "../domain/Player";
-import PlayerRepository from "../domain/PlayerRepository";
+import Player from "../domain/entity/Player";
+import PlayerRepository from "../domain/repository/PlayerRepository";
 
 export default class GetAllPlayersByGame {
 

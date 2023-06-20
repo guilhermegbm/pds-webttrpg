@@ -1,6 +1,6 @@
-import Game from "../domain/Game";
-import GameRepository from "../domain/GameRepository";
-import IdGenerator from "../domain/IdGenerator";
+import Game from "../domain/entity/Game";
+import GameRepository from "../domain/repository/GameRepository";
+import IdGenerator from "../domain/service/IdGenerator";
 import GamePlayerRepository from "../domain/repository/GamePlayerRepository";
 
 export default class CreateGame {

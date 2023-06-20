@@ -1,4 +1,4 @@
-import EncryptPassword from "../../domain/EncryptPassword";
+import EncryptPassword from "../../domain/service/EncryptPassword";
 import bcrypt from "bcrypt";
 
 export default class BcryptEncryptPassword implements EncryptPassword {

@@ -1,5 +1,5 @@
-import EncryptPassword from "../domain/EncryptPassword";
-import IdGenerator from "../domain/IdGenerator";
+import EncryptPassword from "../domain/service/EncryptPassword";
+import IdGenerator from "../domain/service/IdGenerator";
 import UserRepository from "../domain/repository/UserRepository";
 import User from "../domain/entity/User";
 

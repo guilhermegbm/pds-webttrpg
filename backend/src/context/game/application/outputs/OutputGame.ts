@@ -1,4 +1,4 @@
-import Player from "../../domain/Player";
+import Player from "../../domain/entity/Player";
 import OutputPlayer from "./OutputPlayer";
 
 export default class OutputGame {

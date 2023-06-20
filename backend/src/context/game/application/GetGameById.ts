@@ -1,6 +1,6 @@
-import Game from "../domain/Game";
-import GameRepository from "../domain/GameRepository";
-import PlayerRepository from "../domain/PlayerRepository";
+import Game from "../domain/entity/Game";
+import GameRepository from "../domain/repository/GameRepository";
+import PlayerRepository from "../domain/repository/PlayerRepository";
 import OutputGame from "./outputs/OutputGame";
 
 export default class GetGameById {

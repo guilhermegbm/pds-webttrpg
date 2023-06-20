@@ -1,5 +1,5 @@
-import GameRepository from "../domain/GameRepository";
-import PlayerRepository from "../domain/PlayerRepository";
+import GameRepository from "../domain/repository/GameRepository";
+import PlayerRepository from "../domain/repository/PlayerRepository";
 import GamePlayerRepository from "../domain/repository/GamePlayerRepository";
 
 export default class RequestAccessToGame {
