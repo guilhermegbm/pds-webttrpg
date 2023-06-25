@@ -24,7 +24,7 @@ export default class User {
 
     private validateUsername(username: string) {
         if (username == null || username == undefined || username == "") {
-            throw new Error("invalid encrypted password");
+            throw new Error("invalid username");
         }
     }
 
