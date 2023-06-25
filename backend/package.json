@@ -10,7 +10,8 @@
     "dev": "nodemon --watch 'src/' --exec 'ts-node src/main.ts' -e ts",
     "start": "yarn build && node dist/main.js",
     "build": "npx tsc",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -30,7 +31,7 @@
     "@types/jest": "^29.5.0",
     "jest": "^29.5.0",
     "nodemon": "^2.0.22",
-    "ts-jest": "^29.0.5",
+    "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2"
   }
