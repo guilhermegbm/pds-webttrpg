@@ -6,6 +6,14 @@ describe("User", () => {
     expect(user).toEqual({ id: "my-id", username: "my-username", encryptedPassword: "my-encripted-pass" })
   })
 
+  test("if getters return correct values", () => {
+    const user = new User("my-id", "my-username", "my-encripted-pass")
+
+    expect(user.getId()).toEqual("my-id");
+    expect(user.getUsername()).toEqual("my-username");
+    expect(user.getEncryptedPassword()).toEqual("my-encripted-pass");
+  })
+
   it("should try to build an invalid User with no Username", () => {
     expect(() => new User("my-id", "", "my-encripted-pass")).toThrow("invalid username")
   })
