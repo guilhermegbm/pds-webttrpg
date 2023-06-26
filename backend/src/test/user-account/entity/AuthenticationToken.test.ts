@@ -34,6 +34,20 @@ describe("AuthenticationToken", () => {
     expect(() => new AuthenticationToken("token", user, date, -1)).toThrow("invalid expiration time in hours")
   })
 
+  it("should try to build an invalid Auth Token with invalid User", () => {
+    expect(() => new AuthenticationToken("token", null!, date, 1)).toThrow("invalid user")
+  })
+
+  it("should try to build an invalid Auth Token with invalid Token", () => {
+    expect(() => new AuthenticationToken(null!, user, date, 1)).toThrow("invalid token")
+  })
+
+  test("if createdAt is not null even if passed null to constructor", () => {
+    const authToken = new AuthenticationToken("token", user, null!, 2)
+
+    expect(authToken.getCreateAt()).not.toBeNull()
+  })
+
   test("if token is valid and NOT expired", () => {
     let threeHoursAgo = new Date()
     threeHoursAgo.setTime(threeHoursAgo.getTime() + (-3 * 60 * 60 * 1000))
